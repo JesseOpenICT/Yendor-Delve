@@ -90,6 +90,86 @@ void DrawMainMenu()
     return;
 }
 
+void DrawSettings()
+{
+    BeginMode2D(camera);
+	struct SettingsState* state = (appState.appState == AS_SETTINGS) ? &appState.stateData.settingsState : &appState.stateData.gameState.settings;
+
+    Vector2 textSize = MeasureTextEx(titleFont, "Settings", 80, 0);
+    Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 32};
+    DrawTextEx(titleFont, "Settings", textPosition, 80, 0, LIGHTGRAY);
+    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){16, 142 + (MENU_BUTTON_SPACING * (int)(*state).currentSelection), 
+        624, 64}, (Vector2){0,0}, 0, GRAY);
+    textPosition.x = 48;
+    textPosition.y = 160;
+    DrawTextEx(basicFontLarger, "Action Speed:", textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? WHITE : GRAY);
+    textPosition.x = 48;
+    textPosition.y = 160 + MENU_BUTTON_SPACING;
+    DrawTextEx(basicFontLarger, "Font:", textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? WHITE : GRAY);
+    textPosition.x = 48;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 2;
+    DrawTextEx(basicFontLarger, "Windowed:", textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? WHITE : GRAY);
+    textPosition.x = 48;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
+    DrawTextEx(basicFontLarger, "Effects Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? WHITE : GRAY);
+    textPosition.x = 48;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
+    DrawTextEx(basicFontLarger, "Music Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? WHITE : GRAY);
+
+    char* text;
+    char strnum[3];
+    switch(appState.settings.actionSpeed)
+    {
+        case 0:
+        text = "Slow";
+        break;
+        case 1:
+        text = "Regular";
+        break;
+        case 2:
+        text = "Fast";
+        break;
+        case 3:
+        text = "Instant";
+        break;
+    }
+    textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
+    textPosition.x = 608 - textSize.x;
+    textPosition.y = 160;
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? WHITE : GRAY);
+    switch(appState.settings.font)
+    {
+        case FS_FANCY:
+        text = "Fancy";
+        break;
+        case FS_SIMPLE:
+        text = "Simple";
+        break;
+    }
+    textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
+    textPosition.x = 608 - textSize.x;
+    textPosition.y = 160 + MENU_BUTTON_SPACING;
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? WHITE : GRAY);
+    text = (appState.settings.windowed) ? "Yes" : "No";
+    textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
+    textPosition.x = 608 - textSize.x;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 2;
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? WHITE : GRAY);
+    sprintf(strnum, "%d", appState.settings.sfxVolume);
+    textSize = MeasureTextEx(basicFontLarger, strnum, 32, 0);
+    textPosition.x = 608 - textSize.x;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
+    DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? WHITE : GRAY);
+    sprintf(strnum, "%d", appState.settings.musicVolume);
+    textSize = MeasureTextEx(basicFontLarger, strnum, 32, 0);
+    textPosition.x = 608 - textSize.x;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
+    DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? WHITE : GRAY);
+
+    EndMode2D();
+    return;
+}
+
 void DrawGameplay()
 {
     switch(appState.stateData.gameState.gameState)
@@ -576,6 +656,11 @@ void DrawBattleScreenMessageFeed()
 
 void DrawDungeonScreen()
 {
+    if(appState.stateData.gameState.isInSettings)
+    {
+        DrawSettings();
+        return;
+    }
     BeginMode2D(camera);
 
     if(appState.stateData.gameState.isPaused)
@@ -648,16 +733,20 @@ void DrawPauseMenu()
     Vector2 textSize = MeasureTextEx(titleFont, "PAUSED", 80, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 96};
     DrawTextEx(titleFont, "PAUSED", textPosition, 80, 0, GRAY);
-    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){SCREEN_WIDTH/4, 254 + (MENU_BUTTON_SPACING * appState.stateData.gameState.pauseMenuSelection), 
+    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){SCREEN_WIDTH/4, 222 + (MENU_BUTTON_SPACING * appState.stateData.gameState.pauseMenuSelection), 
         SCREEN_WIDTH/2, 64}, (Vector2){0,0}, 0, GRAY);
     textSize = MeasureTextEx(basicFontLarger, "Resume", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
-    textPosition.y = 272;
+    textPosition.y = 240;
     DrawTextEx(basicFontLarger, "Resume", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 0) ? WHITE : GRAY);
+    textSize = MeasureTextEx(basicFontLarger, "Settings", 32, 0);
+    textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
+    textPosition.y = 240 + MENU_BUTTON_SPACING;
+    DrawTextEx(basicFontLarger, "Settings", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 1) ? WHITE : GRAY);
     textSize = MeasureTextEx(basicFontLarger, "Abandon", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
-    textPosition.y = 272 + MENU_BUTTON_SPACING;
-    DrawTextEx(basicFontLarger, "Abandon", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 1) ? WHITE : GRAY);
+    textPosition.y = 240 + MENU_BUTTON_SPACING * 2;
+    DrawTextEx(basicFontLarger, "Abandon", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 2) ? WHITE : GRAY);
 }
 
 void DrawCharacterStats()

@@ -40,6 +40,7 @@ bool IsPressed(enum CONTROLS);
 bool IsHeld(enum CONTROLS input);
 void HandleInput();
 void HandleMainMenuInput();
+void HandleSettingsInput();
 void HandleGameOverInput();
 void HandleCharacterSelectInput();
 void HandleBattleInput();
@@ -135,27 +136,27 @@ void ReadInput()
 		if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 	}
 
-	if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_Z) || IsKeyPressed(KEY_COMMA))
+	if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
 	{
 		inputThisFrame = inputThisFrame | K_UP;
 	}
-	if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_O))
+	if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
 	{
 		inputThisFrame = inputThisFrame | K_DOWN;
 	}
-	if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_Q))
+	if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
 	{
 		inputThisFrame = inputThisFrame | K_LEFT;
 	}
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_E) || IsKeyPressed(KEY_D))
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
 	{
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
-	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
+	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E))
 	{
 		inputThisFrame = inputThisFrame | K_CONFIRM;
 	}
-	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE))
+	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q))
 	{
 		inputThisFrame = inputThisFrame | K_BACK;
 	}
@@ -289,6 +290,9 @@ void HandleDrawing()
 	case AS_MAIN_MENU:
 		DrawMainMenu();
 		break;
+	case AS_SETTINGS:
+		DrawSettings();
+		break;
 	case AS_GAMEPLAY:
 		DrawGameplay();
 		break;
@@ -314,18 +318,28 @@ void HandleInput()
 	case AS_MAIN_MENU:
 		HandleMainMenuInput();
 		break;
+	case AS_SETTINGS:
+		HandleSettingsInput();
+		break;
 	case AS_GAMEPLAY:
-		switch (appState.stateData.gameState.gameState)
+		if(appState.stateData.gameState.isInSettings)
 		{
-		case GS_CHARACTER_SELECT:
-			HandleCharacterSelectInput();
-			break;
-		case GS_DUNGEON:
-			HandleDungeonInput();
-			break;
-		case GS_BATTLE:
-			HandleBattleInput();
-			break;
+			HandleSettingsInput();
+		}
+		else
+		{
+			switch (appState.stateData.gameState.gameState)
+			{
+			case GS_CHARACTER_SELECT:
+				HandleCharacterSelectInput();
+				break;
+			case GS_DUNGEON:
+				HandleDungeonInput();
+				break;
+			case GS_BATTLE:
+				HandleBattleInput();
+				break;
+			}
 		}
 		break;
 	}
@@ -361,13 +375,102 @@ void HandleMainMenuInput()
 	}
 	if (IsPressed(K_CONFIRM))
 	{
-		if (appState.stateData.mainMenuState.currentSelection == MS_QUIT)
+		switch(appState.stateData.mainMenuState.currentSelection)
 		{
-			markedToClose = true;
-		}
-		if (appState.stateData.mainMenuState.currentSelection == MS_PLAY)
-		{
+			case MS_PLAY:
 			InitAppState(AS_GAMEPLAY);
+			break;
+			case MS_SETTINGS:
+			InitAppState(AS_SETTINGS);
+			break;
+			case MS_QUIT:
+			markedToClose = true;
+			break;
+		}
+	}
+}
+
+void HandleSettingsInput()
+{
+	struct SettingsState* state = (appState.appState == AS_SETTINGS) ? &appState.stateData.settingsState : &appState.stateData.gameState.settings;
+	if (IsPressed(K_UP))
+	{
+		if ((*state).currentSelection == 0)
+		{
+			(*state).currentSelection = SET_LENGTH - 1;
+		}
+		else
+		{
+			(*state).currentSelection--;
+		}
+	}
+	if (IsPressed(K_DOWN))
+	{
+		if ((*state).currentSelection + 1 == SET_LENGTH)
+		{
+			(*state).currentSelection = 0;
+		}
+		else
+		{
+			(*state).currentSelection++;
+		}
+	}
+	if (IsPressed(K_RIGHT) || IsPressed(K_CONFIRM))
+	{
+		switch((*state).currentSelection)
+		{
+			case SET_ACTION_SPEED:
+			appState.settings.actionSpeed = (appState.settings.actionSpeed + 1) % 4;
+			break;
+			case SET_FONT:
+			appState.settings.font = (appState.settings.font + 1) % 2;
+			break;
+			case SET_WINDOWED:
+			appState.settings.windowed = !appState.settings.windowed;
+			SetWindowSize(appState.settings.windowed?SCREEN_WIDTH:GetScreenWidth(),appState.settings.windowed?SCREEN_HEIGHT:GetScreenHeight());
+			if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
+			break;
+			case SET_SFX_VOLUME:
+			appState.settings.sfxVolume = (appState.settings.sfxVolume + 1) % 10;
+			break;
+			case SET_MUSIC_VOLUME:
+			appState.settings.musicVolume = (appState.settings.musicVolume + 1) % 10;
+			break;
+		}
+	}
+	if (IsPressed(K_LEFT))
+	{
+		switch((*state).currentSelection)
+		{
+			case SET_ACTION_SPEED:
+			appState.settings.actionSpeed = (appState.settings.actionSpeed + 3) % 4;
+			break;
+			case SET_FONT:
+			appState.settings.font = (appState.settings.font + 1) % 2;
+			break;
+			case SET_WINDOWED:
+			appState.settings.windowed = !appState.settings.windowed;
+			SetWindowSize(appState.settings.windowed?SCREEN_WIDTH:GetScreenWidth(),appState.settings.windowed?SCREEN_HEIGHT:GetScreenHeight());
+			if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
+			break;
+			case SET_SFX_VOLUME:
+			appState.settings.sfxVolume = (appState.settings.sfxVolume + 9) % 10;
+			break;
+			case SET_MUSIC_VOLUME:
+			appState.settings.musicVolume = (appState.settings.musicVolume + 9) % 10;
+			break;
+		}
+	}
+	if (IsPressed(K_BACK))
+	{
+		SaveConfig();
+		if(appState.appState == AS_SETTINGS)
+		{
+			InitAppState(AS_MAIN_MENU);
+		}
+		else
+		{
+			appState.stateData.gameState.isInSettings = false;
 		}
 	}
 }
@@ -772,6 +875,10 @@ void HandlePauseMenuInput()
 			appState.stateData.gameState.isPaused = false;
 			break;
 		case 1:
+			appState.stateData.gameState.isInSettings = true;
+			appState.stateData.gameState.settings.currentSelection = 0;
+			break;
+		case 2:
 			InitAppState(AS_MAIN_MENU);
 			break;
 		}

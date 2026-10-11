@@ -19,6 +19,9 @@ void InitAppState(enum APP_STATE _state)
 		if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 		appState.stateData.mainMenuState.currentSelection = MS_PLAY;
 		break;
+	case AS_SETTINGS:
+		appState.stateData.settingsState.currentSelection = 0;
+		break;
 	case AS_GAMEPLAY:
 		rng_init(&appState.stateData.gameState.runRng, time(NULL));
 		appState.stateData.gameState.playerTeam[0] = InitCharacterData((enum CHARACTER_ID)appState.settings.character1);

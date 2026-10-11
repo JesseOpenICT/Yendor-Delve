@@ -11,6 +11,11 @@ struct MainMenuState
 	enum MENU_SELECTION currentSelection;
 };
 
+struct SettingsState
+{
+	enum SETTINGS_SELECTION currentSelection;
+};
+
 struct CharacterSelectState
 {
 	char currentSlotSelected;
@@ -81,6 +86,8 @@ struct GameState
 	Item inventory[INVENTORY_SIZE];
 	bool isPaused;
 	char pauseMenuSelection;
+	bool isInSettings;
+	struct SettingsState settings;
 	union GameStateData stateData;
 	char* message;
 	float messageTimer;
@@ -91,6 +98,7 @@ union AppStateData
 {
 	struct MainMenuState mainMenuState;
 	struct GameState gameState;
+	struct SettingsState settingsState;
 };
 
 struct Settings
