@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "colors.h"
 
 char* GetItemStatSpread(Item it)    // what do you mean "item" is a keyword
 {
@@ -145,7 +146,7 @@ Item InitItem(ITEM_ID id)
             "<None>",
             TL_GENERAL,
             (Vector2){1,0},
-            GRAY,
+            gray,
             ES_EVERY,
             CreateEmptyStatBonuses(),
         };
@@ -155,7 +156,7 @@ Item InitItem(ITEM_ID id)
             "Test Item",
             TL_ITEMS,
             (Vector2){0,0},
-            GRAY,
+            gray,
             ES_EVERY,
             CreateEmptyStatBonuses(),
         };
@@ -169,7 +170,7 @@ Item InitItem(ITEM_ID id)
             "Apprentice's Boots",
             TL_ITEMS,
             (Vector2){3,2},
-            BROWN,
+            brown,
             ES_LEGS,
             CreateEmptyStatBonuses(),
         };
@@ -182,7 +183,7 @@ Item InitItem(ITEM_ID id)
             "Apprentice's Robe",
             TL_ITEMS,
             (Vector2){0,2},
-            BLUE,
+            blue,
             ES_TORSO,
             CreateEmptyStatBonuses(),
         };
@@ -196,7 +197,7 @@ Item InitItem(ITEM_ID id)
             "Apprentice's Staff",
             TL_ITEMS,
             (Vector2){2,3},
-            BEIGE,
+            beige,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
         };
@@ -209,7 +210,7 @@ Item InitItem(ITEM_ID id)
             "Apprentice's Tiara",
             TL_COMMUNITY,
             (Vector2){4,1},
-            LIGHTGRAY,
+            lightgray,
             ES_HEAD,
             CreateEmptyStatBonuses(),
         };
@@ -222,7 +223,7 @@ Item InitItem(ITEM_ID id)
             "Juggernaut Armour",
             TL_ITEMS,
             (Vector2){2,2},
-            DARKGRAY,
+            darkgray,
             ES_TORSO,
             CreateEmptyStatBonuses(),
         };
@@ -237,7 +238,7 @@ Item InitItem(ITEM_ID id)
             "Juggernaut Hammer",
             TL_ITEMS,
             (Vector2){5,0},
-            DARKGRAY,
+            darkgray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
         };
@@ -252,7 +253,7 @@ Item InitItem(ITEM_ID id)
             "Juggernaut Helm",
             TL_COMMUNITY,
             (Vector2){2,3},
-            DARKGRAY,
+            darkgray,
             ES_HEAD,
             CreateEmptyStatBonuses(),
         };
@@ -266,7 +267,7 @@ Item InitItem(ITEM_ID id)
             "Juggernaut Leggings",
             TL_ITEMS,
             (Vector2){13,2},
-            DARKGRAY,
+            darkgray,
             ES_LEGS,
             CreateEmptyStatBonuses(),
         };
@@ -281,7 +282,7 @@ Item InitItem(ITEM_ID id)
             "Mercenary's Axe",
             TL_ITEMS,
             (Vector2){6,1},
-            LIGHTGRAY,
+            lightgray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
         };
@@ -295,7 +296,7 @@ Item InitItem(ITEM_ID id)
             "Mercenary's Cuirass",
             TL_ITEMS,
             (Vector2){2,2},
-            ORANGE,
+            orange,
             ES_TORSO,
             CreateEmptyStatBonuses(),
         };
@@ -309,7 +310,7 @@ Item InitItem(ITEM_ID id)
             "Mercenary's Greaves",
             TL_ITEMS,
             (Vector2){13,2},
-            BEIGE,
+            beige,
             ES_LEGS,
             CreateEmptyStatBonuses(),
         };
@@ -323,7 +324,7 @@ Item InitItem(ITEM_ID id)
             "Mercenary's Helmet",
             TL_ITEMS,
             (Vector2){12,4},
-            ORANGE,
+            orange,
             ES_HEAD,
             CreateEmptyStatBonuses(),
         };
@@ -337,7 +338,7 @@ Item InitItem(ITEM_ID id)
             "Thief's Cape",
             TL_ITEMS,
             (Vector2){7,4},
-            GRAY,
+            gray,
             ES_TORSO,
             CreateEmptyStatBonuses(),
         };
@@ -351,7 +352,7 @@ Item InitItem(ITEM_ID id)
             "Thief's Dagger",
             TL_ITEMS,
             (Vector2){0,1},
-            DARKGRAY,
+            darkgray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
         };
@@ -365,7 +366,7 @@ Item InitItem(ITEM_ID id)
             "Thief's Hood",
             TL_COMMUNITY,
             (Vector2){3,3},
-            GRAY,
+            gray,
             ES_HEAD,
             CreateEmptyStatBonuses(),
         };
@@ -379,7 +380,7 @@ Item InitItem(ITEM_ID id)
             "Thief's Pants",
             TL_ITEMS,
             (Vector2){12,2},
-            DARKBROWN,
+            darkbrown,
             ES_LEGS,
             CreateEmptyStatBonuses(),
         };
@@ -392,7 +393,7 @@ Item InitItem(ITEM_ID id)
             "Hatfus",
             TL_COMMUNITY,
             (Vector2){6,0},
-            WHITE,
+            white,
             ES_HEAD,
             CreateEmptyStatBonuses(),
         };
@@ -406,7 +407,7 @@ Item InitItem(ITEM_ID id)
             "Sofoot",
             TL_CREATURES,
             (Vector2){14,15},
-            WHITE,
+            white,
             ES_LEGS,
             CreateEmptyStatBonuses(),
         };
@@ -420,7 +421,7 @@ Item InitItem(ITEM_ID id)
             "Torsofus",
             TL_COMMUNITY,
             (Vector2){7,0},
-            WHITE,
+            white,
             ES_TORSO,
             CreateEmptyStatBonuses(),
         };
@@ -434,7 +435,7 @@ Item InitItem(ITEM_ID id)
             "Tower Shield",
             TL_ITEMS,
             (Vector2){9,2},
-            GRAY,
+            gray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
         };

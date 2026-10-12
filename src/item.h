@@ -46,7 +46,7 @@ typedef struct Item
     char* name;
     enum TILESET tileset;
     Vector2 tileLookupPosition;
-    Color color;
+    Color *color;
     
     EQUIPMENT_SLOT slot;
     StatBonuses statBonuses;

@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "dungeon.h"
 #include "state.h"
+#include "colors.h"
 
 extern struct AppState appState;
 
@@ -100,7 +101,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Bonfire",
                 TL_GENERAL,
                 (Vector2){1, 1},
-                ORANGE,
+                orange,
                 "A safe resting spot to regenerate one's strength.",
                 {EN_NONE, EN_NONE, EN_NONE},
                 false,
@@ -112,7 +113,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Chest",
                 TL_GENERAL,
                 (Vector2){10, 1},
-                BROWN,
+                brown,
                 "A tightly locked treasure chest. Whatever is inside must be valuable.",
                 {EN_NONE, EN_NONE, EN_NONE},
                 true,
@@ -124,7 +125,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Chest",
                 TL_GENERAL,
                 (Vector2){10, 1},
-                BROWN,
+                brown,
                 "A tightly locked treasure chest. Whatever is inside must be valuable.",
                 {EN_NONE, EN_MIMIC, EN_NONE},
                 true,
@@ -136,7 +137,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Blood Fae",
                 TL_CREATURES,
                 (Vector2){12, 3},
-                RED,
+                red,
                 "A group of quick and tiny pests. While their scratches are barely enough to draw blood, the tiny wounds add up.",
                 {EN_BLOOD_FAE_WARRIOR, EN_BLOOD_FAE_MYSTIC, EN_BLOOD_FAE_WARRIOR},
                 false,
@@ -148,7 +149,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Caustic Cube",
                 TL_CREATURES,
                 (Vector2){6, 14},
-                GREEN,
+                green,
                 "A large and durable monster, capable of splitting into lesser copies of itself and dulling your weapons with its acid.",
                 {EN_NONE, EN_CAUSTIC_CUBE, EN_NONE},
                 false,
@@ -160,7 +161,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Tooth Fae",
                 TL_COMMUNITY,
                 (Vector2){4, 4},
-                RAYWHITE,
+                raywhite,
                 "Where are they getting all these teeth from, and what do they plan to do with them?",
                 {EN_TOOTH_FAIRY, EN_NONE, EN_TOOTH_FAIRY},
                 false,
@@ -172,7 +173,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "Revenant Souls",
                 TL_CREATURES,
                 (Vector2){4,6},
-                SKYBLUE,
+                skyblue,
                 "Sorrowful dead, intangible and cold. Stay too long in their presence and you'll become motionless as well.",
                 {EN_STARVING_REVENANT, EN_NONE, EN_STARVING_REVENANT},
                 false,
@@ -184,7 +185,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 "No encounter",
                 TL_GENERAL,
                 (Vector2){1, 0},
-                DARKGRAY,
+                darkgray,
                 "This path is safe to traverse, neither traps nor monsters lurk there.",
                 {EN_NONE, EN_NONE, EN_NONE},
                 false,

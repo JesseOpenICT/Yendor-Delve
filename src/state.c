@@ -46,6 +46,7 @@ void SaveConfig()
     fprintf(f, "music_volume=%d\n",  appState.settings.musicVolume);
     fprintf(f, "windowed=%d\n", appState.settings.windowed);
     fprintf(f, "font=%d\n", appState.settings.font);
+	fprintf(f, "palette=%d\n", appState.settings.palette);
     fprintf(f, "action_speed=%d\n",  appState.settings.actionSpeed);
     fprintf(f, "character_1=%d\n", appState.settings.character1);
     fprintf(f, "character_2=%d\n", appState.settings.character2);
@@ -86,6 +87,7 @@ void LoadConfig()
         if      (strcmp(key, "sfx_volume") == 0) appState.settings.sfxVolume = atoi(val) % 10;
         else if (strcmp(key, "music_volume") == 0) appState.settings.musicVolume  = atoi(val) % 10;
         else if (strcmp(key, "windowed")  == 0) appState.settings.windowed   = atoi(val);
+		else if (strcmp(key, "palette")  == 0) appState.settings.palette = atoi(val);
         else if (strcmp(key, "font")  == 0) appState.settings.font  = atoi(val) % 2;
         else if (strcmp(key, "action_speed") == 0) appState.settings.actionSpeed = atoi(val) % 4;
         else if (strcmp(key, "character_1") == 0) appState.settings.character1 = atoi(val) % CHAR_LENGTH;
@@ -103,6 +105,7 @@ struct Settings GetDefaultConfig()
 	{
 		.actionSpeed = ACT_REGULAR,
 		.font = FS_FANCY,
+		.palette = CLASSIC,
 		.musicVolume = 7,
 		.sfxVolume = 6,
 		.windowed = false,

@@ -1,0 +1,186 @@
+#include "colors.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "constants.h"
+
+int PaletteAmount = 8;
+
+// variables
+Color color_lightgray = LIGHTGRAY;
+Color color_gray = GRAY;
+Color color_darkgray = DARKGRAY;
+Color color_yellow = YELLOW;
+Color color_gold = GOLD;
+Color color_orange = ORANGE;
+Color color_red = RED;
+Color color_maroon = MAROON;
+Color color_green = GREEN;
+Color color_lime = LIME;
+Color color_darkgreen = DARKGREEN;
+Color color_skyblue = SKYBLUE;
+Color color_blue = BLUE;
+Color color_darkblue = DARKBLUE;
+Color color_purple = PURPLE;
+Color color_violet = VIOLET;
+Color color_darkpurple = DARKPURPLE;
+Color color_beige = BEIGE;
+Color color_brown = BROWN;
+Color color_darkbrown = DARKBROWN;
+Color color_white = WHITE;
+Color color_black = BLACK;
+Color color_magenta = MAGENTA;
+Color color_raywhite = RAYWHITE;
+
+// pointers
+Color *lightgray = &color_lightgray;
+Color *gray = &color_gray;
+Color *darkgray = &color_darkgray;
+Color *yellow = &color_yellow;
+Color *gold = &color_gold;
+Color *orange = &color_orange;
+Color *red = &color_red;
+Color *maroon = &color_maroon;
+Color *green = &color_green;
+Color *lime = &color_lime;
+Color *darkgreen = &color_darkgreen;
+Color *skyblue = &color_skyblue;
+Color *blue = &color_blue;
+Color *darkblue = &color_darkblue;
+Color *purple = &color_purple;
+Color *violet = &color_violet;
+Color *darkpurple = &color_darkpurple;
+Color *beige = &color_beige;
+Color *brown = &color_brown;
+Color *darkbrown = &color_darkbrown;
+Color *white = &color_white;
+Color *black = &color_black;
+Color *magenta = &color_magenta;
+Color *raywhite = &color_raywhite;
+
+
+void set_palette(int palette_index)
+{
+    Palette_Values use_palette;
+    use_palette = get_palette(palette_index);
+
+
+    color_lightgray =   use_palette.lightgray;
+    color_gray =        use_palette.gray;
+    color_darkgray =    use_palette.darkgray;
+    color_yellow =      use_palette.yellow;
+    color_gold =        use_palette.gold;
+    color_orange =      use_palette.orange;
+    color_red =         use_palette.red;
+    color_maroon =      use_palette.maroon;
+    color_green =       use_palette.green;
+    color_lime =        use_palette.lime;
+    color_darkgreen =   use_palette.darkgreen;
+    color_skyblue =     use_palette.skyblue;
+    color_blue =        use_palette.blue;
+    color_darkblue =    use_palette.darkblue;
+    color_purple =      use_palette.purple;
+    color_violet =      use_palette.violet;
+    color_darkpurple =  use_palette.darkpurple;
+    color_beige =       use_palette.beige;
+    color_brown =       use_palette.brown;
+    color_darkbrown =   use_palette.darkbrown;
+    color_white =       use_palette.white;
+    color_black =       use_palette.black;
+    color_magenta =     use_palette.magenta;
+    color_raywhite =    use_palette.raywhite;
+
+}
+
+
+Palette_Values get_palette(int palette_index)
+{
+    printf("I slammed my penis, in the car door");
+    
+    Palette_Values result;
+    switch (palette_index)
+    {
+    case 1: //NIGHT SKY
+    return (Palette_Values){
+        CLITERAL(Color){160,186,204,255},// LIGHTGRAY,
+        CLITERAL(Color){132,140,163,255},// GRAY,
+        CLITERAL(Color){73,77,112,255},// DARKGRAY,
+        CLITERAL(Color){255,243,165,255},// YELLOW,
+        CLITERAL(Color){255,223,95,255},// ORANGE
+        CLITERAL(Color){255,192,82,255},//ORANGE,
+        CLITERAL(Color){237,35,110,255},// RED,
+        CLITERAL(Color){173,36,83,255},// MAROON,
+        CLITERAL(Color){106,212,85,255},//GREEN,
+        CLITERAL(Color){148,240,135,255},//LIME,
+        CLITERAL(Color){80,163,81,255},//DARKGREEN,
+        CLITERAL(Color){128,224,211,255},//SKYBLUE,
+        CLITERAL(Color){57,197,204,255},//BLUE,
+        CLITERAL(Color){24,157,189,255},//DARKBLUE,
+        CLITERAL(Color){197,138,255,255},//PURPLE,
+        CLITERAL(Color){222,177,255,255},//VIOLET,
+        CLITERAL(Color){127,78,212,255},//DARKPURPLE,
+        CLITERAL(Color){240,234,228,255},//BEIGE,
+        CLITERAL(Color){217,170,141,255},//BROWN,
+        CLITERAL(Color){135,103,94,255},//DARKBROWN,
+        CLITERAL(Color){235,255,255,255},// WHITE,
+        CLITERAL(Color){0,3,33,255},// BLACK,
+        CLITERAL(Color){197,110,212,255},//MAGENTA,
+        CLITERAL(Color){226,245,244,255},//RAYWHITE
+    };break;
+    
+    case 4: //Overgrown
+    return (Palette_Values){
+        CLITERAL(Color){224,158,114,255},//LIGHTGRAY,
+        CLITERAL(Color){130,88,51,255},//GRAY,
+        CLITERAL(Color){77,52,31,255},//DARKGRAY,
+        YELLOW,
+        GOLD,
+        ORANGE,
+        RED,
+        MAROON,
+        GREEN,
+        LIME,
+        DARKGREEN,
+        SKYBLUE,
+        BLUE,
+        DARKBLUE,
+        PURPLE,
+        VIOLET,
+        DARKPURPLE,
+        BEIGE,
+        BROWN,
+        DARKBROWN,
+        CLITERAL(Color){240,209,184,255},//WHITE,
+        CLITERAL(Color){7,28,1,255},//BLACK,
+        MAGENTA,
+        CLITERAL(Color){240,235,211,255},//RAYWHITE
+    };break;
+
+    default: // DEFAULT
+    return (Palette_Values){
+        LIGHTGRAY,
+        GRAY,
+        DARKGRAY,
+        YELLOW,
+        GOLD,
+        ORANGE,
+        RED,
+        MAROON,
+        GREEN,
+        LIME,
+        DARKGREEN,
+        SKYBLUE,
+        BLUE,
+        DARKBLUE,
+        PURPLE,
+        VIOLET,
+        DARKPURPLE,
+        BEIGE,
+        BROWN,
+        DARKBROWN,
+        WHITE,
+        BLACK,
+        MAGENTA,
+        RAYWHITE
+    };break;
+    }
+}

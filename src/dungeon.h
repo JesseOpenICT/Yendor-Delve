@@ -26,7 +26,7 @@ typedef struct Encounter
     char* name;
     enum TILESET tileset;
     Vector2 tileLookupPosition;
-    Color color;
+    Color *color;
     char* description;
     ENEMY_ID enemies[3];
     bool hidesLoot;

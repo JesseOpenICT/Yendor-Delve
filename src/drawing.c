@@ -8,6 +8,7 @@
 #include "state.h"
 #include "drawing.h"
 #include "item.h"
+#include "colors.h"
 
 const int MENU_BUTTON_SPACING = 56;
 const int LAYOUT_SPACING = 4;
@@ -61,30 +62,30 @@ void DrawMainMenu()
 
     Vector2 textSize = MeasureTextEx(titleFont, GAME_TITLE, 120, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 80};
-    DrawTextEx(titleFont, GAME_TITLE, textPosition, 120, 0, MAROON);
+    DrawTextEx(titleFont, GAME_TITLE, textPosition, 120, 0, *maroon);
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){SCREEN_WIDTH/4, 254 + (MENU_BUTTON_SPACING * (int)appState.stateData.mainMenuState.currentSelection), 
-        SCREEN_WIDTH/2, 64}, (Vector2){0,0}, 0, GRAY);
+        SCREEN_WIDTH/2, 64}, (Vector2){0,0}, 0, *gray);
     textSize = MeasureTextEx(basicFontLarger, "Play", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
     textPosition.y = 272;
-    DrawTextEx(basicFontLarger, "Play", textPosition, 32, 0, (appState.stateData.mainMenuState.currentSelection == MS_PLAY) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Play", textPosition, 32, 0, (appState.stateData.mainMenuState.currentSelection == MS_PLAY) ? *white : *gray);
     textSize = MeasureTextEx(basicFontLarger, "Settings", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
     textPosition.y = 272 + MENU_BUTTON_SPACING;
-    DrawTextEx(basicFontLarger, "Settings", textPosition, 32, 0, (appState.stateData.mainMenuState.currentSelection == MS_SETTINGS) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Settings", textPosition, 32, 0, (appState.stateData.mainMenuState.currentSelection == MS_SETTINGS) ? *white : *gray);
     textSize = MeasureTextEx(basicFontLarger, "Quit", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
     textPosition.y = 272 + MENU_BUTTON_SPACING * 2;
-    DrawTextEx(basicFontLarger, "Quit", textPosition, 32, 0, (appState.stateData.mainMenuState.currentSelection == MS_QUIT) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Quit", textPosition, 32, 0, (appState.stateData.mainMenuState.currentSelection == MS_QUIT) ? *white : *gray);
 
     textSize = MeasureTextEx(basicFontLarger, "LunaticDancer, 2026", 16, 0);
     textPosition.x = 0;
     textPosition.y = SCREEN_HEIGHT - textSize.y;
-    DrawTextEx(basicFontLarger, "LunaticDancer, 2026", textPosition, 16, 0, GRAY);
+    DrawTextEx(basicFontLarger, "LunaticDancer, 2026", textPosition, 16, 0, *gray);
     textSize = MeasureTextEx(basicFontLarger, GAME_VERSION_FOOTER, 16, 0);
     textPosition.x = SCREEN_WIDTH - textSize.x;
     textPosition.y = SCREEN_HEIGHT - textSize.y;
-    DrawTextEx(basicFontLarger, GAME_VERSION_FOOTER, textPosition, 16, 0, GRAY);
+    DrawTextEx(basicFontLarger, GAME_VERSION_FOOTER, textPosition, 16, 0, *gray);
 
     EndMode2D();
     return;
@@ -97,24 +98,27 @@ void DrawSettings()
 
     Vector2 textSize = MeasureTextEx(titleFont, "Settings", 80, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 32};
-    DrawTextEx(titleFont, "Settings", textPosition, 80, 0, LIGHTGRAY);
+    DrawTextEx(titleFont, "Settings", textPosition, 80, 0, *lightgray);
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){16, 142 + (MENU_BUTTON_SPACING * (int)(*state).currentSelection), 
-        624, 64}, (Vector2){0,0}, 0, GRAY);
+        624, 64}, (Vector2){0,0}, 0, *gray);
     textPosition.x = 48;
     textPosition.y = 160;
-    DrawTextEx(basicFontLarger, "Action Speed:", textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Action Speed:", textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? *white : *gray);
     textPosition.x = 48;
     textPosition.y = 160 + MENU_BUTTON_SPACING;
-    DrawTextEx(basicFontLarger, "Font:", textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Font:", textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? *white : *gray);
     textPosition.x = 48;
     textPosition.y = 160 + MENU_BUTTON_SPACING * 2;
-    DrawTextEx(basicFontLarger, "Windowed:", textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Palette:", textPosition, 32, 0, ((*state).currentSelection == SET_PALETTE) ? *white : *gray);
     textPosition.x = 48;
     textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
-    DrawTextEx(basicFontLarger, "Effects Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Windowed:", textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? *white : *gray);
     textPosition.x = 48;
     textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
-    DrawTextEx(basicFontLarger, "Music Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Effects Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? *white : *gray);
+    textPosition.x = 48;
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 5;
+    DrawTextEx(basicFontLarger, "Music Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? *white : *gray);
 
     char* text;
     char strnum[3];
@@ -136,7 +140,7 @@ void DrawSettings()
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
     textPosition.y = 160;
-    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? *white : *gray);
     switch(appState.settings.font)
     {
         case FS_FANCY:
@@ -149,22 +153,37 @@ void DrawSettings()
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
     textPosition.y = 160 + MENU_BUTTON_SPACING;
-    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? *white : *gray);
     text = (appState.settings.windowed) ? "Yes" : "No";
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 2;
-    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? WHITE : GRAY);
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? *white : *gray);
+    switch(appState.settings.palette)
+    {
+        case CLASSIC:text = "Classic";break;
+        case NIGHT_SKY:text = "Night Sky";break;
+        case OCEANIC_DEPTHS:text = "Oceanic Depths";break;
+        case VOLCANIC_DUNGEON:text = "Volcanic Dungeon";break;
+        case OVERGROWN_TEMPLE:text = "Overgrown Temple";break;
+        case GOLDEN_VAULT:text = "Golden Vault";break;
+        case FOOTNOTE:text = "Footnote";break;
+        case PEACEFUL_GARDEN:text = "Peaceful Garden";break;
+    }
+    textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
+    textPosition.x = 608 - textSize.x;
+    textPosition.y = 160 + MENU_BUTTON_SPACING*2;
+    DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_PALETTE) ? *white : *gray);
     sprintf(strnum, "%d", appState.settings.sfxVolume);
     textSize = MeasureTextEx(basicFontLarger, strnum, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
-    DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? WHITE : GRAY);
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
+    DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? *white : *gray);
     sprintf(strnum, "%d", appState.settings.musicVolume);
     textSize = MeasureTextEx(basicFontLarger, strnum, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
-    DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? WHITE : GRAY);
+    textPosition.y = 160 + MENU_BUTTON_SPACING * 5;
+    DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? *white : *gray);
 
     EndMode2D();
     return;
@@ -221,13 +240,13 @@ void DrawBattleAbilitySelection()
     DrawBattleAbilityDescription(caster, caster->abilities[appState.stateData.gameState.stateData.battleState.verticalSelection].abilityId);
 
     short height = (*caster).abilityCount * 18;
-    DrawRectangle(390, 446 - height, 245, height+29, BLACK);
-    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){ 390, 446 - height, 245, height+30}, (Vector2){0,0}, 0, WHITE);
+    DrawRectangle(390, 446 - height, 245, height+29, *black);
+    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){ 390, 446 - height, 245, height+30}, (Vector2){0,0}, 0, *white);
 
     for (int i = 0; i < (*caster).abilityCount; i++)
     {
         DrawTextEx(basicFont, caster->abilities[i].name, (Vector2){406, 463 - height + (i * 18)}, 16, 0, 
-            (appState.stateData.gameState.stateData.battleState.verticalSelection == i) ? WHITE : GRAY);
+            (appState.stateData.gameState.stateData.battleState.verticalSelection == i) ? *white : *gray);
     }
 }
 
@@ -235,14 +254,14 @@ void DrawBattleAbilityDescription(CreatureStats* c, ABILITY a)
 {
     char* abilityDesc = GetAbilityDescription(a, c);
 
-    DrawRectangle(152, 128, 488 - LAYOUT_SPACING, 224, BLACK);
-    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){ 152, 128, 488 - LAYOUT_SPACING, 224}, (Vector2){0,0}, 0, DARKGRAY);
+    DrawRectangle(152, 128, 488 - LAYOUT_SPACING, 224, *black);
+    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){ 152, 128, 488 - LAYOUT_SPACING, 224}, (Vector2){0,0}, 0, *darkgray);
 
     Vector2 textSize = MeasureTextEx(basicFontLarger, InitAbility(a).name, 32, 0);
     Vector2 textPosition = {396 - textSize.x / 2, 144};
-    DrawTextEx(basicFontLarger, InitAbility(a).name, textPosition, 32, 0, LIGHTGRAY);
+    DrawTextEx(basicFontLarger, InitAbility(a).name, textPosition, 32, 0, *lightgray);
 
-    DrawTextBoxed(basicFont, abilityDesc, (Rectangle){184, 188, 424-LAYOUT_SPACING, 224},16,0,true, GRAY);
+    DrawTextBoxed(basicFont, abilityDesc, (Rectangle){184, 188, 424-LAYOUT_SPACING, 224},16,0,true, *gray);
 }
 
 void DrawPrognoses()
@@ -258,15 +277,15 @@ void DrawPrognoses()
             text = CombineStrings(text, " ticks.");
             Vector2 textSize = MeasureTextEx(basicFont, text, 16,0);
             DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){ 428, 384, 160, 64}, 
-                (Vector2){0,0}, 0, GRAY);
-            DrawTextEx(basicFont, text,(Vector2){508-textSize.x/2, 416 - textSize.y/2},16,0,LIGHTGRAY);
+                (Vector2){0,0}, 0, *gray);
+            DrawTextEx(basicFont, text,(Vector2){508-textSize.x/2, 416 - textSize.y/2},16,0,*lightgray);
         }
 
         Vector2 position = (Vector2){LAYOUT_SPACING, 355 - ((i+1)*(LAYOUT_SPACING+boxSize.y))};
         DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){ position.x, position.y, boxSize.x, boxSize.y}, 
         (Vector2){0,0}, 0, 
         (appState.stateData.gameState.stateData.battleState.horizontalSelection == i && appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_OVERVIEW) 
-        ? GOLD : ((i == 0) ? LIGHTGRAY : DARKGRAY));
+        ? *gold : ((i == 0) ? *lightgray : *darkgray));
         if(appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId < 3)
         {
             DrawTexturePro(
@@ -283,7 +302,7 @@ void DrawPrognoses()
                 },
                 (Vector2){0,0},
                 0,
-                appState.stateData.gameState.playerTeam[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId].stats.baseStats.color
+                *appState.stateData.gameState.playerTeam[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId].stats.baseStats.color
             );
         }
         else
@@ -314,7 +333,7 @@ void DrawPrognoses()
                 },
                 (Vector2){0,0},
                 0,
-                appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.color
+                *appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.color
             );
             offset += 20;
             DrawTexturePro(         // draw action icon
@@ -331,7 +350,7 @@ void DrawPrognoses()
                 },
                 (Vector2){0,0},
                 0,
-                appState.stateData.gameState.stateData.battleState.turnIndicators[i].isAttack ? RED : GREEN
+                appState.stateData.gameState.stateData.battleState.turnIndicators[i].isAttack ? *red : *green
             );
             offset += 20;
 
@@ -354,7 +373,7 @@ void DrawPrognoses()
                         },
                         (Vector2){0,0},
                         0,
-                        appState.stateData.gameState.playerTeam[j].stats.baseStats.color
+                        *appState.stateData.gameState.playerTeam[j].stats.baseStats.color
                     );
                 }
                 else
@@ -373,7 +392,7 @@ void DrawPrognoses()
                         },
                         (Vector2){0,0},
                         0,
-                        appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.color
+                        *appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.color
                     );
                 }
                 offset += 16;
@@ -386,12 +405,12 @@ void DrawBattleScreenPartyMember(char index)
 {
     short creatureBoxSize = 128;
     DrawRectangle(LAYOUT_SPACING + creatureBoxSize * index, SCREEN_HEIGHT - creatureBoxSize + LAYOUT_SPACING,
-        creatureBoxSize - 2 * LAYOUT_SPACING, creatureBoxSize - 2 * LAYOUT_SPACING, BLACK);
+        creatureBoxSize - 2 * LAYOUT_SPACING, creatureBoxSize - 2 * LAYOUT_SPACING, *black);
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){LAYOUT_SPACING + creatureBoxSize * index, SCREEN_HEIGHT - creatureBoxSize + LAYOUT_SPACING,
         creatureBoxSize - 2 * LAYOUT_SPACING, creatureBoxSize - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
             ((appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_TARGET_SELECT 
-                && appState.stateData.gameState.stateData.battleState.horizontalSelection == index)) ? RED : 
-                (appState.stateData.gameState.stateData.battleState.currentActingEntity == index) ? WHITE : DARKGRAY);
+                && appState.stateData.gameState.stateData.battleState.horizontalSelection == index)) ? *red : 
+                (appState.stateData.gameState.stateData.battleState.currentActingEntity == index) ? *white : *darkgray);
 
     if(!(appState.stateData.gameState.stateData.battleState.battleState == BS_SHOW_ABILITY_VFX 
         && (appState.stateData.gameState.stateData.battleState.flickeringMask & (1<<index)) 
@@ -411,7 +430,7 @@ void DrawBattleScreenPartyMember(char index)
             },
             (Vector2){0,0},
             0,
-            (appState.stateData.gameState.playerTeam[index].stats.baseStats.currentHealth > 0) ? appState.stateData.gameState.playerTeam[index].stats.baseStats.color : DARKGRAY
+            (appState.stateData.gameState.playerTeam[index].stats.baseStats.currentHealth > 0) ? *appState.stateData.gameState.playerTeam[index].stats.baseStats.color : *darkgray
         );
     }
     
@@ -421,35 +440,35 @@ void DrawBattleScreenPartyMember(char index)
         // DrawText(str_num, LAYOUT_SPACING + creatureBoxSize * index + 16, SCREEN_HEIGHT - creatureBoxSize + LAYOUT_SPACING + 16, 16, PINK);
     
 
-    DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 441, creatureBoxSize-40, 2, DARKGRAY);
+    DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 441, creatureBoxSize-40, 2, *darkgray);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 440, 
         (int)((creatureBoxSize-40) * ClampFloat((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.currentHealth / 
         ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxHealth + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.health), 0, 1)), 
-        4, RED);
+        4, *red);
         DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 440, 
         (int)((creatureBoxSize-40) * ClampFloat((float)appState.stateData.gameState.playerTeam[index].stats.encounterStats.shield / 
         ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxHealth + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.health), 0, 1)), 
-        4,SKYBLUE);
+        4,*skyblue);
 
-    DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 449, creatureBoxSize-40, 2, DARKGRAY);
+    DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 449, creatureBoxSize-40, 2, *darkgray);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 448, 
         (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.currentStamina / 
         ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxStamina + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.stamina))), 
-        4, DARKGREEN);
+        4, *darkgreen);
 
-    DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 457, creatureBoxSize-40, 2, DARKGRAY);
+    DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 457, creatureBoxSize-40, 2, *darkgray);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 456, 
         (int)((creatureBoxSize-40) * ClampFloat((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.critCounter / 
         (float)CRIT_PROGRESS_MAX, 0, 1)), 
-        4, YELLOW);
+        4, *yellow);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 456, 
         (int)((creatureBoxSize-40) * ClampFloat((float)(appState.stateData.gameState.playerTeam[index].stats.baseStats.critCounter-CRIT_PROGRESS_MAX) / 
         (float)CRIT_PROGRESS_MAX, 0, 1)), 
-        4, ORANGE);
+        4, *orange);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 456, 
         (int)((creatureBoxSize-40) * ClampFloat((float)(appState.stateData.gameState.playerTeam[index].stats.baseStats.critCounter - CRIT_PROGRESS_MAX - CRIT_PROGRESS_MAX) / 
         (float)CRIT_PROGRESS_MAX, 0, 1)), 
-        4, RED);
+        4, *red);
     
     DrawStatusEffects((Vector2){LAYOUT_SPACING + creatureBoxSize * index + 16, SCREEN_HEIGHT - creatureBoxSize + LAYOUT_SPACING + 16}, &appState.stateData.gameState.playerTeam[index].stats);
 }
@@ -458,12 +477,12 @@ void DrawBattleScreenEnemy(char index)
 {
     short creatureBoxSize = 128;
     DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING - creatureBoxSize * (index+1), LAYOUT_SPACING,
-        creatureBoxSize - 2 * LAYOUT_SPACING, creatureBoxSize - 2 * LAYOUT_SPACING, BLACK);
+        creatureBoxSize - 2 * LAYOUT_SPACING, creatureBoxSize - 2 * LAYOUT_SPACING, *black);
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){ SCREEN_WIDTH + LAYOUT_SPACING - creatureBoxSize * (index+1), LAYOUT_SPACING,
         creatureBoxSize - 2 * LAYOUT_SPACING, creatureBoxSize - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
-        (appState.stateData.gameState.stateData.battleState.currentActingEntity == index+3) ? WHITE :
+        (appState.stateData.gameState.stateData.battleState.currentActingEntity == index+3) ? *white :
             ((appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_TARGET_SELECT 
-                && appState.stateData.gameState.stateData.battleState.horizontalSelection == index+3)) ? RED : DARKGRAY);
+                && appState.stateData.gameState.stateData.battleState.horizontalSelection == index+3)) ? *red : *darkgray);
 
         if(!(appState.stateData.gameState.stateData.battleState.battleState == BS_SHOW_ABILITY_VFX 
         && (appState.stateData.gameState.stateData.battleState.flickeringMask & (1<<(index+3))) 
@@ -484,7 +503,7 @@ void DrawBattleScreenEnemy(char index)
             (Vector2){0,0},
             0,
             (appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth > 0) ? 
-                appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.color : DARKGRAY
+                *appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.color : *darkgray
         );
     }
 
@@ -495,17 +514,17 @@ void DrawBattleScreenEnemy(char index)
     
     if(appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth > 0)
     {
-    DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 102, creatureBoxSize-40, 2, DARKGRAY);
+    DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 102, creatureBoxSize-40, 2, *darkgray);
     DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 101, 
         (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth / 
         (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
-        4, RED);
+        4, *red);
     char strnum[6];
     sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth);
     Vector2 str_size = MeasureTextEx(basicFontLarger, strnum, 16,0);
-    DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2 + 1, 103-str_size.y/2 + 1}, 16,0,BLACK);
-    DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2 - 1, 103-str_size.y/2 - 1}, 16,0,BLACK);
-    DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2, 103-str_size.y/2}, 16,0,WHITE);
+    DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2 + 1, 103-str_size.y/2 + 1}, 16,0,*black);
+    DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2 - 1, 103-str_size.y/2 - 1}, 16,0,*black);
+    DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2, 103-str_size.y/2}, 16,0,*white);
     }
     DrawStatusEffects((Vector2){SCREEN_WIDTH + LAYOUT_SPACING - creatureBoxSize * (index+1) + 16, LAYOUT_SPACING + 16}, &appState.stateData.gameState.stateData.battleState.enemies[index].stats);
 }
@@ -514,14 +533,14 @@ void DrawDuelistOpportunitySelection()
 {
     char strnum[6];
     short height = OPPORTUNITY_MAX_TURNS * 18 + 48;
-    DrawRectangle(284, 240 - height/2, 72, height, BLACK);
-    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){284, 240 - height/2, 72, height}, (Vector2){0,0}, 0, WHITE);
+    DrawRectangle(284, 240 - height/2, 72, height, *black);
+    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){284, 240 - height/2, 72, height}, (Vector2){0,0}, 0, *white);
 
     for (int i = 0; i < OPPORTUNITY_MAX_TURNS; i++)
     {
         sprintf(strnum, "%d", i+1);
         DrawTextEx(basicFont, strnum, (Vector2){316, 240 - height/2 + 24 + (i * 18)}, 16, 0, 
-            (appState.stateData.gameState.stateData.battleState.horizontalSelection == i) ? WHITE : GRAY);
+            (appState.stateData.gameState.stateData.battleState.horizontalSelection == i) ? *white : *gray);
     }
 }
 
@@ -536,7 +555,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
         if (_creature->statusEffects[i] <= 0) continue;
 
         sprintf(strnum, "%d", _creature->statusEffects[i]);
-        DrawTextEx(basicFontLarger, strnum, (Vector2){position.x+20, position.y+hOffset}, 16,0, WHITE);
+        DrawTextEx(basicFontLarger, strnum, (Vector2){position.x+20, position.y+hOffset}, 16,0, *white);
         switch(i)
         {
             case SE_BERSERK:
@@ -548,7 +567,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
                     TILE_SIZE, TILE_SIZE,
                 },
                 (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
-                (Vector2){0,0}, 0, MAROON
+                (Vector2){0,0}, 0, *maroon
             );
             break;
             case SE_BLEED:
@@ -560,7 +579,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
                     TILE_SIZE, TILE_SIZE,
                 },
                 (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
-                (Vector2){0,0}, 0, RED
+                (Vector2){0,0}, 0, *red
             );
             break;
             case SE_EXHAUSTION:
@@ -572,7 +591,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
                     TILE_SIZE, TILE_SIZE,
                 },
                 (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
-                (Vector2){0,0}, 0, GRAY
+                (Vector2){0,0}, 0, *gray
             );
             break;
             case SE_UNTARGETTABLE:
@@ -584,7 +603,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
                     TILE_SIZE, TILE_SIZE,
                 },
                 (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
-                (Vector2){0,0}, 0, DARKGRAY
+                (Vector2){0,0}, 0, *darkgray
             );
             break;
             case SE_PAIN:
@@ -596,7 +615,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
                     TILE_SIZE, TILE_SIZE,
                 },
                 (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
-                (Vector2){0,0}, 0, BROWN
+                (Vector2){0,0}, 0, *brown
             );
             break;
             case SE_CONFUSION:
@@ -608,7 +627,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
                     TILE_SIZE, TILE_SIZE,
                 },
                 (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
-                (Vector2){0,0}, 0, PURPLE
+                (Vector2){0,0}, 0, *purple
             );
             break;
         }
@@ -650,7 +669,7 @@ void DrawBattleScreenMessageFeed()
     result = WrapText(basicFontLarger, result, 16, 0, 488-LAYOUT_SPACING);
     Vector2 textSize = MeasureTextEx(basicFontLarger, result, 16,0);
 
-    DrawTextStyled(basicFontLarger, result, (Vector2){160,368 - textSize.y},16,0, GRAY);
+    DrawTextStyled(basicFontLarger, result, (Vector2){160,368 - textSize.y},16,0, *gray);
     free(result);
 }
 
@@ -672,21 +691,21 @@ void DrawDungeonScreen()
 
     Vector2 textSize = MeasureTextEx(basicFontLarger, "Prepare for an encounter:", 32, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 10};
-    DrawTextEx(basicFontLarger, "Prepare for an encounter:", textPosition, 32, 0, DARKGRAY);
+    DrawTextEx(basicFontLarger, "Prepare for an encounter:", textPosition, 32, 0, *darkgray);
 
     // encounter selection frames
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){LAYOUT_SPACING + 5, 48 + LAYOUT_SPACING,
         (210) - 2 * LAYOUT_SPACING, (312) - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
         ((appState.stateData.gameState.stateData.dungeonState.selectionX == 0 || appState.stateData.gameState.stateData.dungeonState.selectionX == 1)
-             && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) ? GOLD : GRAY);
+             && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) ? *gold : *gray);
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){LAYOUT_SPACING +  + 215, 48 + LAYOUT_SPACING,
         (210) - 2 * LAYOUT_SPACING, (312) - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
         ((appState.stateData.gameState.stateData.dungeonState.selectionX == 2 || appState.stateData.gameState.stateData.dungeonState.selectionX == 3)
-            && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) ? GOLD : GRAY);
+            && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) ? *gold : *gray);
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){LAYOUT_SPACING+ 425, 48 + LAYOUT_SPACING,
         (210) - 2 * LAYOUT_SPACING, (312) - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
         ((appState.stateData.gameState.stateData.dungeonState.selectionX == 4 || appState.stateData.gameState.stateData.dungeonState.selectionX == 5)
-            && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) ? GOLD : GRAY);
+            && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) ? *gold : *gray);
 
     DrawDungeonScreenSelector();
 
@@ -732,38 +751,38 @@ void DrawPauseMenu()
 {
     Vector2 textSize = MeasureTextEx(titleFont, "PAUSED", 80, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 96};
-    DrawTextEx(titleFont, "PAUSED", textPosition, 80, 0, GRAY);
+    DrawTextEx(titleFont, "PAUSED", textPosition, 80, 0, *gray);
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){SCREEN_WIDTH/4, 222 + (MENU_BUTTON_SPACING * appState.stateData.gameState.pauseMenuSelection), 
-        SCREEN_WIDTH/2, 64}, (Vector2){0,0}, 0, GRAY);
+        SCREEN_WIDTH/2, 64}, (Vector2){0,0}, 0, *gray);
     textSize = MeasureTextEx(basicFontLarger, "Resume", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
     textPosition.y = 240;
-    DrawTextEx(basicFontLarger, "Resume", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 0) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Resume", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 0) ? *white : *gray);
     textSize = MeasureTextEx(basicFontLarger, "Settings", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
     textPosition.y = 240 + MENU_BUTTON_SPACING;
-    DrawTextEx(basicFontLarger, "Settings", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 1) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Settings", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 1) ? *white : *gray);
     textSize = MeasureTextEx(basicFontLarger, "Abandon", 32, 0);
     textPosition.x = SCREEN_WIDTH / 2 - textSize.x / 2;
     textPosition.y = 240 + MENU_BUTTON_SPACING * 2;
-    DrawTextEx(basicFontLarger, "Abandon", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 2) ? WHITE : GRAY);
+    DrawTextEx(basicFontLarger, "Abandon", textPosition, 32, 0, (appState.stateData.gameState.pauseMenuSelection == 2) ? *white : *gray);
 }
 
 void DrawCharacterStats()
 {
-    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){320, 48 + LAYOUT_SPACING, 320-LAYOUT_SPACING, 304}, (Vector2){0,0}, 0, GRAY);
+    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){320, 48 + LAYOUT_SPACING, 320-LAYOUT_SPACING, 304}, (Vector2){0,0}, 0, *gray);
 
     char* name = appState.stateData.gameState.playerTeam[
         appState.stateData.gameState.stateData.dungeonState.selectionX
         ].stats.baseStats.name;
     Vector2 textSize = MeasureTextEx(basicFontLarger, name, 16, 0);
     Vector2 textPosition = (Vector2){480 - textSize.x / 2, 64 + LAYOUT_SPACING};
-    DrawTextEx(basicFontLarger, name, textPosition, 16, 0, WHITE);
+    DrawTextEx(basicFontLarger, name, textPosition, 16, 0, *white);
 
     char* text = GetCharacterStatsRundown(appState.stateData.gameState.playerTeam[
         appState.stateData.gameState.stateData.dungeonState.selectionX
     ]);
-    DrawTextBoxed(basicFontLarger, text, (Rectangle){336, 88+LAYOUT_SPACING, 304-LAYOUT_SPACING, 360}, 16, 0, true, GRAY);
+    DrawTextBoxed(basicFontLarger, text, (Rectangle){336, 88+LAYOUT_SPACING, 304-LAYOUT_SPACING, 360}, 16, 0, true, *gray);
 }
 
 void DrawItemSelection()
@@ -771,18 +790,18 @@ void DrawItemSelection()
     Item none = InitItem(ITEM_NONE);
     short listH = 50 + appState.stateData.gameState.stateData.dungeonState.itemIndexListLength * 18;
 
-    DrawRectangle(LAYOUT_SPACING + 434, 48 + LAYOUT_SPACING, 200, 304, BLACK);
-    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){434 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 200, 304}, (Vector2){0,0}, 0, GRAY);
+    DrawRectangle(LAYOUT_SPACING + 434, 48 + LAYOUT_SPACING, 200, 304, *black);
+    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){434 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 200, 304}, (Vector2){0,0}, 0, *gray);
     if(appState.stateData.gameState.stateData.dungeonState.highlightedItem != 0)
     {
         char* itemDesc = GetItemStatSpread(
             appState.stateData.gameState.inventory[appState.stateData.gameState.stateData.dungeonState.slotItemIndexes[appState.stateData.gameState.stateData.dungeonState.highlightedItem-1]]
         );
-        DrawTextBoxed(basicFont, itemDesc, (Rectangle){LAYOUT_SPACING + 450, 64+LAYOUT_SPACING, 184, 360}, 16, 0, true, LIGHTGRAY);
+        DrawTextBoxed(basicFont, itemDesc, (Rectangle){LAYOUT_SPACING + 450, 64+LAYOUT_SPACING, 184, 360}, 16, 0, true, *lightgray);
     }
 
-    DrawRectangle(LAYOUT_SPACING + 230, 48 + LAYOUT_SPACING, 208, listH, BLACK);
-    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){230 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 208, listH}, (Vector2){0,0}, 0, WHITE);
+    DrawRectangle(LAYOUT_SPACING + 230, 48 + LAYOUT_SPACING, 208, listH, *black);
+    DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){230 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 208, listH}, (Vector2){0,0}, 0, *white);
 
     DrawItemListElement(none, 0);
     for(int i = 0; i < appState.stateData.gameState.stateData.dungeonState.itemIndexListLength; i++)
@@ -807,22 +826,22 @@ void DrawItemListElement(Item it, char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.stateData.dungeonState.highlightedItem == index ? it.color : GRAY
+            appState.stateData.gameState.stateData.dungeonState.highlightedItem == index ? *it.color : *gray
         );
     DrawTextEx(basicFont, it.name, (Vector2){LAYOUT_SPACING + 262, 64 + LAYOUT_SPACING + (18*index)}, 16, 0,
-        appState.stateData.gameState.stateData.dungeonState.highlightedItem == index ? WHITE : GRAY);
+        appState.stateData.gameState.stateData.dungeonState.highlightedItem == index ? *white : *gray);
 }
 
 void DrawEquipmentPanel()
 {
     DrawRectangle(LAYOUT_SPACING + 5, 48 + LAYOUT_SPACING,
-        (630) - 2 * LAYOUT_SPACING, (312) - 2 * LAYOUT_SPACING, BLACK);
+        (630) - 2 * LAYOUT_SPACING, (312) - 2 * LAYOUT_SPACING, *black);
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){LAYOUT_SPACING + 5, 48 + LAYOUT_SPACING, 256, 256}, (Vector2){0,0}, 0,
-    appState.stateData.gameState.stateData.dungeonState.isSelectingItem ? GRAY : WHITE);
+    appState.stateData.gameState.stateData.dungeonState.isSelectingItem ? *gray : *white);
 
     Vector2 textSize = MeasureTextEx(basicFont, "Equipment", 16, 0);
     Vector2 textPosition = (Vector2){122 - textSize.x / 2, 80};
-    DrawTextEx(basicFont, "Equipment", textPosition, 16, 0, WHITE);
+    DrawTextEx(basicFont, "Equipment", textPosition, 16, 0, *white);
 
     DrawEquipmentSlot(0);
     DrawEquipmentSlot(1);
@@ -850,11 +869,11 @@ void DrawEquipmentSlot(char index)
     }
 
     DrawTextEx(basicFont, text, (Vector2){80, 128 + index*40}, 16, 0,
-    appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot == index ? GRAY : DARKGRAY);
+    appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot == index ? *gray : *darkgray);
     DrawTextEx(basicFont, appState.stateData.gameState.playerTeam[
         appState.stateData.gameState.stateData.dungeonState.selectionX
     ].items[index].name, (Vector2){80, 144 + index*40}, 16, 0,
-    appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot == index ? WHITE : GRAY);
+    appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot == index ? *white : *gray);
 
     DrawTexturePro(
             GetTileset(appState.stateData.gameState.playerTeam[
@@ -876,8 +895,8 @@ void DrawEquipmentSlot(char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot == index ? appState.stateData.gameState.playerTeam[
-                appState.stateData.gameState.stateData.dungeonState.selectionX].items[index].color : GRAY
+            appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot == index ? *appState.stateData.gameState.playerTeam[
+                appState.stateData.gameState.stateData.dungeonState.selectionX].items[index].color : *gray
         );
 }
 
@@ -897,7 +916,7 @@ void DrawDungeonScreenEncounterSprite(char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.stateData.dungeonState.encounters[index].color
+            *appState.stateData.gameState.stateData.dungeonState.encounters[index].color
         );
 }
 
@@ -905,7 +924,7 @@ void DrawDungeonScreenRewardSprite(char index)
 {
     if(appState.stateData.gameState.stateData.dungeonState.encounters[index].hidesLoot)
     {
-        DrawTextEx(basicFont, "?", (Vector2){LAYOUT_SPACING + (210 * index) + 132,  LAYOUT_SPACING + 100}, 16, 0, GRAY);
+        DrawTextEx(basicFont, "?", (Vector2){LAYOUT_SPACING + (210 * index) + 132,  LAYOUT_SPACING + 100}, 16, 0, *gray);
     }
     else
     {
@@ -923,7 +942,7 @@ void DrawDungeonScreenRewardSprite(char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.stateData.dungeonState.rewards[index].color
+            *appState.stateData.gameState.stateData.dungeonState.rewards[index].color
         );
     }
 }
@@ -935,18 +954,18 @@ void DrawDungeonEncounterText(char index)
          appState.stateData.gameState.stateData.dungeonState.rewards[index].name) : appState.stateData.gameState.stateData.dungeonState.encounters[index].name;
     Vector2 textSize = MeasureTextEx(basicFont, text, 16, 0);
     Vector2 textPosition = (Vector2){(210 * index) + 110 - textSize.x / 2, 140 + LAYOUT_SPACING};
-    DrawTextEx(basicFont, text, textPosition, 16, 0, WHITE);
+    DrawTextEx(basicFont, text, textPosition, 16, 0, *white);
     text = (appState.stateData.gameState.stateData.dungeonState.selectionX == (index * 2) + 1 && appState.stateData.gameState.stateData.dungeonState.selectionY == 0) 
         ? (appState.stateData.gameState.stateData.dungeonState.encounters[index].hidesLoot ? "You will only learn what this reward is after you obtain it." :
         GetItemStatSpread(appState.stateData.gameState.stateData.dungeonState.rewards[index])) : appState.stateData.gameState.stateData.dungeonState.encounters[index].description;
-    DrawTextBoxed(basicFont, text, (Rectangle){(210*index)+21+LAYOUT_SPACING, 168+LAYOUT_SPACING, 174, 360}, 16, 0, true, GRAY);
+    DrawTextBoxed(basicFont, text, (Rectangle){(210*index)+21+LAYOUT_SPACING, 168+LAYOUT_SPACING, 174, 360}, 16, 0, true, *gray);
 }
 
 void DrawDungeonScreenPartyMemberFrame(char index)
 {
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){LAYOUT_SPACING + (SCREEN_WIDTH / 8) + 160 * index, SCREEN_HEIGHT - (SCREEN_HEIGHT  / 4) + LAYOUT_SPACING,
         (SCREEN_WIDTH / 4) - 2 * LAYOUT_SPACING, (SCREEN_HEIGHT / 4) - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
-        (appState.stateData.gameState.stateData.dungeonState.selectionX == index && appState.stateData.gameState.stateData.dungeonState.selectionY == 1) ? GOLD : GRAY);
+        (appState.stateData.gameState.stateData.dungeonState.selectionX == index && appState.stateData.gameState.stateData.dungeonState.selectionY == 1) ? *gold : *gray);
 }
 
 void DrawDungeonScreenPartyMember(char index)
@@ -965,7 +984,7 @@ void DrawDungeonScreenPartyMember(char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.playerTeam[index].stats.baseStats.color
+            *appState.stateData.gameState.playerTeam[index].stats.baseStats.color
         );
 }
 
@@ -987,21 +1006,21 @@ void DrawDungeonScreenPartyMemberBars(char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.playerTeam[index].items[i].color
+            *appState.stateData.gameState.playerTeam[index].items[i].color
         );
     }
 
-    DrawRectangle(104 + index * 160, 449, 112, 2, DARKGRAY);
+    DrawRectangle(104 + index * 160, 449, 112, 2, *darkgray);
     DrawRectangle(104 + index * 160, 448, 
         (int)(112 * ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.currentHealth / 
         ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxHealth + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.health))), 
-        4, RED);
+        4, *red);
 
-    DrawRectangle(104 + index * 160, 457, 112, 2, DARKGRAY);
+    DrawRectangle(104 + index * 160, 457, 112, 2, *darkgray);
     DrawRectangle(104 + index * 160, 456, 
         (int)(112 * ClampFloat((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.critCounter / 
         (float)CRIT_PROGRESS_MAX, 0, 1)), 
-        4, YELLOW);
+        4, *yellow);
 }
 
 void DrawDungeonScreenSelector()
@@ -1011,22 +1030,22 @@ void DrawDungeonScreenSelector()
         switch(appState.stateData.gameState.stateData.dungeonState.selectionX)
         {
             case 0:
-            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){54, 87 , 49, 45}, (Vector2){0,0}, 0, RED);
+            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){54, 87 , 49, 45}, (Vector2){0,0}, 0, *red);
             break;
             case 1:
-            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){115, 87 , 49, 45}, (Vector2){0,0}, 0, RED);
+            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){115, 87 , 49, 45}, (Vector2){0,0}, 0, *red);
             break;
             case 2:
-            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){54 + 210, 87 , 49, 45}, (Vector2){0,0}, 0, RED);
+            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){54 + 210, 87 , 49, 45}, (Vector2){0,0}, 0, *red);
             break;
             case 3:
-            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){115 + 210, 87 , 49, 45}, (Vector2){0,0}, 0, RED);
+            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){115 + 210, 87 , 49, 45}, (Vector2){0,0}, 0, *red);
             break;
             case 4:
-            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){54 + 420, 87 , 49, 45}, (Vector2){0,0}, 0, RED);
+            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){54 + 420, 87 , 49, 45}, (Vector2){0,0}, 0, *red);
             break;
             case 5:
-            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){115 + 420, 87 , 49, 45}, (Vector2){0,0}, 0, RED);
+            DrawTextureNPatch(spikeFrame, frameInfo, (Rectangle){115 + 420, 87 , 49, 45}, (Vector2){0,0}, 0, *red);
             break;
         }
     }
@@ -1038,10 +1057,10 @@ void DrawCharacterSelect()
 
     Vector2 textSize = MeasureTextEx(basicFontLarger, "Create your party:", 32, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 10};
-    DrawTextEx(basicFontLarger, "Create your party:", textPosition, 32, 0, DARKGRAY);
+    DrawTextEx(basicFontLarger, "Create your party:", textPosition, 32, 0, *darkgray);
 
     DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){LAYOUT_SPACING, 48 + LAYOUT_SPACING, 
-        SCREEN_WIDTH - 2 * LAYOUT_SPACING, SCREEN_HEIGHT - (SCREEN_WIDTH / 4) - (48 + 2 * LAYOUT_SPACING)}, (Vector2){0,0}, 0, GRAY);
+        SCREEN_WIDTH - 2 * LAYOUT_SPACING, SCREEN_HEIGHT - (SCREEN_WIDTH / 4) - (48 + 2 * LAYOUT_SPACING)}, (Vector2){0,0}, 0, *gray);
 
     DrawCharacterSelectOptionFrame(0);
     DrawCharacterSelectOptionFrame(1);
@@ -1052,12 +1071,12 @@ void DrawCharacterSelect()
         "Descent" : appState.stateData.gameState.playerTeam[appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected].stats.baseStats.name;
     textSize = MeasureTextEx(basicFontLarger, name, 32, 0);
     textPosition = (Vector2){SCREEN_WIDTH / 2 - textSize.x / 2, 72 + LAYOUT_SPACING};
-    DrawTextEx(basicFontLarger, name, textPosition, 32, 0, WHITE);
+    DrawTextEx(basicFontLarger, name, textPosition, 32, 0, *white);
     
     char* description = (appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected == 3) ?
         "Press Confirm to delve into the dungeons of Yendor..." : 
         appState.stateData.gameState.playerTeam[appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected].description;
-    DrawTextBoxed(basicFontLarger, description, (Rectangle){24+LAYOUT_SPACING, 128+LAYOUT_SPACING, 592, 360}, 16, 0, true, LIGHTGRAY);
+    DrawTextBoxed(basicFontLarger, description, (Rectangle){24+LAYOUT_SPACING, 128+LAYOUT_SPACING, 592, 360}, 16, 0, true, *lightgray);
 
     DrawCharacterSelectCharacterSprite(0);
     DrawCharacterSelectCharacterSprite(1);
@@ -1076,7 +1095,7 @@ void DrawCharacterSelect()
             },
             (Vector2){0,0},
             0,
-            BROWN
+            *brown
         );
 
     EndMode2D();
@@ -1099,7 +1118,7 @@ void DrawCharacterSelectCharacterSprite(char index)
             },
             (Vector2){0,0},
             0,
-            appState.stateData.gameState.playerTeam[index].stats.baseStats.color
+            *appState.stateData.gameState.playerTeam[index].stats.baseStats.color
         );
 }
 
@@ -1107,7 +1126,7 @@ void DrawCharacterSelectOptionFrame(char index)
 {
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){LAYOUT_SPACING + (160 * index), SCREEN_HEIGHT - (SCREEN_WIDTH / 4) + LAYOUT_SPACING,
         (SCREEN_WIDTH / 4) - 2 * LAYOUT_SPACING, (SCREEN_WIDTH / 4) - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
-        (appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected == index) ? GOLD : GRAY);
+        (appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected == index) ? *gold : *gray);
 }
 
 void DrawPopupMessage()
@@ -1118,9 +1137,9 @@ void DrawPopupMessage()
 
     Vector2 textSize = MeasureTextEx(basicFontLarger, appState.stateData.gameState.message, 16, 0);
     Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, SCREEN_HEIGHT / 2 - textSize.y / 2};
-    DrawRectangle(textPosition.x-32, textPosition.y - 32, textSize.x+64, textSize.y+64, BLACK);
-    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){textPosition.x-32, textPosition.y - 32, textSize.x+64, textSize.y+64}, (Vector2){0,0}, 0, LIGHTGRAY);
-    DrawTextEx(basicFontLarger, appState.stateData.gameState.message, textPosition, 16, 0, WHITE);
+    DrawRectangle(textPosition.x-32, textPosition.y - 32, textSize.x+64, textSize.y+64, *black);
+    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){textPosition.x-32, textPosition.y - 32, textSize.x+64, textSize.y+64}, (Vector2){0,0}, 0, *lightgray);
+    DrawTextEx(basicFontLarger, appState.stateData.gameState.message, textPosition, 16, 0, *white);
 
     EndMode2D();
 }
@@ -1146,7 +1165,7 @@ Texture GetTileset(enum TILESET ts)
 
 void DrawTextBoxed(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint)
 {
-    DrawTextBoxedSelectable(font, text, rec, fontSize, spacing, wordWrap, tint, 0, 0, WHITE, WHITE);
+    DrawTextBoxedSelectable(font, text, rec, fontSize, spacing, wordWrap, tint, 0, 0, *white, *white);
 }
 
 // Draw text using font inside rectangle limits with support for text selection

@@ -30,7 +30,7 @@ typedef struct CreatureBaseStats
     char* name;
     enum TILESET tileset;
     Vector2 tileLookupPosition;
-    Color color;
+    Color *color;
 
     short ticksUntilNextTurn;
     short currentHealth;
