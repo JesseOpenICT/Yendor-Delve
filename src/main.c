@@ -7,6 +7,7 @@
 #include "drawing.h"
 #include "constants.h"
 #include "state.h"
+#include "colors.h"
 
 static SDL_GameController *activeController = NULL;
 static SDL_JoystickID activeControllerId = -1;
@@ -78,6 +79,7 @@ int main()
 	SetTextureFilter(basicFont.texture, TEXTURE_FILTER_TRILINEAR);
 	basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 	SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
+	set_palette(appState.settings.palette);
 
 	creatureAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/creatures_transparent.png");
 	itemAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/items_transparent.png");
@@ -283,7 +285,7 @@ void HandleDrawing()
     camera.zoom   = scale;
 
 	BeginDrawing();
-	ClearBackground(BLACK);
+	ClearBackground(*black);
 
 	switch (appState.appState)
 	{
@@ -422,6 +424,7 @@ void HandleSettingsInput()
 			case SET_ACTION_SPEED:
 			appState.settings.actionSpeed = (appState.settings.actionSpeed + 1) % 4;
 			break;
+
 			case SET_FONT:
 			appState.settings.font = (appState.settings.font + 1) % 2;
 			basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
@@ -429,14 +432,22 @@ void HandleSettingsInput()
 			basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 			SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 			break;
+			
+			case SET_PALETTE:
+			appState.settings.palette = (appState.settings.palette + 1) % PaletteAmount;
+			set_palette(appState.settings.palette);
+			break;			
+			
 			case SET_WINDOWED:
 			appState.settings.windowed = !appState.settings.windowed;
 			SetWindowSize(appState.settings.windowed?SCREEN_WIDTH:GetScreenWidth(),appState.settings.windowed?SCREEN_HEIGHT:GetScreenHeight());
 			if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 			break;
+			
 			case SET_SFX_VOLUME:
 			appState.settings.sfxVolume = (appState.settings.sfxVolume + 1) % 10;
 			break;
+			
 			case SET_MUSIC_VOLUME:
 			appState.settings.musicVolume = (appState.settings.musicVolume + 1) % 10;
 			break;
@@ -449,6 +460,7 @@ void HandleSettingsInput()
 			case SET_ACTION_SPEED:
 			appState.settings.actionSpeed = (appState.settings.actionSpeed + 3) % 4;
 			break;
+
 			case SET_FONT:
 			appState.settings.font = (appState.settings.font + 1) % 2;
 			basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
@@ -456,14 +468,22 @@ void HandleSettingsInput()
 			basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 			SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 			break;
+
+			case SET_PALETTE:
+			appState.settings.palette = (appState.settings.palette - 1) % PaletteAmount;
+			set_palette(appState.settings.palette);
+			break;		
+
 			case SET_WINDOWED:
 			appState.settings.windowed = !appState.settings.windowed;
 			SetWindowSize(appState.settings.windowed?SCREEN_WIDTH:GetScreenWidth(),appState.settings.windowed?SCREEN_HEIGHT:GetScreenHeight());
 			if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 			break;
+
 			case SET_SFX_VOLUME:
 			appState.settings.sfxVolume = (appState.settings.sfxVolume + 9) % 10;
 			break;
+
 			case SET_MUSIC_VOLUME:
 			appState.settings.musicVolume = (appState.settings.musicVolume + 9) % 10;
 			break;
