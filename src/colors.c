@@ -127,6 +127,34 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){226,245,244,255},//RAYWHITE
     };break;
     
+    case 4: //Overgrown
+    return (Palette_Values){
+        CLITERAL(Color){224,158,114,255},//LIGHTGRAY,
+        CLITERAL(Color){130,88,51,255},//GRAY,
+        CLITERAL(Color){77,52,31,255},//DARKGRAY,
+        YELLOW,
+        GOLD,
+        ORANGE,
+        RED,
+        MAROON,
+        GREEN,
+        LIME,
+        DARKGREEN,
+        SKYBLUE,
+        BLUE,
+        DARKBLUE,
+        PURPLE,
+        VIOLET,
+        DARKPURPLE,
+        BEIGE,
+        BROWN,
+        DARKBROWN,
+        CLITERAL(Color){240,209,184,255},//WHITE,
+        CLITERAL(Color){7,28,1,255},//BLACK,
+        MAGENTA,
+        CLITERAL(Color){240,235,211,255},//RAYWHITE
+    };break;
+
     default: // DEFAULT
     return (Palette_Values){
         LIGHTGRAY,
