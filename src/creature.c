@@ -3,6 +3,7 @@
 #include <string.h>
 #include "creature.h"
 #include "state.h"
+#include "colors.h"
 
 extern struct AppState appState;
 extern ITEM_ID itemPoolTier1[];
@@ -1045,7 +1046,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         abilities[abCount - 2] = AB_SHAPESHIFTER_TRANSFORM;
         abilities[abCount - 1] = AB_WAIT;
         caster->baseStats = targets[0]->baseStats;
-        caster->baseStats.color = BEIGE;
+        caster->baseStats.color = beige;
         caster->abilities = InitAbilities(abilities, abCount);
         caster->abilityCount = abCount;
         AddCreatureToFlicker(caster);
@@ -1331,9 +1332,9 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 break;
                 case 7:
                 AddMessageToFeed("The Mindless One cackles like mad. Something seems to be different...");
-                appState.stateData.gameState.playerTeam[0].stats.baseStats.color = GREEN;
-                appState.stateData.gameState.playerTeam[1].stats.baseStats.color = DARKPURPLE;
-                appState.stateData.gameState.playerTeam[2].stats.baseStats.color = RED;
+                appState.stateData.gameState.playerTeam[0].stats.baseStats.color = green;
+                appState.stateData.gameState.playerTeam[1].stats.baseStats.color = darkpurple;
+                appState.stateData.gameState.playerTeam[2].stats.baseStats.color = red;
                 break;
                 case 8:
                 AddMessageToFeed("The Mindless One grants everyone 20 Mastery.");

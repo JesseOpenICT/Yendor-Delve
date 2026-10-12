@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "colors.h"
 
 Enemy InitEnemyData(ENEMY_ID id)
 {
@@ -14,7 +15,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Empty Space",
                     .tileset = TL_GENERAL,
                     .tileLookupPosition = (Vector2){1,0},
-                    .color = GRAY,
+                    .color = gray,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 0,
@@ -52,7 +53,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Mindless Spawn",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){10,14},
-                    .color = DARKPURPLE,
+                    .color = darkpurple,
 
                     .ticksUntilNextTurn = 100,
                     .currentHealth = 150,
@@ -90,7 +91,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Mimic",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){5,14},
-                    .color = BROWN,
+                    .color = brown,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 1000,
@@ -128,7 +129,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Blood Fae Warrior",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){12,3},
-                    .color = RED,
+                    .color = red,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 200,
@@ -166,7 +167,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Blood Fae Mystic",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){13,3},
-                    .color = RED,
+                    .color = red,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 140,
@@ -204,7 +205,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Caustic Cube",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){6,14},
-                    .color = GREEN,
+                    .color = green,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 600,
@@ -242,7 +243,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Caustic Cubeling",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){6,14},
-                    .color = LIME,
+                    .color = lime,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 50,
@@ -280,7 +281,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Tooth Fairy",
                     .tileset = TL_COMMUNITY,
                     .tileLookupPosition = (Vector2){4,4},
-                    .color = RAYWHITE,
+                    .color = raywhite,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 300,
@@ -318,7 +319,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Tooth Golem",
                     .tileset = TL_COMMUNITY,
                     .tileLookupPosition = (Vector2){5,4},
-                    .color = RAYWHITE,
+                    .color = raywhite,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 200,
@@ -356,7 +357,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Starving Revenant",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){4,6},
-                    .color = SKYBLUE,
+                    .color = skyblue,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 200,

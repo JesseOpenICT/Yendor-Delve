@@ -105,6 +105,7 @@ struct Settings
 {
 	enum ACTION_SPEED actionSpeed;
 	enum FONT_SELECTION font;
+	enum COLOR_SELECTION palette;
 	char character1;
 	char character2;
 	char character3;

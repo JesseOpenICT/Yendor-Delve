@@ -18,3 +18,8 @@ Bloep
 King of Quiek  
 Pholidia  
 Sofus  
+
+**Additional programming**
+Jtad
+
+Note from Jtad- Don't forget to credit yourself too!
