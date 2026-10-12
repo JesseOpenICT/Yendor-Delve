@@ -70,12 +70,13 @@ int main()
 	inputHeld = 0;
 
 	camera.zoom = 1.0f;
+	InitAppState(AS_MAIN_MENU);
 
 	titleFont = LoadFontEx("assets/fonts/KAISG.TTF", 120, 0, 0);
 	SetTextureFilter(titleFont.texture, TEXTURE_FILTER_TRILINEAR);
-	basicFont = LoadFontEx("assets/fonts/alagard.ttf", 64, 0, 0);
+	basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
 	SetTextureFilter(basicFont.texture, TEXTURE_FILTER_TRILINEAR);
-	basicFontLarger = LoadFontEx("assets/fonts/alagard.ttf", 128, 0, 0);
+	basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 	SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 
 	creatureAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/creatures_transparent.png");
@@ -90,7 +91,6 @@ int main()
 	srand(time(NULL));
 	InitEncounterPools();
 	InitItemPools();
-	InitAppState(AS_MAIN_MENU);
 
 	// game loop
 	while (!markedToClose) // run the loop until the user presses ESCAPE or presses the Close button on the window
@@ -424,6 +424,10 @@ void HandleSettingsInput()
 			break;
 			case SET_FONT:
 			appState.settings.font = (appState.settings.font + 1) % 2;
+			basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
+			SetTextureFilter(basicFont.texture, TEXTURE_FILTER_TRILINEAR);
+			basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
+			SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 			break;
 			case SET_WINDOWED:
 			appState.settings.windowed = !appState.settings.windowed;
@@ -447,6 +451,10 @@ void HandleSettingsInput()
 			break;
 			case SET_FONT:
 			appState.settings.font = (appState.settings.font + 1) % 2;
+			basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
+			SetTextureFilter(basicFont.texture, TEXTURE_FILTER_TRILINEAR);
+			basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
+			SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 			break;
 			case SET_WINDOWED:
 			appState.settings.windowed = !appState.settings.windowed;
