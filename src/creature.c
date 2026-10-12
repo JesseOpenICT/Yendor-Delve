@@ -480,7 +480,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         sprintf(strnum, "%.0f", ((2 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, " (10 + 15% Mastery) Bleed to an enemy and remove ");
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (2 + 20% Mastery) of their Armour. If there's no more Armour to remove, apply five times as much Pain instead.");
+        result = CombineStrings(result, " (2 + 20% Mastery) of their Armour. If there's no more Armour to remove, apply twice as much Pain instead.");
         return result;
     case AB_RIPPER_EVISCERATE:
         result = "Deal unavoidable damage to an enemy equal to twice the sum of negative effects they carry.";
@@ -1140,7 +1140,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
             sprintf(strnum, "%d", targets[0]->baseStats.armor + targets[0]->encounterStats.armor + targets[0]->itemStats.armor);
             message = CombineStrings(message, strnum);
             message = CombineStrings(message, " Armour and applying ");
-            sprintf(strnum, "%d", ripperRendPain * 5);
+            sprintf(strnum, "%d", ripperRendPain * 2);
             message = CombineStrings(message, strnum);
             message = CombineStrings(message, " Pain.");
         }
@@ -1155,7 +1155,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddCreatureToFlicker(targets[0]);
         targets[0]->statusEffects[SE_BLEED] += primaryEffectValue;
         targets[0]->encounterStats.armor -= ripperRendShred - ripperRendPain;
-        targets[0]->statusEffects[SE_PAIN] += ripperRendPain * 5;
+        targets[0]->statusEffects[SE_PAIN] += ripperRendPain * 2;
         DealDamage(0, targets[0], true, caster);
         break;
     case AB_RIPPER_EVISCERATE:

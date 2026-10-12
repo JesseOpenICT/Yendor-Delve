@@ -14,6 +14,7 @@ extern RenderTexture2D renderTexture;
 extern Texture boneFrame;
 
 void DrawMainMenu();
+void DrawSettings();
 void DrawGameplay();
 void DrawBattle();
 void DrawDungeonScreen();
