@@ -796,7 +796,8 @@ void HandleEnemyTurn()
 		if (appState.stateData.gameState.stateData.battleState.statePauseTimer <= 0)
 		{
 			appState.stateData.gameState.stateData.battleState.flickeringMask = 0;
-			appState.stateData.gameState.stateData.battleState.battleState = appState.stateData.gameState.stateData.battleState.currentActingEntity < 3 ? BS_PLAYER_ABILITY_SELECT : BS_ENEMY_TURN;
+			appState.stateData.gameState.stateData.battleState.battleState = appState.stateData.gameState.stateData.battleState.currentActingEntity < 3 ? BS_PLAYER_OVERVIEW : BS_ENEMY_TURN;
+			appState.stateData.gameState.stateData.battleState.horizontalSelection = 0;
 		}
 	}
 
