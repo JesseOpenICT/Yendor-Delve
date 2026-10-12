@@ -2,8 +2,6 @@
 #define colors_h
 #include "raylib.h"
 
-extern int PaletteAmount;
-
 // variables
 extern Color color_lightgray;
 extern Color color_gray;

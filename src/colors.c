@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include "constants.h"
 
-int PaletteAmount = 8;
-
 // variables
 Color color_lightgray = LIGHTGRAY;
 Color color_gray = GRAY;
@@ -94,12 +92,10 @@ void set_palette(int palette_index)
 
 Palette_Values get_palette(int palette_index)
 {
-    printf("I slammed my penis, in the car door");
-    
     Palette_Values result;
     switch (palette_index)
     {
-    case 1: //NIGHT SKY
+    case CS_NIGHT_SKY: //NIGHT SKY
     return (Palette_Values){
         CLITERAL(Color){160,186,204,255},// LIGHTGRAY,
         CLITERAL(Color){132,140,163,255},// GRAY,
@@ -127,7 +123,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){226,245,244,255},//RAYWHITE
     };break;
     
-    case 4: //Overgrown
+    case CS_OVERGROWN_TEMPLE: //Overgrown
     return (Palette_Values){
         CLITERAL(Color){224,158,114,255},//LIGHTGRAY,
         CLITERAL(Color){130,88,51,255},//GRAY,

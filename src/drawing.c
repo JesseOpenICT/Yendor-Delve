@@ -161,14 +161,9 @@ void DrawSettings()
     DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? *white : *gray);
     switch(appState.settings.palette)
     {
-        case CLASSIC:text = "Classic";break;
-        case NIGHT_SKY:text = "Night Sky";break;
-        case OCEANIC_DEPTHS:text = "Oceanic Depths";break;
-        case VOLCANIC_DUNGEON:text = "Volcanic Dungeon";break;
-        case OVERGROWN_TEMPLE:text = "Overgrown Temple";break;
-        case GOLDEN_VAULT:text = "Golden Vault";break;
-        case FOOTNOTE:text = "Footnote";break;
-        case PEACEFUL_GARDEN:text = "Peaceful Garden";break;
+        case CS_CLASSIC:text = "Classic";break;
+        case CS_NIGHT_SKY:text = "Night Sky";break;
+        case CS_OVERGROWN_TEMPLE:text = "Overgrown Temple";break;
     }
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;

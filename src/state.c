@@ -105,7 +105,7 @@ struct Settings GetDefaultConfig()
 	{
 		.actionSpeed = ACT_REGULAR,
 		.font = FS_FANCY,
-		.palette = CLASSIC,
+		.palette = CS_CLASSIC,
 		.musicVolume = 7,
 		.sfxVolume = 6,
 		.windowed = false,
