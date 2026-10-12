@@ -97,27 +97,27 @@ void DrawSettings()
 	struct SettingsState* state = (appState.appState == AS_SETTINGS) ? &appState.stateData.settingsState : &appState.stateData.gameState.settings;
 
     Vector2 textSize = MeasureTextEx(titleFont, "Settings", 80, 0);
-    Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 32};
+    Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 16};
     DrawTextEx(titleFont, "Settings", textPosition, 80, 0, *lightgray);
-    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){16, 142 + (MENU_BUTTON_SPACING * (int)(*state).currentSelection), 
+    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){16, 110 + (MENU_BUTTON_SPACING * (int)(*state).currentSelection), 
         624, 64}, (Vector2){0,0}, 0, *gray);
     textPosition.x = 48;
-    textPosition.y = 160;
+    textPosition.y = 128;
     DrawTextEx(basicFontLarger, "Action Speed:", textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? *white : *gray);
     textPosition.x = 48;
-    textPosition.y = 160 + MENU_BUTTON_SPACING;
+    textPosition.y = 128 + MENU_BUTTON_SPACING;
     DrawTextEx(basicFontLarger, "Font:", textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? *white : *gray);
     textPosition.x = 48;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 2;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 2;
     DrawTextEx(basicFontLarger, "Palette:", textPosition, 32, 0, ((*state).currentSelection == SET_PALETTE) ? *white : *gray);
     textPosition.x = 48;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 3;
     DrawTextEx(basicFontLarger, "Windowed:", textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? *white : *gray);
     textPosition.x = 48;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 4;
     DrawTextEx(basicFontLarger, "Effects Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? *white : *gray);
     textPosition.x = 48;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 5;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 5;
     DrawTextEx(basicFontLarger, "Music Volume:", textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? *white : *gray);
 
     char* text;
@@ -139,7 +139,7 @@ void DrawSettings()
     }
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160;
+    textPosition.y = 128;
     DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_ACTION_SPEED) ? *white : *gray);
     switch(appState.settings.font)
     {
@@ -152,12 +152,12 @@ void DrawSettings()
     }
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING;
+    textPosition.y = 128 + MENU_BUTTON_SPACING;
     DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_FONT) ? *white : *gray);
     text = (appState.settings.windowed) ? "Yes" : "No";
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 3;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 3;
     DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_WINDOWED) ? *white : *gray);
     switch(appState.settings.palette)
     {
@@ -167,17 +167,17 @@ void DrawSettings()
     }
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING*2;
+    textPosition.y = 128 + MENU_BUTTON_SPACING*2;
     DrawTextEx(basicFontLarger, text, textPosition, 32, 0, ((*state).currentSelection == SET_PALETTE) ? *white : *gray);
     sprintf(strnum, "%d", appState.settings.sfxVolume);
     textSize = MeasureTextEx(basicFontLarger, strnum, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 4;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 4;
     DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_SFX_VOLUME) ? *white : *gray);
     sprintf(strnum, "%d", appState.settings.musicVolume);
     textSize = MeasureTextEx(basicFontLarger, strnum, 32, 0);
     textPosition.x = 608 - textSize.x;
-    textPosition.y = 160 + MENU_BUTTON_SPACING * 5;
+    textPosition.y = 128 + MENU_BUTTON_SPACING * 5;
     DrawTextEx(basicFontLarger, strnum, textPosition, 32, 0, ((*state).currentSelection == SET_MUSIC_VOLUME) ? *white : *gray);
 
     EndMode2D();
