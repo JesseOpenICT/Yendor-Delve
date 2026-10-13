@@ -127,7 +127,7 @@ void ReadInput()
 {
 	inputThisFrame = 0;
 
-	if (IsKeyPressed(KEY_K))
+	if (IsKeyPressed(KEY_T))
 	{
 		markedToClose = true;
 	}
@@ -138,19 +138,19 @@ void ReadInput()
 		if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 	}
 
-	if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
+	if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
 	{
 		inputThisFrame = inputThisFrame | K_UP;
 	}
-	if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
+	if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
 	{
 		inputThisFrame = inputThisFrame | K_DOWN;
 	}
-	if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
+	if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
 	{
 		inputThisFrame = inputThisFrame | K_LEFT;
 	}
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 	{
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
