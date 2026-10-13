@@ -95,6 +95,34 @@ Palette_Values get_palette(int palette_index)
     Palette_Values result;
     switch (palette_index)
     {
+    case CS_EPHEMERA:
+    return (Palette_Values){
+        CLITERAL(Color){222,214,222,255},// LIGHTGRAY,
+        CLITERAL(Color){164,157,164,255},// GRAY,
+        CLITERAL(Color){164,157,164,255},// DARKGRAY,
+        CLITERAL(Color){222,214,222,255},// YELLOW,
+        CLITERAL(Color){230,234,238,255},// GOLD
+        CLITERAL(Color){164,157,164,255},//ORANGE,
+        CLITERAL(Color){213,190,205,255},// RED,
+        CLITERAL(Color){197,178,189,255},// MAROON,
+        CLITERAL(Color){115,129,123,255},//GREEN,
+        CLITERAL(Color){131,145,139,255},//LIME,
+        CLITERAL(Color){98,105,106,255},//DARKGREEN,
+        CLITERAL(Color){131,137,139,255},//SKYBLUE,
+        CLITERAL(Color){98,105,106,255},//BLUE,
+        CLITERAL(Color){90,85,90,255},//DARKBLUE,
+        CLITERAL(Color){164,157,164,255},//PURPLE,
+        CLITERAL(Color){213,190,205,255},//VIOLET,
+        CLITERAL(Color){74,60,74,255},//DARKPURPLE,
+        CLITERAL(Color){222,214,222,255},//BEIGE,
+        CLITERAL(Color){164,157,164,255},//BROWN,
+        CLITERAL(Color){90,85,90,255},//DARKBROWN,
+        CLITERAL(Color){230,234,238,255},// WHITE,
+        CLITERAL(Color){57,44,49,255},// BLACK,
+        CLITERAL(Color){197,178,189,255},//MAGENTA,
+        CLITERAL(Color){230,234,238,255},//RAYWHITE
+    };break;
+
     case CS_NIGHT_SKY: //NIGHT SKY
     return (Palette_Values){
         CLITERAL(Color){160,186,204,255},// LIGHTGRAY,
@@ -123,7 +151,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){226,245,244,255},//RAYWHITE
     };break;
     
-    case CS_OVERGROWN_TEMPLE: //Overgrown
+    /*case CS_OVERGROWN_TEMPLE: //Overgrown
     return (Palette_Values){
         CLITERAL(Color){224,158,114,255},//LIGHTGRAY,
         CLITERAL(Color){130,88,51,255},//GRAY,
@@ -149,7 +177,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){7,28,1,255},//BLACK,
         MAGENTA,
         CLITERAL(Color){240,235,211,255},//RAYWHITE
-    };break;
+    };break;*/
 
     default: // DEFAULT
     return (Palette_Values){

@@ -470,7 +470,7 @@ void HandleSettingsInput()
 			break;
 
 			case SET_PALETTE:
-			appState.settings.palette = (appState.settings.palette - 1) % CS_LENGTH;
+			appState.settings.palette = (appState.settings.palette + CS_LENGTH - 1) % CS_LENGTH;
 			set_palette(appState.settings.palette);
 			break;		
 
