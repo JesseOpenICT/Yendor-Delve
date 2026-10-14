@@ -163,58 +163,58 @@ void ReadInput()
 		inputThisFrame = inputThisFrame | K_BACK;
 	}
 
-	if (!IsHeld(K_UP) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_UP) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, false)))
+	if (!IsHeld(K_UP) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_UP) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, false) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTY, false)))
 	{
 		inputHeld = inputThisFrame | K_UP;
 		inputThisFrame = inputThisFrame | K_UP;
 	}
-	if (!IsHeld(K_DOWN) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, true)))
+	if (!IsHeld(K_DOWN) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, true) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTY, true)))
 	{
 		inputHeld = inputThisFrame | K_DOWN;
 		inputThisFrame = inputThisFrame | K_DOWN;
 	}
-	if (!IsHeld(K_LEFT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, false)))
+	if (!IsHeld(K_LEFT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, false) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTX, false)))
 	{
 		inputHeld = inputThisFrame | K_LEFT;
 		inputThisFrame = inputThisFrame | K_LEFT;
 	}
-	if (!IsHeld(K_RIGHT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, true)))
+	if (!IsHeld(K_RIGHT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, true) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTX, true)))
 	{
 		inputHeld = inputThisFrame | K_RIGHT;
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
-	if (!IsHeld(K_CONFIRM) && SDLButtonPressed(SDL_CONTROLLER_BUTTON_A))
+	if (!IsHeld(K_CONFIRM) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) || SDLButtonPressed(SDL_CONTROLLER_BUTTON_A)))
 	{
 		inputHeld = inputThisFrame | K_CONFIRM;
 		inputThisFrame = inputThisFrame | K_CONFIRM;
 	}
-	if (!IsHeld(K_BACK) && SDLButtonPressed(SDL_CONTROLLER_BUTTON_B))
+	if (!IsHeld(K_BACK) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_START) || SDLButtonPressed(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) || SDLButtonPressed(SDL_CONTROLLER_BUTTON_B)))
 	{
 		inputHeld = inputThisFrame | K_BACK;
 		inputThisFrame = inputThisFrame | K_BACK;
 	}
 
-	if (IsHeld(K_UP) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_UP) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, false)))
+	if (IsHeld(K_UP) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_UP) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, false) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTY, false)))
 	{
 		inputHeld = inputThisFrame & ~K_UP;
 	}
-	if (IsHeld(K_DOWN) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_DOWN) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, true)))
+	if (IsHeld(K_DOWN) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_DOWN) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, true) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTY, true)))
 	{
 		inputHeld = inputThisFrame & ~K_DOWN;
 	}
-	if (IsHeld(K_LEFT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_LEFT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, false)))
+	if (IsHeld(K_LEFT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_LEFT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, false) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTX, false)))
 	{
 		inputHeld = inputThisFrame & ~K_LEFT;
 	}
-	if (IsHeld(K_RIGHT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, true)))
+	if (IsHeld(K_RIGHT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, true) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTX, true)))
 	{
 		inputHeld = inputThisFrame & ~K_RIGHT;
 	}
-	if (IsHeld(K_CONFIRM) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_A))
+	if (IsHeld(K_CONFIRM) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_A) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)))
 	{
 		inputHeld = inputThisFrame & ~K_CONFIRM;
 	}
-	if (IsHeld(K_BACK) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_B))
+	if (IsHeld(K_BACK) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_B) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_START)))
 	{
 		inputHeld = inputThisFrame & ~K_BACK;
 	}
