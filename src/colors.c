@@ -95,6 +95,34 @@ Palette_Values get_palette(int palette_index)
     Palette_Values result;
     switch (palette_index)
     {
+    case CS_FADING:
+    return (Palette_Values){
+        CLITERAL(Color){140,124,121,255},// LIGHTGRAY,
+        CLITERAL(Color){125,123,98,255},// GRAY,
+        CLITERAL(Color){100,83,85,255},// DARKGRAY,
+        CLITERAL(Color){221,207,153,255},// YELLOW,
+        CLITERAL(Color){204,168,123,255},// GOLD
+        CLITERAL(Color){185,122,96,255},//ORANGE,
+        CLITERAL(Color){156,82,78,255},// RED,
+        CLITERAL(Color){119,66,81,255},// MAROON,
+        CLITERAL(Color){142,159,125,255},//GREEN,
+        CLITERAL(Color){170,162,93,255},//LIME,
+        CLITERAL(Color){91,125,115,255},//DARKGREEN,
+        CLITERAL(Color){125,123,98,255},//SKYBLUE,
+        CLITERAL(Color){91,125,115,255},//BLUE,
+        CLITERAL(Color){78,84,99,255},//DARKBLUE,
+        CLITERAL(Color){119,66,81,255},//PURPLE,
+        CLITERAL(Color){140,124,121,255},//VIOLET,
+        CLITERAL(Color){100,83,85,255},//DARKPURPLE,
+        CLITERAL(Color){140,124,121,255},//BEIGE,
+        CLITERAL(Color){132,109,89,255},//BROWN,
+        CLITERAL(Color){100,83,85,255},//DARKBROWN,
+        CLITERAL(Color){169,156,141,255},// WHITE,
+        CLITERAL(Color){75,61,68,255},// BLACK,
+        CLITERAL(Color){119,66,81,255},//MAGENTA,
+        CLITERAL(Color){169,156,141,255},//RAYWHITE
+    };break;
+
     case CS_GREENORANGE:
     return (Palette_Values){
         CLITERAL(Color){0,148,121,255},// LIGHTGRAY,
@@ -117,12 +145,11 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){255,192,115,255},//BEIGE,
         CLITERAL(Color){221,89,40,255},//BROWN,
         CLITERAL(Color){173,47,23,255},//DARKBROWN,
-        CLITERAL(Color){235,255,255,255},// WHITE,
+        CLITERAL(Color){255,255,255,255},// WHITE,
         CLITERAL(Color){0,0,0,255},// BLACK,
         CLITERAL(Color){197,110,212,255},//MAGENTA,
         CLITERAL(Color){255,255,255,255},//RAYWHITE
     };break;
-
     
     /*case CS_EPHEMERA:
     return (Palette_Values){

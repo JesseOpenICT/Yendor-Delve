@@ -162,6 +162,7 @@ void DrawSettings()
     switch(appState.settings.palette)
     {
         case CS_CLASSIC:text = "Classic";break;
+        case CS_FADING:text = "Fading";break;
         case CS_GREENORANGE:text = "Green Orange";break;
         //case CS_EPHEMERA:text = "Ephemeral";break;
         case CS_NIGHT_SKY:text = "Night Sky";break;
