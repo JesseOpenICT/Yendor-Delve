@@ -1125,6 +1125,11 @@ void DrawCharacterSelectOptionFrame(char index)
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){LAYOUT_SPACING + (160 * index), SCREEN_HEIGHT - (SCREEN_WIDTH / 4) + LAYOUT_SPACING,
         (SCREEN_WIDTH / 4) - 2 * LAYOUT_SPACING, (SCREEN_WIDTH / 4) - 2 * LAYOUT_SPACING}, (Vector2){0,0}, 0,
         (appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected == index) ? *gold : *gray);
+    if(appState.stateData.gameState.stateData.characterSelectState.currentSlotSelected == index && index!=3)
+    {
+        DrawTexturePro(GetTileset(TL_COMMUNITY), (Rectangle){16,96,16,16},(Rectangle){160*index+72,360, 16,16},(Vector2){0,0},0,*darkgray);
+        DrawTexturePro(GetTileset(TL_COMMUNITY), (Rectangle){0,96,16,16},(Rectangle){160*index+72,434, 16,16},(Vector2){0,0},0,*darkgray);
+    }
 }
 
 void DrawPopupMessage()
