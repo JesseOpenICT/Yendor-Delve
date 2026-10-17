@@ -618,9 +618,9 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (100 + 200% Mastery) ticks.");
         return result;
     case AB_STEVENANT_SIPHON:
-        sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Apply ", strnum);
-        result = CombineStrings(result, " (10 + 100% Mastery) Exhaustion to an enemy and gain that much Speed.");
+        result = CombineStrings(result, " (10 + 40% Mastery) Exhaustion to an enemy and gain that much Speed.");
         return result;
     case AB_STEVENANT_PHASING_STRIKE:
         sprintf(strnum, "%.0f", ((30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0)) * CalculateEffectAmplification(caster, true));
@@ -1645,7 +1645,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         targets[0]->baseStats.ticksUntilNextTurn += primaryEffectValue;
         break;
     case AB_STEVENANT_SIPHON:
-        primaryEffectValue = (10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0) * CalculateEffectAmplification(caster, true);
+        primaryEffectValue = (10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " siphons ");
         message = CombineStrings(message, targets[0]->baseStats.name);
