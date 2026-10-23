@@ -483,7 +483,7 @@ Ability InitAbility(ABILITY id)
             id,
             "Calcinize",
             250,
-            AF_TARGETS_ENEMIES+AF_AOE,
+            AF_TARGETS_ENEMIES,
         };
         case AB_TOOFAIRY_BONEDUST:
         return (Ability)
@@ -491,7 +491,7 @@ Ability InitAbility(ABILITY id)
             id,
             "Bonedust",
             50,
-            AF_TARGETS_ALLIES,
+            AF_TARGETS_ALLIES+AF_AOE,
         };
         case AB_TOOTHOLEM_STRIKE:
         return (Ability)
@@ -507,7 +507,7 @@ Ability InitAbility(ABILITY id)
             id,
             "Harden",
             50,
-            AF_TARGETS_ENEMIES,
+            AF_TARGETS_SELF,
         };
         case AB_TOOTHOLEM_PROTECT:
         return (Ability)

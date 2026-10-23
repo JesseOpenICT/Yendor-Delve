@@ -621,16 +621,16 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         sprintf(strnum, "%.0f", ((30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.9)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Deal ", strnum);
         result = CombineStrings(result, " (30 + 90% Mastery) damage to an enemy and remove ");
-        sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.5)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%.0f", ((2 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (10 + 50% Mastery) of their Mastery and Defense.");
+        result = CombineStrings(result, " (2 + 40% Mastery) of their Mastery and Defense.");
         return result;
     case AB_CAUCUBE_SPLIT:
         return "Create a Cubeling.";
     case AB_CAUCUBE_METABOLIZE:
-        sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
-        result = CombineStrings("Gain 20 Mastery and expand your Health by ", strnum);
-        result = CombineStrings(result, " (100 + 20% Mastery) points.");
+        sprintf(strnum, "%.0f", ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Gain 10 Mastery and gain ", strnum);
+        result = CombineStrings(result, " (100 + 20% Mastery) Shield.");
         return result;
     case AB_TOOFAIRY_SUMMON:
         sprintf(strnum, "%.0f", ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6)) * CalculateEffectAmplification(caster, true));
@@ -1689,6 +1689,160 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->baseStats.ticksUntilNextTurn += primaryEffectValue;
+        break;
+    case AB_CAUCUBE_NIBBLE:
+        primaryEffectValue = (30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.9) * CalculateEffectAmplification(caster, true);
+        short caucubeNibbleMasteryLoss = (2 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        message = CombineStrings((*caster).baseStats.name, " covers ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, " with digestive oozes, dealing ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " damage and degrading their equipment, lowering their Mastery and Defense by ");
+        sprintf(strnum, "%d", caucubeNibbleMasteryLoss);
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, ".");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        targets[0]->encounterStats.mastery -= caucubeNibbleMasteryLoss;
+        targets[0]->encounterStats.defense -= caucubeNibbleMasteryLoss;
+        DealDamage(primaryEffectValue, targets[0], false, caster);
+        break;
+    case AB_CAUCUBE_SPLIT:
+        bool hasSummonedCubeling;
+        for(int i = 0; i < 3; i++)
+            {
+                if(appState.stateData.gameState.stateData.battleState.enemies[i].stats.baseStats.currentHealth > 0) continue;
+
+                appState.stateData.gameState.stateData.battleState.enemies[i] = InitEnemyData(EN_CAUSTIC_CUBE_CLONE);
+                message = CombineStrings((*caster).baseStats.name, " spawns a Cubeling next to itself.");
+                AddCreatureToFlicker(&appState.stateData.gameState.stateData.battleState.enemies[i].stats);
+                AddMessageToFeed(message);
+                hasSummonedCubeling = true;
+                break;
+            }
+            if(!hasSummonedCubeling)
+            {
+                message = CombineStrings((*caster).baseStats.name, " attempted to produce a cubeling but there's no more room.");
+                AddMessageToFeed(message);
+            }
+    case AB_CAUCUBE_METABOLIZE:
+        primaryEffectValue = (40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " makes its acid more potent and voluminous, gaining 10 Mastery and ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Shield.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(caster);
+        caster->encounterStats.shield += primaryEffectValue;
+        caster->encounterStats.mastery += 10;
+        break;
+    case AB_TOOFAIRY_SUMMON:
+        primaryEffectValue = (40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        if(appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth > 0)
+        {
+            if(strcmp( appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.name, "Tooth Golem") == 0)
+            {
+                message = CombineStrings((*caster).baseStats.name, " nurtures the dental abomination, expanding its Health by ");
+                message = CombineStrings(message, strnum);
+                message = CombineStrings(message, ".");
+                AddMessageToFeed(message);
+                AddCreatureToFlicker(&appState.stateData.gameState.stateData.battleState.enemies[1].stats);
+                appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.maxHealth += primaryEffectValue;
+                appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth += primaryEffectValue;
+            }
+            else
+            {
+                message = CombineStrings((*caster).baseStats.name, " causes a sudden spurt of growing teeth inside ");
+                message = CombineStrings(message, appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.name);
+                message = CombineStrings(message, "'s body, dealing ");
+                message = CombineStrings(message, strnum);
+                message = CombineStrings(message, " unavoidable internal damage.");
+                AddMessageToFeed(message);
+                AddCreatureToFlicker(&appState.stateData.gameState.stateData.battleState.enemies[1].stats);
+                DealDamage(primaryEffectValue, &appState.stateData.gameState.stateData.battleState.enemies[1].stats,true, caster);
+            }
+        }
+        else
+        {
+            message = CombineStrings((*caster).baseStats.name, " creates an animate golem out of teeth.");
+            AddMessageToFeed(message);
+            appState.stateData.gameState.stateData.battleState.enemies[1] = InitEnemyData(EN_TOOTH_GOLEM);
+        }
+        break;
+    case AB_TOOFAIRY_CALCINIZE:
+        primaryEffectValue = (10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
+        short toothfairyCalcinizeDelay = (100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.8) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        message = CombineStrings((*caster).baseStats.name, " calcifies ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, "'s bones, dealing ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " damage and delaying their turn by ");
+        sprintf(strnum, "%d", toothfairyCalcinizeDelay);
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " ticks.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        targets[0]->baseStats.ticksUntilNextTurn += toothfairyCalcinizeDelay;
+        DealDamage(primaryEffectValue, targets[0], false, caster);
+        break;
+        case AB_TOOFAIRY_BONEDUST:
+            primaryEffectValue = 10 * CalculateEffectAmplification(caster, true);
+            sprintf(strnum, "%d", primaryEffectValue);
+            for (int i = 0; i < numberOfTargets; i++)
+            {
+                targets[i]->encounterStats.mastery += primaryEffectValue;
+                targets[i]->encounterStats.armor += 1;
+                AddCreatureToFlicker(targets[i]);
+            }
+            message = CombineStrings((*caster).baseStats.name, " sprinkles bone dust over its allies, granting ");
+            message = CombineStrings(message, strnum);
+            message = CombineStrings(message, " Mastery and 1 Armour to each.");
+            AddMessageToFeed(message);
+            break;
+        case AB_TOOTHOLEM_STRIKE:
+            primaryEffectValue = (100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.5) * CalculateEffectAmplification(caster, true);
+            short toothgolemStrikePain = ((caster->baseStats.defense + caster->encounterStats.defense + caster->itemStats.defense) * 0.2) * CalculateEffectAmplification(caster, true);
+            sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+            message = CombineStrings((*caster).baseStats.name, " slams its jagged appendage into ");
+            message = CombineStrings(message, targets[0]->baseStats.name);
+            message = CombineStrings(message, ", dealing ");
+            message = CombineStrings(message, strnum);
+            message = CombineStrings(message, " damage and applying ");
+            sprintf(strnum, "%d", toothgolemStrikePain);
+            message = CombineStrings(message, strnum);
+            message = CombineStrings(message, " Pain.");
+            AddMessageToFeed(message);
+            AddCreatureToFlicker(targets[0]);
+            targets[0]->statusEffects[SE_PAIN] += toothgolemStrikePain;
+            DealDamage(primaryEffectValue, targets[0], false, caster);
+            break;
+        case AB_TOOTHOLEM_PROTECT:
+            primaryEffectValue = (40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0) * CalculateEffectAmplification(caster, true);
+            sprintf(strnum, "%d", primaryEffectValue);
+            for (int i = 0; i < numberOfTargets; i++)
+            {
+                targets[i]->encounterStats.defense += 10;
+                targets[i]->encounterStats.shield += primaryEffectValue;
+                AddCreatureToFlicker(targets[i]);
+            }
+            message = CombineStrings((*caster).baseStats.name, " creates a protective barrier from excess bone mass, granting 10 Defense and ");
+            message = CombineStrings(message, strnum);
+            message = CombineStrings(message, " Shield to each.");
+            AddMessageToFeed(message);
+            break;
+        case AB_TOOTHOLEM_HARDEN:
+        primaryEffectValue = 100 * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " reinforces its exterior, gaining ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Defense and 3 Armour.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(caster);
+        caster->encounterStats.defense += primaryEffectValue;
+        caster->encounterStats.armor += 3;
         break;
     case AB_STEVENANT_SIPHON:
         primaryEffectValue = (10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4) * CalculateEffectAmplification(caster, true);
