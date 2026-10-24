@@ -227,9 +227,9 @@ Item InitItem(ITEM_ID id)
             ES_TORSO,
             CreateEmptyStatBonuses(),
         };
-        result.statBonuses.health = 200;
-        result.statBonuses.armor = 5;
-        result.statBonuses.defense = 100;
+        result.statBonuses.health = 300;
+        result.statBonuses.armor = 8;
+        result.statBonuses.defense = 160;
         result.statBonuses.speed = -30;
         return result;
         case ITEM_JUGGERNAUT_GREATHAMMER:
@@ -257,8 +257,8 @@ Item InitItem(ITEM_ID id)
             ES_HEAD,
             CreateEmptyStatBonuses(),
         };
-        result.statBonuses.armor = 3;
-        result.statBonuses.defense = 60;
+        result.statBonuses.armor = 5;
+        result.statBonuses.defense = 100;
         result.statBonuses.speed = -15;
         return result;
         case ITEM_JUGGERNAUT_LEGGINS:
@@ -271,9 +271,9 @@ Item InitItem(ITEM_ID id)
             ES_LEGS,
             CreateEmptyStatBonuses(),
         };
-        result.statBonuses.health = 100;
-        result.statBonuses.armor = 3;
-        result.statBonuses.defense = 60;
+        result.statBonuses.health = 150;
+        result.statBonuses.armor = 4;
+        result.statBonuses.defense = 80;
         result.statBonuses.speed = -15;
         return result;
         case ITEM_MERCENARY_AXE:
