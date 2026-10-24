@@ -517,8 +517,13 @@ void DrawBattleScreenEnemy(char index)
         (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth / 
         (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
         4, *red);
+    DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 101, 
+        (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield / 
+        (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
+        4, *skyblue);
     char strnum[6];
-    sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth);
+    sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth
+        +appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield);
     Vector2 str_size = MeasureTextEx(basicFontLarger, strnum, 16,0);
     DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2 + 1, 103-str_size.y/2 + 1}, 16,0,*black);
     DrawTextEx(basicFontLarger, strnum, (Vector2){SCREEN_WIDTH - (index+1) * creatureBoxSize + creatureBoxSize/2 - str_size.x/2 - 1, 103-str_size.y/2 - 1}, 16,0,*black);
