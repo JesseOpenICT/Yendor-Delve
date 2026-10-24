@@ -1726,6 +1726,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 message = CombineStrings((*caster).baseStats.name, " attempted to produce a cubeling but there's no more room.");
                 AddMessageToFeed(message);
             }
+            break;
     case AB_CAUCUBE_METABOLIZE:
         primaryEffectValue = (40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", primaryEffectValue);
