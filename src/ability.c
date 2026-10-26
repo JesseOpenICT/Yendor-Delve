@@ -507,7 +507,7 @@ Ability InitAbility(ABILITY id)
             id,
             "Harden",
             50,
-            AF_TARGETS_SELF,
+            AF_TARGETS_ENEMIES,
         };
         case AB_TOOTHOLEM_PROTECT:
         return (Ability)
@@ -540,6 +540,62 @@ Ability InitAbility(ABILITY id)
             "Ectoplasmic Manifestation",
             100,
             AF_TARGETS_SELF,
+        };
+        case AB_BANDIT_STRONGMAN_SLAM:
+        return (Ability)
+        {
+            id,
+            "Crushing Slam",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_JESTER_MOCK:
+        return (Ability)
+        {
+            id,
+            "Mock",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_JESTER_BACKFLIP:
+        return (Ability)
+        {
+            id,
+            "Backflip",
+            100,
+            AF_TARGETS_SELF,
+        };
+        case AB_BANDIT_JESTER_PRANK:
+        return (Ability)
+        {
+            id,
+            "Prank",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_CUTPURSE_SHIV:
+        return (Ability)
+        {
+            id,
+            "Shiv",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_CUTPURSE_DISCOMBOBULATE:
+        return (Ability)
+        {
+            id,
+            "Discombobulate",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE:
+        return (Ability)
+        {
+            id,
+            "Invigorating Smoke",
+            100,
+            AF_AOE + AF_TARGETS_ALLIES,
         };
     }
 }

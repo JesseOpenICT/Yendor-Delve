@@ -386,5 +386,119 @@ Enemy InitEnemyData(ENEMY_ID id)
             AB_WAIT,
         };
         break;
+        
+        case EN_BANDIT_STRONGMAN:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Strongman",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){0,4},
+                    .color = orange,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 500,
+                    .maxHealth = 500,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 80,
+                    .defense = 100,
+                    .armor = 1,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_STRONGMAN_SLAM,AB_WAIT}, 2),
+                .abilityCount = 2,
+            },
+            TG_TRUE_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case EN_BANDIT_CUTTHROAT:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Cutpurse",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){0,1},
+                    .color = lightgray,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 200,
+                    .maxHealth = 200,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 150,
+                    .defense = 50,
+                    .armor = 0,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_CUTPURSE_SHIV, AB_BANDIT_CUTPURSE_DISCOMBOBULATE,AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE,AB_WAIT}, 4),
+                .abilityCount = 4,
+            },
+            TG_BACK,
+            AB_WAIT,
+        };
+        break;
+        
+        case EN_BANDIT_JESTER:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Jester",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){5,0},
+                    .color = maroon,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 100,
+                    .maxHealth = 100,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 160,
+                    .defense = 500,
+                    .armor = 0,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_JESTER_MOCK, AB_BANDIT_JESTER_BACKFLIP,AB_BANDIT_JESTER_PRANK,AB_WAIT}, 4),
+                .abilityCount = 4,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
     }
 }

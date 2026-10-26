@@ -63,7 +63,7 @@ void InitEncounterPools()
     encounterPoolTier1[4] = ENC_CAUSTIC_CUBE;
     encounterPoolTier1[5] = ENC_TOOTH_FAERIES;
     encounterPoolTier1[6] = ENC_GHOSTS_EASY;
-    encounterPoolTier1[7] = ENC_BLOOD_FAERIES;
+    encounterPoolTier1[7] = ENC_BANDITS_EASY;
 }
 
 void InitItemPools()
@@ -176,6 +176,18 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 skyblue,
                 "Sorrowful dead, intangible and cold. Stay too long in their presence and you'll become motionless as well.",
                 {EN_STARVING_REVENANT, EN_NONE, EN_STARVING_REVENANT},
+                false,
+            };
+        case ENC_BANDITS_EASY:
+            return (Encounter)
+            {
+                id,
+                "Bandit Troupe",
+                TL_CREATURES,
+                (Vector2){0,1},
+                gray,
+                "An adventuring party gone rogue.",
+                {EN_BANDIT_JESTER, EN_BANDIT_STRONGMAN, EN_BANDIT_CUTTHROAT},
                 false,
             };
         default:
