@@ -175,6 +175,10 @@ void TransitionToBattle()
 	appState.stateData.gameState.stateData.battleState.enemies[0] = InitEnemyData(encounter.enemies[0]);
 	appState.stateData.gameState.stateData.battleState.enemies[1] = InitEnemyData(encounter.enemies[1]);
 	appState.stateData.gameState.stateData.battleState.enemies[2] = InitEnemyData(encounter.enemies[2]);
+	for(int i = 0; i < 3; i++)
+	{
+		appState.stateData.gameState.stateData.battleState.enemies[i].stats.encounterStats.mastery += (appState.stateData.gameState.floor - 1) * 10;
+	}
 
 	appState.stateData.gameState.playerTeam[0].stats.encounterStats = CreateEmptyStatBonuses();
 	appState.stateData.gameState.playerTeam[1].stats.encounterStats = CreateEmptyStatBonuses();
