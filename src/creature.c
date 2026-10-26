@@ -675,6 +675,38 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_STEVENANT_ECTOPLASMIC_MANIFESTATION:
         result = "Gain 20 Mastery and Defense.";
         return result;
+    case AB_BANDIT_STRONGMAN_SLAM:
+        sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Deal ", strnum);
+        result = CombineStrings(result, " (100 + 60% Mastery) damage.");
+        return result;
+    case AB_BANDIT_JESTER_MOCK:
+        sprintf(strnum, "%.0f", ((30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Apply ", strnum);
+        result = CombineStrings(result, " (30 + 40% Mastery) Berserk to an enemy.");
+        return result;
+    case AB_BANDIT_JESTER_BACKFLIP:
+        return "Gain Untargettable for 400 ticks.";
+    case AB_BANDIT_JESTER_PRANK:
+        sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Apply ", strnum);
+        result = CombineStrings(result, " (20 + 80% Mastery) Pain to an enemy.");
+        return result;
+    case AB_BANDIT_CUTPURSE_SHIV:
+        sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.5)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Apply ", strnum);
+        result = CombineStrings(result, " (10 + 50% Mastery) Bleed to an enemy.");
+        return result;
+    case AB_BANDIT_CUTPURSE_DISCOMBOBULATE:
+        sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Deal ", strnum);
+        result = CombineStrings(result, " (50 + 60% Mastery) damage to an enemy and apply Confusion for 300 ticks.");
+        return result;
+    case AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE:
+        sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Give all allies ", strnum);
+        result = CombineStrings(result, " (20 + 40% Mastery) Shield and 20 Speed.");
+        return result;
     default:
         return "Ability description missing, oopsie!";
     }
