@@ -2062,6 +2062,18 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 message = CombineStrings(message, "\"Why are you idiots hauling a whole treasure chest with you?\"");
                 jesterMockMimic = true;
         }
+        else if(strcmp(targets[0]->baseStats.name, "Strongman") == 0)
+        {
+                message = CombineStrings(message, "\"Of all the things you could choose to be...\"");
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Cutpurse") == 0)
+        {
+                message = CombineStrings(message, "\"Oi Herc, I didn't know you had an ugly twin.\"");
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Jester") == 0)
+        {
+                message = CombineStrings(message, "\"That's not funny!\"");
+        }
         else
         {
             message = CombineStrings(message, "\"What the hell even is that?\"");
