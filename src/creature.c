@@ -1918,6 +1918,226 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         caster->encounterStats.defense += primaryEffectValue;
         AddCreatureToFlicker(caster);
         break;
+    case AB_BANDIT_STRONGMAN_SLAM:
+        primaryEffectValue = (100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        message = CombineStrings((*caster).baseStats.name, " strikes at ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, " with all their might, dealing ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " damage.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        DealDamage(primaryEffectValue, targets[0], false, caster);
+        break;
+    case AB_BANDIT_JESTER_MOCK:
+        primaryEffectValue = (30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4) * CalculateEffectAmplification(caster, true);
+        bool jesterMockMimic = false;
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " points at ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, " and says:\n");
+        if(strcmp(targets[0]->baseStats.name, "Berserker") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"Getting angry? Is that your special power?\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"Do they know what happened to your previous party?\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Duelist") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"You were handed the good life on a platter and you threw it all away just to chase adventure? And here I thought I am the clown here.\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"What could you possibly be seeking here? Riches? Meaning?\" Snickers.");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Monk") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"So much wisdom, yet didn't stop you from entering this god-forsaken dungeon.\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"Ran out of breath already?\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Shapeshifter") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"Oh, did you forget how to change forms? Or are you being a burden on purpose?\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"Yes, you go, scratch us to death!\" Cackles.");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Flesh Golem") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"How do I even insult a walking pile of viscera?\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"So are you the party's meal or...?\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Magus") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"I've heard of the scrawny sorcerer stereotype, but you're really overdoing it.\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"Reduced just to your bones, huh? Weren't you supposed to be the smart one?\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Ripper") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"It's what's inside that matters, right?\" Giggles.");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"What exactly do you need the amulet for? To find yourself a man who won't run away screaming?\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Cultist") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"Worshipping a mushroom, huh? The innuendo writes itself.\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"My God can beat up your God.\" Snickers.");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Wolf") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"Who let the dogs out?\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"You will never see them again.\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Guide") == 0)
+        {
+            switch(rand()%2)
+            {
+                case 0:
+                message = CombineStrings(message, "\"Your saviour complex is nothing short of pathetic.\"");
+                break;
+                case 1:
+                message = CombineStrings(message, "\"Aren't you supposed to be herding sheep? Or do you think of your comrades so low?\"");
+                break;
+            }
+        }
+        else if(strcmp(targets[0]->baseStats.name, "Mimic") == 0)
+        {
+                message = CombineStrings(message, "\"Why are you idiots hauling a whole treasure chest with you?\"");
+                jesterMockMimic = true;
+        }
+        else
+        {
+            message = CombineStrings(message, "\"What the hell even is that?\"");
+        }
+        message = CombineStrings(message, "\n");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, " is enraged and gains ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Berserk.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        if(jesterMockMimic)
+        {
+            message = CombineStrings((*caster).baseStats.name, " approaches the Mimic chest and tries to open it. The Mimic accepts the easy meal.");
+            AddMessageToFeed(message);
+            DealDamage(1000, caster, true,targets[0]);
+        }
+        targets[0]->statusEffects[SE_BERSERK] += primaryEffectValue;
+        break;
+    case AB_BANDIT_JESTER_BACKFLIP:
+        message = CombineStrings((*caster).baseStats.name, " performs a spontaeous backflip and yells \"Jester's immunity!\", gaining 400 ticks of Untargettability in the process.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(caster);
+        caster->statusEffects[SE_UNTARGETTABLE] = 400;
+        break;
+    case AB_BANDIT_JESTER_PRANK:
+        primaryEffectValue = (20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " pulls a mean practical joke on ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, ", causing ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Pain.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        targets[0]->statusEffects[SE_PAIN] += primaryEffectValue;
+        break;
+    case AB_BANDIT_CUTPURSE_SHIV:
+        primaryEffectValue = (10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.5) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " cuts ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, ", applying ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Bleed.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        targets[0]->statusEffects[SE_BLEED] += primaryEffectValue;
+        break;
+    case AB_BANDIT_CUTPURSE_DISCOMBOBULATE:
+        primaryEffectValue = (50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        message = CombineStrings((*caster).baseStats.name, " elbows ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, " to the head, dealing ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " damage and applying 300 Confusion.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        targets[0]->statusEffects[SE_CONFUSION] = 300;
+        DealDamage(primaryEffectValue, targets[0], false, caster);
+        break;
+    case AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE:
+        primaryEffectValue = (20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " throws a magical smoke grenade under their feet, applying ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Shield to all allies and granting them 20 Speed.");
+        AddMessageToFeed(message);
+        for (int i = 0; i < numberOfTargets; i++)
+        {
+            AddCreatureToFlicker(targets[i]);
+            targets[i]->encounterStats.shield += primaryEffectValue;
+            targets[i]->encounterStats.speed += 20;
+        }
+        break;
     default:
         message = CombineStrings((*caster).baseStats.name, " uses an ability that wasn't implemented yet, how embarassing!");
         AddMessageToFeed(message);
