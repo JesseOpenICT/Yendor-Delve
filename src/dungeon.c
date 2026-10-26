@@ -88,6 +88,7 @@ void InitItemPools()
     itemPoolTier1[17] = ITEM_SOFUS_LEGS;
     itemPoolTier1[18] = ITEM_SOFUS_TORSO;
     itemPoolTier1[19] = ITEM_TOWER_SHIELD;
+    itemPoolTier1[20] = ITEM_JESTER_HAT;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)

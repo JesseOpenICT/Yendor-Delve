@@ -444,5 +444,17 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.targetPriority = 100;
         result.statBonuses.speed = -25;
         return result;
+        case ITEM_JESTER_HAT:
+        result = (Item){
+            id,
+            "Jester's Hat",
+            TL_GENERAL,
+            (Vector2){3,1},
+            red,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.targetPriority = 500;
+        return result;
     }
 }

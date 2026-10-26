@@ -38,6 +38,7 @@ typedef enum ITEM_ID
     ITEM_SOFUS_TORSO,
     ITEM_SOFUS_LEGS,
     ITEM_TOWER_SHIELD,
+    ITEM_JESTER_HAT,
 } ITEM_ID;
 
 typedef struct Item
