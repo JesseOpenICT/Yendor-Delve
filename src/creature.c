@@ -314,7 +314,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_BERSERKER_BASH:
         sprintf(strnum, "%.0f", (((caster->baseStats.armor + caster->encounterStats.armor + caster->itemStats.armor) * (caster->statusEffects[SE_BERSERK] + 1))) * CalculateEffectAmplification(caster, false));
         result = CombineStrings("Stun an enemy with a powerful shield strike, delaying their next turn by ", strnum);
-        result = CombineStrings(result, " (Armour x Berserk) ticks of time.");
+        result = CombineStrings(result, " (Armour x Berserk) moments of time.");
         return result;
     case AB_BERSERKER_BATTLECRY:
         sprintf(strnum, "%.0f", (((caster->baseStats.currentStamina) * 0.2)) * CalculateEffectAmplification(caster, false));
@@ -348,7 +348,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_ASSASSIN_CONCEAL:
         sprintf(strnum, "%.0f", ((300 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1)) * CalculateEffectAmplification(caster, false));
         result = CombineStrings("Target ally becomes untargettable for ", strnum);
-        result = CombineStrings(result, " (300 + 100% Mastery) ticks of time.");
+        result = CombineStrings(result, " (300 + 100% Mastery) moments of time.");
         return result;
     case AB_ASSASSIN_REND:
         result = "Performs a brutal finisher, dealing four times the amount of Bleed points the target enemy has as unavoidable damage.";
@@ -488,7 +488,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         return result;
     case AB_RIPPER_STALK:
         sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.3)));
-        result = CombineStrings("Make an ally Untargettable for 500 ticks and give them ", strnum);
+        result = CombineStrings("Make an ally Untargettable for 500 moments and give them ", strnum);
         result = CombineStrings(result, " (20 + 30% Mastery) Crit Bonus. This ability doesn't Crit.");
         return result;
     case AB_RIPPER_CHASE:
@@ -502,7 +502,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         sprintf(strnum, "%.0f", ((200 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.2)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, " (50 + 100% Mastery) Damage and apply Confusion for ");
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (100 + 120% Mastery) ticks to an enemy.");
+        result = CombineStrings(result, " (100 + 120% Mastery) moments to an enemy.");
         return result;
     case AB_CULTIST_MANIA:
         sprintf(strnum, "%.0f", ((150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.0)) * CalculateEffectAmplification(caster, true));
@@ -510,7 +510,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.5)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, " (150 + 200% Mastery) Stamina Regen, ");
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (50 + 150% Mastery) Mastery and apply Confusion for 500 ticks.");
+        result = CombineStrings(result, " (50 + 150% Mastery) Mastery and apply Confusion for 500 moments.");
         return result;
     case AB_CULTIST_SUMMON:
         return "Create a helpful monster in an empty enemy spot.";
@@ -552,7 +552,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_GUIDE_DISTRACT:
         sprintf(strnum, "%.0f", ((300 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.5)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Target ally becomes a guaranteed target of every enemy ability for ", strnum);
-        result = CombineStrings(result, " (300 + 150% Mastery) ticks.");
+        result = CombineStrings(result, " (300 + 150% Mastery) moments.");
         return result;
     case AB_GUIDE_DANCE_OF_THE_DESPERATE:
         sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6)) * CalculateEffectAmplification(caster, true));
@@ -570,7 +570,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_CULTIST_SPAWN_SPORES:
         sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Confuse all allies for ", strnum);
-        result = CombineStrings(result, " (100 + 100% Mastery) ticks.");
+        result = CombineStrings(result, " (100 + 100% Mastery) moments.");
         return result;
     case AB_CULTIST_SPAWN_GROW:
         sprintf(strnum, "%.0f", ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true));
@@ -615,7 +615,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_BLOFAEMYS_MOCK:
         sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.0)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Mock an enemy, delaying their turn by ", strnum);
-        result = CombineStrings(result, " (100 + 200% Mastery) ticks.");
+        result = CombineStrings(result, " (100 + 200% Mastery) moments.");
         return result;
     case AB_CAUCUBE_NIBBLE:
         sprintf(strnum, "%.0f", ((30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.9)) * CalculateEffectAmplification(caster, true));
@@ -643,7 +643,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (10 + 20% Mastery) damage to an enemy, and delay their turn by ");
         sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.8)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (100 + 180% Mastery) ticks.");
+        result = CombineStrings(result, " (100 + 180% Mastery) moments.");
         return result;
     case AB_TOOFAIRY_BONEDUST:
         return "Give your allies 10 Mastery and 1 Armour.";
@@ -670,7 +670,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_STEVENANT_PHASING_STRIKE:
         sprintf(strnum, "%.0f", ((30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Deal ", strnum);
-        result = CombineStrings(result, " (30 + 100% Mastery) damage to an enemy and become Untargettable for 200 ticks.");
+        result = CombineStrings(result, " (30 + 100% Mastery) damage to an enemy and become Untargettable for 200 moments.");
         return result;
     case AB_STEVENANT_ECTOPLASMIC_MANIFESTATION:
         result = "Gain 20 Mastery and Defense.";
@@ -686,7 +686,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (30 + 40% Mastery) Berserk to an enemy.");
         return result;
     case AB_BANDIT_JESTER_BACKFLIP:
-        return "Gain Untargettable for 400 ticks.";
+        return "Gain Untargettable for 400 moments.";
     case AB_BANDIT_JESTER_PRANK:
         sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Apply ", strnum);
@@ -700,7 +700,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_BANDIT_CUTPURSE_DISCOMBOBULATE:
         sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Deal ", strnum);
-        result = CombineStrings(result, " (50 + 60% Mastery) damage to an enemy and apply Confusion for 300 ticks.");
+        result = CombineStrings(result, " (50 + 60% Mastery) damage to an enemy and apply Confusion for 300 moments.");
         return result;
     case AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE:
         sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true));
@@ -758,7 +758,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, " with a shield, delaying their turn by ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " ticks.");
+        message = CombineStrings(message, " moments.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->baseStats.ticksUntilNextTurn += primaryEffectValue;
@@ -834,7 +834,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, " for ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " ticks, making them untargettable.");
+        message = CombineStrings(message, " moments, making them untargettable.");
         targets[0]->statusEffects[SE_UNTARGETTABLE] = primaryEffectValue;
         AddCreatureToFlicker(targets[0]);
         AddMessageToFeed(message);
@@ -1254,7 +1254,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " conceals ");
         message = CombineStrings(message, targets[0]->baseStats.name);
-        message = CombineStrings(message, ", making them Untargettable for 500 ticks and giving them ");
+        message = CombineStrings(message, ", making them Untargettable for 500 moments and giving them ");
         message = CombineStrings(message, strnum);
         message = CombineStrings(message, "% Crit Bonus.");
         targets[0]->statusEffects[SE_UNTARGETTABLE] = 500;
@@ -1313,7 +1313,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, " Stamina Regen, ");
         sprintf(strnum, "%d", cultistManiaMastery);
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " Mastery and inflicts Confusion for 500 ticks.");
+        message = CombineStrings(message, " Mastery and inflicts Confusion for 500 moments.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         StatBonuses cultistManiaBonus = CreateEmptyStatBonuses();
@@ -1539,7 +1539,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ", making them the  centre of attention for ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " ticks.");
+        message = CombineStrings(message, " moments.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         appState.stateData.gameState.stateData.battleState.distractionTimer = primaryEffectValue;
@@ -1595,7 +1595,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " explodes with its spores, confusing its allies for ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " ticks.");
+        message = CombineStrings(message, " moments.");
         AddMessageToFeed(message);
         for (int i = 0; i < numberOfTargets; i++)
         {
@@ -1717,7 +1717,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ", delaying their turn by ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " ticks out of shyness.");
+        message = CombineStrings(message, " moments out of shyness.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->baseStats.ticksUntilNextTurn += primaryEffectValue;
@@ -1815,7 +1815,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, " damage and delaying their turn by ");
         sprintf(strnum, "%d", toothfairyCalcinizeDelay);
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " ticks.");
+        message = CombineStrings(message, " moments.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->baseStats.ticksUntilNextTurn += toothfairyCalcinizeDelay;
@@ -1899,7 +1899,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, " with malice, dealing ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " damage and becoming untargettable for 200 ticks.");
+        message = CombineStrings(message, " damage and becoming untargettable for 200 moments.");
         AddMessageToFeed(message);
         caster->statusEffects[SE_UNTARGETTABLE] = 200;
         AddCreatureToFlicker(targets[0]);
@@ -2094,7 +2094,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         targets[0]->statusEffects[SE_BERSERK] += primaryEffectValue;
         break;
     case AB_BANDIT_JESTER_BACKFLIP:
-        message = CombineStrings((*caster).baseStats.name, " performs a spontaeous backflip and yells \"Jester's immunity!\", gaining 400 ticks of Untargettability in the process.");
+        message = CombineStrings((*caster).baseStats.name, " performs a spontaeous backflip and yells \"Jester's immunity!\", gaining 400 moments of Untargettability in the process.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(caster);
         caster->statusEffects[SE_UNTARGETTABLE] = 400;

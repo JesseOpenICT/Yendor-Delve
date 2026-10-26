@@ -272,7 +272,8 @@ void DrawPrognoses()
             char strnum[6];
             sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.turnIndicators[i].ticksUntil);
             char* text = CombineStrings("Happens in\n", strnum);
-            text = CombineStrings(text, " ticks.");
+            text = CombineStrings(text, " moments.");
+            if(i==0) text = "Happening\nright now!";
             Vector2 textSize = MeasureTextEx(basicFont, text, 16,0);
             DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){ 428, 384, 160, 64}, 
                 (Vector2){0,0}, 0, *gray);
