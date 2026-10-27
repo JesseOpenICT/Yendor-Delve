@@ -104,7 +104,7 @@ void ResetTurnClock(CreatureStats*);
 short CalculateNextTurnTicks(CreatureStats* _creature);
 short CalculateDamage(short baseDamage, CreatureStats* target);
 void DealDamage(short damage, CreatureStats* target, bool trueDamage, CreatureStats* dealer);
-void HandlePain(CreatureStats*);
+void HandlePain(CreatureStats*,short);
 float CalculateEffectAmplification(CreatureStats*, bool);
 char* GetAbilityDescription(ABILITY id, CreatureStats* caster);
 Ability* InitAbilities(ABILITY abilities[], short count);

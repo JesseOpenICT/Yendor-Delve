@@ -509,16 +509,16 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Gorlak",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){8,15},
-                    .color = maroon,
+                    .color = magenta,
 
                     .ticksUntilNextTurn = 0,
-                    .currentHealth = 400,
-                    .maxHealth = 400,
+                    .currentHealth = 500,
+                    .maxHealth = 500,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
-                    .speed = 180,
-                    .defense = 200,
+                    .speed = 140,
+                    .defense = 100,
                     .armor = 2,
                     .critBonus = 100,
                     .critRate = 1,
@@ -535,7 +535,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                 .abilityCount = 5,
             },
             TG_WEIGHTED_RANDOM,
-            AB_WAIT,
+            AB_GORLAK_EQUIP,
         };
         break;
     }

@@ -267,14 +267,14 @@ void DealDamage(short damage, CreatureStats *target, bool trueDamage, CreatureSt
     }
 }
 
-void HandlePain(CreatureStats* c)
+void HandlePain(CreatureStats* c, short multihit)
 {
     if(c->statusEffects[SE_PAIN] <= 0) return;
     if(c->baseStats.currentHealth <= 0) return;
 
     char* message = CombineStrings(c->baseStats.name, " winces in pain, receiving ");
     char strnum[6];
-    sprintf(strnum, "%d", CalculateDamage(c->statusEffects[SE_PAIN], c));
+    sprintf(strnum, "%d", CalculateDamage(c->statusEffects[SE_PAIN] * multihit, c));
     message = CombineStrings(message, strnum);
     message = CombineStrings(message, " damage from their wounds.");
     AddMessageToFeed(message);
@@ -511,10 +511,10 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (100 + 120% Mastery) moments to an enemy.");
         return result;
     case AB_CULTIST_MANIA:
-        sprintf(strnum, "%.0f", ((150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.0)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%.0f", ((250 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.0)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Give an ally ", strnum);
         sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.5)) * CalculateEffectAmplification(caster, true));
-        result = CombineStrings(result, " (150 + 200% Mastery) Stamina Regen, ");
+        result = CombineStrings(result, " (250 + 200% Mastery) Stamina Regen, ");
         result = CombineStrings(result, strnum);
         result = CombineStrings(result, " (50 + 150% Mastery) Mastery and apply Confusion for 500 moments.");
         return result;
@@ -747,6 +747,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     char *message;
     char strnum[6];
     short primaryEffectValue;
+    short multihit = 1;
     bool isCrit = (*caster).baseStats.critCounter >= CRIT_PROGRESS_MAX;
     bool dontResetCritProgress = false;
 
@@ -778,7 +779,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->encounterStats.defense -= primaryEffectValue;
-        DealDamage(primaryEffectValue, targets[0], false, caster);
+        DealDamage(berserkerSwingDamage, targets[0], false, caster);
         break;
     case AB_BERSERKER_BASH:
         primaryEffectValue = CalculateDamage((((caster->baseStats.armor + caster->encounterStats.armor + caster->itemStats.armor) * (caster->statusEffects[SE_BERSERK] + 1))) * CalculateEffectAmplification(caster, false), targets[0]);
@@ -1332,7 +1333,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         DealDamage(primaryEffectValue, targets[0], false, caster);
         break;
     case AB_CULTIST_MANIA:
-        primaryEffectValue = (150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.0) * CalculateEffectAmplification(caster, true);
+        primaryEffectValue = (250 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.0) * CalculateEffectAmplification(caster, true);
         short cultistManiaMastery = (100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.5) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", primaryEffectValue, targets[0]);
         message = CombineStrings((*caster).baseStats.name, " imbues ");
@@ -2188,6 +2189,79 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
             targets[i]->encounterStats.speed += 20;
         }
         break;
+    case AB_GORLAK_FLURRY:
+        primaryEffectValue = ((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1) * CalculateEffectAmplification(caster, true);
+        multihit = (2 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        message = CombineStrings((*caster).baseStats.name, " performs a flurry of stabs against ");
+        message = CombineStrings(message, targets[0]->baseStats.name);
+        message = CombineStrings(message, ", dealing ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " damage ");
+        sprintf(strnum, "%d", multihit);
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " times.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(targets[0]);
+        for(int i = 0; i < multihit; i++)
+        {
+            DealDamage(primaryEffectValue, targets[0], false, caster);
+        }
+        break;
+    case AB_GORLAK_CLAP:
+        primaryEffectValue = (5 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1) * CalculateEffectAmplification(caster, true);
+        short gorlakClapConfusion = (50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.5) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " performs a mighty, incredibly loud clap, applying ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Pain to the opposing team and ");
+        sprintf(strnum, "%d", gorlakClapConfusion);
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Confusion.");
+        AddMessageToFeed(message);
+        for (int i = 0; i < numberOfTargets; i++)
+        {
+            AddCreatureToFlicker(targets[i]);
+            targets[i]->statusEffects[SE_PAIN] += primaryEffectValue;
+            targets[i]->statusEffects[SE_CONFUSION] = gorlakClapConfusion;
+        }
+        break;
+    case AB_GORLAK_EQUIP:
+        Item gorlakItem = InitItem(itemPoolTier1[rand() % ITEM_POOL_TIER_ONE_SIZE]);
+        message = CombineStrings((*caster).baseStats.name, " finds ");
+        message = CombineStrings(message, gorlakItem.name);
+        message = CombineStrings(message, " in their backpack and puts it on despite already being overdressed. They now seem stronger than before.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(caster);
+        caster->encounterStats.armor += gorlakItem.statBonuses.armor;
+        caster->encounterStats.critBonus += gorlakItem.statBonuses.critBonus;
+        caster->encounterStats.critRate += gorlakItem.statBonuses.critRate;
+        caster->encounterStats.health += gorlakItem.statBonuses.health;
+        caster->encounterStats.stamina += gorlakItem.statBonuses.stamina;
+        caster->encounterStats.staminaRegen += gorlakItem.statBonuses.staminaRegen;
+        caster->encounterStats.speed += gorlakItem.statBonuses.speed;
+        caster->encounterStats.defense += gorlakItem.statBonuses.defense;
+        caster->encounterStats.mastery += gorlakItem.statBonuses.mastery;
+        caster->encounterStats.targetPriority += gorlakItem.statBonuses.targetPriority;
+        break;
+    case AB_GORLAK_POSE:
+        primaryEffectValue = (40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", primaryEffectValue);
+        message = CombineStrings((*caster).baseStats.name, " strikes an awe-inspiring pose, shining with renewed luster, gaining ");
+        message = CombineStrings(message, strnum);
+        message = CombineStrings(message, " Shield and 10 Speed.");
+        AddMessageToFeed(message);
+        AddCreatureToFlicker(caster);
+        caster->encounterStats.shield += primaryEffectValue;
+        caster->encounterStats.speed += 10;
+        switch(rand()%4)
+        {
+            case 0: caster->baseStats.color = magenta; break;
+            case 1: caster->baseStats.color = raywhite; break;
+            case 2: caster->baseStats.color = skyblue; break;
+            case 3: caster->baseStats.color = gold; break;
+        }
+        break;
     default:
         message = CombineStrings((*caster).baseStats.name, " uses an ability that wasn't implemented yet, how embarassing!");
         AddMessageToFeed(message);
@@ -2196,7 +2270,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
 
     for(int i = 0; i<numberOfTargets;i++)
     {
-        HandlePain(targets[i]);
+        HandlePain(targets[i], multihit);
     }
 
     if (!dontResetCritProgress)
