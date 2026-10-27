@@ -456,5 +456,44 @@ Item InitItem(ITEM_ID id)
         };
         result.statBonuses.targetPriority = 500;
         return result;
+        case ITEM_HALLOWED_FLESH:
+        result = (Item){
+            id,
+            "Hallowed Flesh",
+            TL_ITEMS,
+            (Vector2){7,4},
+            beige,
+            ES_TORSO,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.health = 1500;
+        return result;
+        case ITEM_TRAVELER_SHOES:
+        result = (Item){
+            id,
+            "Traveler's Shoes",
+            TL_ITEMS,
+            (Vector2){3,2},
+            darkblue,
+            ES_LEGS,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.stamina = 500;
+        result.statBonuses.staminaRegen = 150;
+        return result;
+        case ITEM_BATTLE_SHIELD:
+        result = (Item){
+            id,
+            "Combat Shield",
+            TL_ITEMS,
+            (Vector2){8,2},
+            red,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.targetPriority = 100;
+        result.statBonuses.defense = 100;
+        result.statBonuses.mastery = 50;
+        return result;
     }
 }
