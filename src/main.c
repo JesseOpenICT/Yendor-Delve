@@ -598,6 +598,24 @@ void HandleBattleInput()
 		}
 		if (IsPressed(K_CONFIRM))
 		{
+			if (appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[2].stats.baseStats.currentHealth <= 0)
+			{
+				InitGameState(GS_GAME_OVER);
+				return;
+			}
+			if (appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth <= 0)
+			{
+				char *message = malloc(1);
+				message[0] = '\0';
+				message = CombineStrings("Victory! You've defeated your foes and\nobtained ", appState.stateData.gameState.stateData.battleState.reward.name);
+				message = CombineStrings(message, ".");
+				ShowPopupMessage(message);
+				AddItemToInventory(appState.stateData.gameState.stateData.battleState.reward);
+				appState.stateData.gameState.floor++;
+				HandleFleshGolemUpgrade();
+				InitGameState(GS_DUNGEON);
+				return;
+			}
 			appState.stateData.gameState.stateData.battleState.verticalSelection = 0;
 			appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
 		}
