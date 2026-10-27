@@ -686,7 +686,7 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (30 + 40% Mastery) Berserk to an enemy.");
         return result;
     case AB_BANDIT_JESTER_BACKFLIP:
-        return "Gain Untargettable for 400 moments.";
+        return "Gain Untargettable for 300 moments.";
     case AB_BANDIT_JESTER_PRANK:
         sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Apply ", strnum);
@@ -1440,6 +1440,15 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 AddMessageToFeed("The Mindless One laughs jubilantly, the otherworldly voice echoing across the cave system.");
                 break;
             }
+            
+            if(appState.stateData.gameState.stateData.battleState.enemies[1].enemyId == EN_GORLAK)
+            {
+                if(rand()%10<4)
+                {
+                    AddMessageToFeed("The Mindless One bargains with the Gorlak, asking for mercy. The Gorlak smirks at your adventuring party, walking away while leaving a little gift.");
+                    appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth = 0;
+                }
+            }
         }
         break;
     case AB_WOLF_BITE:
@@ -2094,10 +2103,10 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         targets[0]->statusEffects[SE_BERSERK] += primaryEffectValue;
         break;
     case AB_BANDIT_JESTER_BACKFLIP:
-        message = CombineStrings((*caster).baseStats.name, " performs a spontaeous backflip and yells \"Jester's immunity!\", gaining 400 moments of Untargettability in the process.");
+        message = CombineStrings((*caster).baseStats.name, " performs a spontaeous backflip and yells \"Jester's immunity!\", gaining 300 moments of Untargettability in the process.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(caster);
-        caster->statusEffects[SE_UNTARGETTABLE] = 400;
+        caster->statusEffects[SE_UNTARGETTABLE] = 300;
         break;
     case AB_BANDIT_JESTER_PRANK:
         primaryEffectValue = (20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) * CalculateEffectAmplification(caster, true);

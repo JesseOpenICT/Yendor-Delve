@@ -15,6 +15,7 @@ typedef enum ENCOUNTER_ID
     ENC_TOOTH_FAERIES,
     ENC_GHOSTS_EASY,
     ENC_BANDITS_EASY,
+    ENC_GORLAK,
 } ENCOUNTER_ID;
 
 extern ENCOUNTER_ID encounterPoolTier1[];

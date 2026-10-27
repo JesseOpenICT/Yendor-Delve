@@ -500,5 +500,43 @@ Enemy InitEnemyData(ENEMY_ID id)
             AB_WAIT,
         };
         break;
+        
+        case EN_GORLAK:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Gorlak",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){8,15},
+                    .color = maroon,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 400,
+                    .maxHealth = 400,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 180,
+                    .defense = 200,
+                    .armor = 2,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_JESTER_MOCK, AB_BANDIT_JESTER_BACKFLIP,AB_BANDIT_JESTER_PRANK,AB_WAIT}, 4),
+                .abilityCount = 4,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
     }
 }

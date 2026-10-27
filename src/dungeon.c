@@ -6,7 +6,7 @@
 
 extern struct AppState appState;
 
-ENCOUNTER_ID encounterPoolTier1[8];
+ENCOUNTER_ID encounterPoolTier1[9];
 ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
@@ -64,6 +64,7 @@ void InitEncounterPools()
     encounterPoolTier1[5] = ENC_TOOTH_FAERIES;
     encounterPoolTier1[6] = ENC_GHOSTS_EASY;
     encounterPoolTier1[7] = ENC_BANDITS_EASY;
+    encounterPoolTier1[8] = ENC_GORLAK;
 }
 
 void InitItemPools()
@@ -189,6 +190,18 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 gray,
                 "An adventuring party gone rogue.",
                 {EN_BANDIT_JESTER, EN_BANDIT_STRONGMAN, EN_BANDIT_CUTTHROAT},
+                false,
+            };
+        case ENC_GORLAK:
+            return (Encounter)
+            {
+                id,
+                "Gorlak",
+                TL_CREATURES,
+                (Vector2){8,15},
+                magenta,
+                "A small, mysterious creature, wearing adventuring gear.",
+                {EN_NONE, EN_GORLAK, EN_NONE},
                 false,
             };
         default:
