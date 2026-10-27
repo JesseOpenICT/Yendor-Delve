@@ -2113,6 +2113,13 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         {
                 message = CombineStrings(message, "\"That's not funny!\"");
         }
+        else if(strcmp(targets[0]->baseStats.name, "Gorlak") == 0)
+        {
+                message = CombineStrings(message, "\"G-Gorlak?!\"\n");
+                message = CombineStrings(message, caster->baseStats.name);
+                message = CombineStrings(message, " leaves the battle hastily.");
+                caster->baseStats.currentHealth = 0;
+        }
         else
         {
             message = CombineStrings(message, "\"What the hell even is that?\"");

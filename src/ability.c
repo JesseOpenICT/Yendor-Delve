@@ -602,7 +602,7 @@ Ability InitAbility(ABILITY id)
         {
             id,
             "Majestic Flurry",
-            100,
+            70,
             AF_TARGETS_ENEMIES,
         };
         case AB_GORLAK_CLAP:
@@ -610,7 +610,7 @@ Ability InitAbility(ABILITY id)
         {
             id,
             "Thunderous Clap",
-            100,
+            80,
             AF_TARGETS_ENEMIES + AF_AOE,
         };
         case AB_GORLAK_EQUIP:
@@ -618,7 +618,7 @@ Ability InitAbility(ABILITY id)
         {
             id,
             "Equip",
-            100,
+            250,
             AF_TARGETS_SELF,
         };
         case AB_GORLAK_POSE:
@@ -626,7 +626,7 @@ Ability InitAbility(ABILITY id)
         {
             id,
             "Heroic Pose",
-            100,
+            150,
             AF_TARGETS_SELF,
         };
     }
