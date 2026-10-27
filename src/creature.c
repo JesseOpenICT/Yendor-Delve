@@ -1978,7 +1978,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, " and says:\n");
         if(strcmp(targets[0]->baseStats.name, "Berserker") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%3)
             {
                 case 0:
                 message = CombineStrings(message, "\"Getting angry? Is that your special power?\"");
@@ -1986,11 +1986,14 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"Do they know what happened to your previous party?\"");
                 break;
+                case 2:
+                message = CombineStrings(message, "\"You belong here.\" Cackles.");
+                break;
             }
         }
         else if(strcmp(targets[0]->baseStats.name, "Duelist") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%3)
             {
                 case 0:
                 message = CombineStrings(message, "\"You were handed the good life on a platter and you threw it all away just to chase adventure? And here I thought I am the clown here.\"");
@@ -1998,17 +2001,29 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"What could you possibly be seeking here? Riches? Meaning?\" Snickers.");
                 break;
+                case 2:
+                message = CombineStrings(message, "\"Feeling free yet?\"");
+                break;
             }
         }
         else if(strcmp(targets[0]->baseStats.name, "Monk") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%5)
             {
                 case 0:
-                message = CombineStrings(message, "\"So much wisdom, yet didn't stop you from entering this god-forsaken dungeon.\"");
+                message = CombineStrings(message, "\"Your facade is crumbling.\"");
                 break;
                 case 1:
                 message = CombineStrings(message, "\"Ran out of breath already?\"");
+                break;
+                case 2:
+                message = CombineStrings(message, "\"Something to hide?\"");
+                break;
+                case 3:
+                message = CombineStrings(message, "\"How little you truly know...\"");
+                break;
+                case 4:
+                message = CombineStrings(message, "\"Once a monster, always a monster.\"");
                 break;
             }
         }
@@ -2038,7 +2053,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         }
         else if(strcmp(targets[0]->baseStats.name, "Magus") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%4)
             {
                 case 0:
                 message = CombineStrings(message, "\"I've heard of the scrawny sorcerer stereotype, but you're really overdoing it.\"");
@@ -2046,23 +2061,35 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"Reduced just to your bones, huh? Weren't you supposed to be the smart one?\"");
                 break;
+                case 2:
+                message = CombineStrings(message, "\"Yes, he's disappointed, I will save you the trip.\"");
+                break;
+                case 3:
+                message = CombineStrings(message, "\"Think you're ready to face him again? You idiot.\"");
+                break;
             }
         }
         else if(strcmp(targets[0]->baseStats.name, "Ripper") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%4)
             {
                 case 0:
                 message = CombineStrings(message, "\"It's what's inside that matters, right?\" Giggles.");
                 break;
                 case 1:
-                message = CombineStrings(message, "\"What exactly do you need the amulet for? To find yourself a man who won't run away screaming?\"");
+                message = CombineStrings(message, "\"What exactly do you need the amulet for? To find yourself someone who won't run away screaming?\"");
+                break;
+                case 2:
+                message = CombineStrings(message, "\"Aww look at you! Being... tolerated.\"");
+                break;
+                case 3:
+                message = CombineStrings(message, "\"We both know they will betray you the moment you stop being useful.\"");
                 break;
             }
         }
         else if(strcmp(targets[0]->baseStats.name, "Cultist") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%3)
             {
                 case 0:
                 message = CombineStrings(message, "\"Worshipping a mushroom, huh? The innuendo writes itself.\"");
@@ -2070,11 +2097,14 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"My God can beat up your God.\" Snickers.");
                 break;
+                case 2:
+                message = CombineStrings(message, "\"Blind idiot lead by a blind idiot.\"");
+                break;
             }
         }
         else if(strcmp(targets[0]->baseStats.name, "Wolf") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%4)
             {
                 case 0:
                 message = CombineStrings(message, "\"Who let the dogs out?\"");
@@ -2082,17 +2112,26 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"You will never see them again.\"");
                 break;
+                case 2:
+                message = CombineStrings(message, "\"You don't belong. You'll never belong.\"");
+                break;
+                case 3:
+                message = CombineStrings(message, "\"How does it feel to rely on your lesser? How does it feel to be mistaken for an equal?\"");
+                break;
             }
         }
         else if(strcmp(targets[0]->baseStats.name, "Guide") == 0)
         {
-            switch(rand()%2)
+            switch(rand()%3)
             {
                 case 0:
                 message = CombineStrings(message, "\"Your saviour complex is nothing short of pathetic.\"");
                 break;
                 case 1:
-                message = CombineStrings(message, "\"Aren't you supposed to be herding sheep? Or do you think of your comrades so low?\"");
+                message = CombineStrings(message, "\"New lambs to a slaughter...\"");
+                break;
+                case 3:
+                message = CombineStrings(message, "\"Are you ready to face their judgement? You really didn't think this through.\"");
                 break;
             }
         }
