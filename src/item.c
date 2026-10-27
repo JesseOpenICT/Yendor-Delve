@@ -440,9 +440,9 @@ Item InitItem(ITEM_ID id)
             CreateEmptyStatBonuses(),
         };
         result.statBonuses.defense = 100;
-        result.statBonuses.armor = 5;
+        result.statBonuses.armor = 10;
         result.statBonuses.targetPriority = 100;
-        result.statBonuses.speed = -25;
+        result.statBonuses.speed = -10;
         return result;
         case ITEM_JESTER_HAT:
         result = (Item){

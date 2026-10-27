@@ -322,8 +322,8 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .color = raywhite,
 
                     .ticksUntilNextTurn = 400,
-                    .currentHealth = 200,
-                    .maxHealth = 200,
+                    .currentHealth = 120,
+                    .maxHealth = 120,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
