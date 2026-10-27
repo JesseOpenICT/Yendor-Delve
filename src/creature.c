@@ -713,6 +713,29 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings("Give all allies ", strnum);
         result = CombineStrings(result, " (20 + 40% Mastery) Shield and 20 Speed.");
         return result;
+    case AB_GORLAK_FLURRY:
+        sprintf(strnum, "%.0f", (((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Deal ", strnum);
+        result = CombineStrings(result, " (10% Mastery) damage ");
+        sprintf(strnum, "%.0f", (2+((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings(result, strnum);
+        result = CombineStrings(result, " (2 + 20% Mastery) times.");
+        return result;
+    case AB_GORLAK_CLAP:
+        sprintf(strnum, "%.0f", ((5 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Apply ", strnum);
+        result = CombineStrings(result, " (5 + 10% Mastery) Pain and ");
+        sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.5)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings(result, strnum);
+        result = CombineStrings(result, " (50 + 50% Mastery) Confusion.");
+        return result;
+    case AB_GORLAK_EQUIP:
+        return "Find a random piece of equipment and gain its bonuses.";
+    case AB_GORLAK_POSE:
+        sprintf(strnum, "%.0f", ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings("Gain ", strnum);
+        result = CombineStrings(result, " (40 + 10% Mastery) Shield and 10 Speed.");
+        return result;
     default:
         return "Ability description missing, oopsie!";
     }

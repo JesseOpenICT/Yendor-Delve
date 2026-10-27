@@ -597,6 +597,38 @@ Ability InitAbility(ABILITY id)
             100,
             AF_AOE + AF_TARGETS_ALLIES,
         };
+        case AB_GORLAK_FLURRY:
+        return (Ability)
+        {
+            id,
+            "Majestic Flurry",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_GORLAK_CLAP:
+        return (Ability)
+        {
+            id,
+            "Thunderous Clap",
+            100,
+            AF_TARGETS_ENEMIES + AF_AOE,
+        };
+        case AB_GORLAK_EQUIP:
+        return (Ability)
+        {
+            id,
+            "Equip",
+            100,
+            AF_TARGETS_SELF,
+        };
+        case AB_GORLAK_POSE:
+        return (Ability)
+        {
+            id,
+            "Heroic Pose",
+            100,
+            AF_TARGETS_SELF,
+        };
     }
 }
 
