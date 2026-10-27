@@ -278,7 +278,7 @@ void HandlePain(CreatureStats* c, short multihit)
     message = CombineStrings(message, strnum);
     message = CombineStrings(message, " damage from their wounds.");
     AddMessageToFeed(message);
-    DealDamage(c->statusEffects[SE_PAIN], c, false, NULL);
+    DealDamage(c->statusEffects[SE_PAIN] * multihit, c, false, NULL);
 }
 
 float CalculateEffectAmplification(CreatureStats *caster, bool affectedByBerserk)
