@@ -158,6 +158,7 @@ void HandleOnDeathEffects(CreatureStats *c)
     for(int i = 0; i<3;i++)
     {
         if(appState.stateData.gameState.playerTeam[i].characterId != CHAR_RIPPER) continue;
+        if(appState.stateData.gameState.playerTeam[i].stats.baseStats.currentHealth < 1) continue;
         appState.stateData.gameState.playerTeam[i].stats.baseStats.ticksUntilNextTurn = 0;
         appState.stateData.gameState.playerTeam[i].stats.baseStats.critCounter += 100;
         AddMessageToFeed("The Ripper gets excited and acts out of turn.");
