@@ -21,6 +21,7 @@ extern Font basicFont;
 extern Font basicFontLarger;
 extern Camera2D camera;
 extern Texture creatureAtlas;
+extern Texture bigCreatureAtlas;
 extern Texture itemAtlas;
 extern Texture generalAtlas;
 extern Texture communityAtlas;
@@ -425,9 +426,12 @@ void DrawPrognoses()
             DrawTexturePro(         // draw caster
                 GetTileset(appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileset),
                 (Rectangle){
-                    appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileLookupPosition.x * TILE_SIZE,
-                    appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileLookupPosition.y * TILE_SIZE,
-                    TILE_SIZE, TILE_SIZE,
+                    appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileLookupPosition.x * TILE_SIZE 
+                    * ((appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
+                    appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileLookupPosition.y * TILE_SIZE 
+                    * ((appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
+                    TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1), 
+                    TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.turnIndicators[i].senderId-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
                 },
                 (Rectangle){
                     position.x + boxSize.x/2 + offset - TILE_SIZE/2,
@@ -484,9 +488,12 @@ void DrawPrognoses()
                     DrawTexturePro(
                         GetTileset(appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileset),
                         (Rectangle){
-                            appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileLookupPosition.x * TILE_SIZE,
-                            appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileLookupPosition.y * TILE_SIZE,
-                            TILE_SIZE, TILE_SIZE,
+                            appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileLookupPosition.x * TILE_SIZE 
+                    * ((appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
+                            appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileLookupPosition.y * TILE_SIZE 
+                    * ((appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
+                            TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1), 
+                            TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[j-3].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
                         },
                         (Rectangle){
                             position.x + boxSize.x/2 + offset - TILE_SIZE/2,
@@ -594,14 +601,16 @@ void DrawBattleScreenEnemy(char index)
     DrawTexturePro(
             GetTileset(appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset),
             (Rectangle){
-                appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileLookupPosition.x * TILE_SIZE,
-                appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileLookupPosition.y * TILE_SIZE,
-                TILE_SIZE, TILE_SIZE,
+                appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileLookupPosition.x * TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
+                appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileLookupPosition.y * TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
+                TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1), 
+                TILE_SIZE * ((appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES) ? 2 : 1),
             },
             (Rectangle){
-                SCREEN_WIDTH - (creatureBoxSize / 2) - (creatureBoxSize * index) - TILE_SIZE,
-                (creatureBoxSize / 2) - TILE_SIZE,
-                TILE_SIZE * 2, TILE_SIZE * 2,
+                SCREEN_WIDTH - (creatureBoxSize / 2) - (creatureBoxSize * index) - TILE_SIZE - ((appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES) ? TILE_SIZE : 0),
+                (creatureBoxSize / 2) - TILE_SIZE - ((appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES) ? TILE_SIZE + 8 : 0),
+                TILE_SIZE * (appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES ? 4 : 2), 
+                TILE_SIZE * (appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.tileset == TL_BIG_CREATURES ? 4 : 2),
             },
             (Vector2){0,0},
             0,
@@ -1013,14 +1022,18 @@ void DrawDungeonScreenEncounterSprite(char index)
     DrawTexturePro(
             GetTileset(appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset),
             (Rectangle){
-                appState.stateData.gameState.stateData.dungeonState.encounters[index].tileLookupPosition.x * TILE_SIZE,
-                appState.stateData.gameState.stateData.dungeonState.encounters[index].tileLookupPosition.y * TILE_SIZE,
-                TILE_SIZE, TILE_SIZE,
+                appState.stateData.gameState.stateData.dungeonState.encounters[index].tileLookupPosition.x * TILE_SIZE 
+                * (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 2 : 1),
+                appState.stateData.gameState.stateData.dungeonState.encounters[index].tileLookupPosition.y * TILE_SIZE 
+                * (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 2 : 1),
+                TILE_SIZE * (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 2 : 1), 
+                TILE_SIZE * (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 2 : 1),
             },
             (Rectangle){
-                LAYOUT_SPACING + 67 + 210 * index,
-                 LAYOUT_SPACING + 96,
-                TILE_SIZE, TILE_SIZE,
+                LAYOUT_SPACING + 67 + 210 * index - (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 8 : 0),
+                 LAYOUT_SPACING + 96 - (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 8 : 0),
+                TILE_SIZE * (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 2 : 1), 
+                TILE_SIZE * (appState.stateData.gameState.stateData.dungeonState.encounters[index].tileset == TL_BIG_CREATURES ? 2 : 1),
             },
             (Vector2){0,0},
             0,
@@ -1263,6 +1276,9 @@ Texture GetTileset(enum TILESET ts)
     {
         case TL_CREATURES:
             return creatureAtlas;
+            break;
+        case TL_BIG_CREATURES:
+            return bigCreatureAtlas;
             break;
         case TL_ITEMS:
             return itemAtlas;

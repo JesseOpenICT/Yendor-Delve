@@ -17,6 +17,7 @@ Font titleFont;
 Font basicFont;
 Font basicFontLarger;
 Texture creatureAtlas;
+Texture bigCreatureAtlas;
 Texture itemAtlas;
 Texture generalAtlas;
 Texture communityAtlas;
@@ -82,6 +83,7 @@ int main()
 	set_palette(appState.settings.palette);
 
 	creatureAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/creatures_transparent.png");
+	bigCreatureAtlas = LoadTexture("assets/hexanys_monster_menagerie/Tilesheets/monochrome_32x32_transparent.png");
 	itemAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/items_transparent.png");
 	generalAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/general_transparent.png");
 	communityAtlas = LoadTexture("assets/community_sprites.png");
@@ -109,6 +111,7 @@ int main()
 	// cleanup
 	UnloadTexture(itemAtlas);
 	UnloadTexture(creatureAtlas);
+	UnloadTexture(bigCreatureAtlas);
 	UnloadTexture(generalAtlas);
 	UnloadTexture(dungeonAtlas);
 	UnloadTexture(boneFrame);

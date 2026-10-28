@@ -6,6 +6,9 @@
 
 extern struct AppState appState;
 
+ENCOUNTER_ID bossPoolTier1[1];
+ENCOUNTER_ID bossPoolTier2[1];
+
 ENCOUNTER_ID encounterPoolTier1[9];
 ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
@@ -19,9 +22,32 @@ ENCOUNTER_ID* SelectRandomEncounters(char floor)
 {
     ENCOUNTER_ID* result = (ENCOUNTER_ID*)malloc(3 * sizeof(ENCOUNTER_ID));
 
-    for(int i = 0; i < 3; i++)
+    if(floor == 24)
     {
-        result[i] = encounterPoolTier1[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(encounterPoolTier1)];
+        result[0] = ENC_NONE;
+        result[1] = ENCB_DUNGEON_MASTER;
+        result[2] = ENC_NONE;
+    }
+    else if(floor == 8)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            result[i] = bossPoolTier1[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(bossPoolTier1)];
+        }
+    }
+    else if(floor == 16)
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            result[i] = bossPoolTier2[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(bossPoolTier2)];
+        }
+    }
+    else
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            result[i] = encounterPoolTier1[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(encounterPoolTier1)];
+        }
     }
     if(floor % 8 == 5)
     {
@@ -56,6 +82,9 @@ ITEM_ID MatchRewardToEncounter(ENCOUNTER_ID enc, char floor)
 
 void InitEncounterPools()
 {
+    bossPoolTier1[0] = ENCB_GREEN_DRAGON;
+    bossPoolTier2[0] = ENCB_BLACK_DRAGON;
+
     encounterPoolTier1[0] = ENC_BLOOD_FAERIES;
     encounterPoolTier1[1] = ENC_MIMIC;
     encounterPoolTier1[2] = ENC_CHEST;
@@ -99,6 +128,42 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
 {
     switch(id)
     {
+        case ENCB_DUNGEON_MASTER:
+            return (Encounter)
+            {
+                id,
+                "Dungeon Master",
+                TL_BIG_CREATURES,
+                (Vector2){5,3},
+                gold,
+                "One above all.",
+                {EN_NONE, ENB_DUNGEON_MASTER, EN_NONE},
+                false,
+            };
+        case ENCB_BLACK_DRAGON:
+            return (Encounter)
+            {
+                id,
+                "Black Dragon",
+                TL_BIG_CREATURES,
+                (Vector2){3,0},
+                darkgray,
+                "The winged deathbringer, guarding the entrance to the city.",
+                {EN_NONE, ENB_BLACK_DRAGON, EN_NONE},
+                false,
+            };
+        case ENCB_GREEN_DRAGON:
+            return (Encounter)
+            {
+                id,
+                "Green Dragon",
+                TL_BIG_CREATURES,
+                (Vector2){3,0},
+                green,
+                "The legendary winged beast stands in your way.",
+                {EN_NONE, ENB_GREEN_DRAGON, EN_NONE},
+                false,
+            };
         case ENC_BONFIRE:
             return (Encounter)
             {

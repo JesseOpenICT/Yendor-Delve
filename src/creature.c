@@ -784,7 +784,8 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         DealDamage(berserkerSwingDamage, targets[0], false, caster);
         break;
     case AB_BERSERKER_BASH:
-        primaryEffectValue = CalculateDamage((((caster->baseStats.armor + caster->encounterStats.armor + caster->itemStats.armor) * (caster->statusEffects[SE_BERSERK] + 1))) * CalculateEffectAmplification(caster, false), targets[0]);
+        primaryEffectValue = CalculateDamage((((caster->baseStats.armor + caster->encounterStats.armor + caster->itemStats.armor) * (caster->statusEffects[SE_BERSERK] + 1))) * CalculateEffectAmplification(caster, false)
+            * (200/(200 + targets[0]->baseStats.ticksUntilNextTurn)), targets[0]);
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " slams ");
         message = CombineStrings(message, targets[0]->baseStats.name);
@@ -2020,7 +2021,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
             switch(rand()%3)
             {
                 case 0:
-                message = CombineStrings(message, "\"You were handed the good life on a platter and you threw it all away just to chase adventure? And here I thought I am the clown here.\"");
+                message = CombineStrings(message, "\"You were handed the good life on a platter and you threw it all away just to chase adventure? And I thought I am the clown here.\"");
                 break;
                 case 1:
                 message = CombineStrings(message, "\"What could you possibly be seeking here? Riches? Meaning?\" Snickers.");

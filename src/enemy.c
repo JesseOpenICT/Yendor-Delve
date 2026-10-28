@@ -45,6 +45,120 @@ Enemy InitEnemyData(ENEMY_ID id)
         };
         break;
         
+        case ENB_DUNGEON_MASTER:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Dungeon Master",
+                    .tileset = TL_BIG_CREATURES,
+                    .tileLookupPosition = (Vector2){5,3},
+                    .color = gold,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 30000,
+                    .maxHealth = 30000,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 300,
+                    .speed = 400,
+                    .defense = 150,
+                    .armor = 5,
+                    .critBonus = 100,
+                    .critRate = 10,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_CULTIST_SPAWN_ENROOT, AB_CULTIST_SPAWN_SPORES,AB_CULTIST_SPAWN_GROW,AB_CULTIST_SPAWN_INVIGORATE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case ENB_BLACK_DRAGON:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Black Dragon",
+                    .tileset = TL_BIG_CREATURES,
+                    .tileLookupPosition = (Vector2){3,0},
+                    .color = darkgray,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 10000,
+                    .maxHealth = 10000,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 200,
+                    .speed = 250,
+                    .defense = 250,
+                    .armor = 10,
+                    .critBonus = 100,
+                    .critRate = 10,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_CULTIST_SPAWN_ENROOT, AB_CULTIST_SPAWN_SPORES,AB_CULTIST_SPAWN_GROW,AB_CULTIST_SPAWN_INVIGORATE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case ENB_GREEN_DRAGON:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Green Dragon",
+                    .tileset = TL_BIG_CREATURES,
+                    .tileLookupPosition = (Vector2){3,0},
+                    .color = green,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 2500,
+                    .maxHealth = 2500,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 200,
+                    .speed = 150,
+                    .defense = 150,
+                    .armor = 5,
+                    .critBonus = 100,
+                    .critRate = 10,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_CULTIST_SPAWN_ENROOT, AB_CULTIST_SPAWN_SPORES,AB_CULTIST_SPAWN_GROW,AB_CULTIST_SPAWN_INVIGORATE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
         case EN_CULTIST_SUMMON:
         return (Enemy){
             id,
