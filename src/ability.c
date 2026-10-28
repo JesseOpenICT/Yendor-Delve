@@ -618,7 +618,7 @@ Ability InitAbility(ABILITY id)
         {
             id,
             "Equip",
-            250,
+            200,
             AF_TARGETS_SELF,
         };
         case AB_GORLAK_POSE:

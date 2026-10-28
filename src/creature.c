@@ -1380,11 +1380,11 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings((*caster).baseStats.name, " prays to The Mindless One, causing fate to change.");
         AddMessageToFeed(message);
         appState.stateData.gameState.stateData.battleState.prayerFatigue++;
-        if(rng_next_u32(&appState.stateData.gameState.stateData.battleState.battleRng) % (500 + (caster->baseStats.mastery + 
+        if(rng_next_u32(&appState.stateData.gameState.stateData.battleState.battleRng) % (450 + (caster->baseStats.mastery + 
             caster->encounterStats.mastery + caster->itemStats.mastery)*4 + appState.stateData.gameState.stateData.battleState.prayerFatigue * 15) < 400 * CalculateEffectAmplification(caster, true))
         {
             CreatureStats* target;
-            switch(rand() % 12)
+            switch(rand() % 15)
             {
                 case 0:
                 target = &appState.stateData.gameState.playerTeam[rand()%3].stats;
@@ -1464,6 +1464,28 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 EmptyStatusEffects(target);
                 message = CombineStrings("The Mindless One cures ", target->baseStats.name);
                 message = CombineStrings(message, " of all ailments.");
+                AddMessageToFeed(message);
+                break;
+                case 11:
+                AddMessageToFeed("The Mindless One elevates the battleground. You've seen those surroundings before.");
+                appState.stateData.gameState.floor -= 1;
+                if(appState.stateData.gameState.floor < 1) appState.stateData.gameState.floor = 1;
+                break;
+                case 12:
+                target = &appState.stateData.gameState.playerTeam[rand()%3].stats;
+                (*target).itemStats.health += 100;
+                message = CombineStrings("The Mindless One makes ", target->baseStats.name);
+                message = CombineStrings(message, " a little fatter.");
+                AddMessageToFeed(message);
+                break;
+                case 13:
+                target = &appState.stateData.gameState.playerTeam[rand()%3].stats;
+                if((*target).baseStats.currentHealth > 0) break;
+                (*target).baseStats.currentHealth = 200;
+                (*target).baseStats.color = orange;
+                (*target).encounterStats.speed -= 50;
+                message = CombineStrings("The Mindless One raises ", target->baseStats.name);
+                message = CombineStrings(message, " from the dead. Something's off...");
                 AddMessageToFeed(message);
                 break;
                 default:
@@ -2260,10 +2282,10 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " performs a mighty, incredibly loud clap, applying ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " Pain to the opposing team and ");
+        message = CombineStrings(message, " Pain and ");
         sprintf(strnum, "%d", gorlakClapConfusion);
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " Confusion.");
+        message = CombineStrings(message, " Confusion to the opposing team.");
         AddMessageToFeed(message);
         for (int i = 0; i < numberOfTargets; i++)
         {
