@@ -220,7 +220,7 @@ void DealDamage(short damage, CreatureStats *target, bool trueDamage, CreatureSt
 {
     bool wasAlreadyDead = (*target).baseStats.currentHealth <= 0;
     short finalValue = 0;
-    finalValue = (trueDamage ? damage : CalculateDamage(damage, target));
+    finalValue = (trueDamage ? damage : CalculateDamage((short)(damage * (1.0 + ((dealer == NULL) ? 0.0 : (((*dealer).itemStats.damageMultiplier + (*dealer).encounterStats.damageMultiplier) * 0.01)))), target));
     if(finalValue < 0)
     {
         finalValue = 0;
@@ -283,7 +283,9 @@ void HandlePain(CreatureStats* c, short multihit)
 
 float CalculateEffectAmplification(CreatureStats *caster, bool affectedByBerserk)
 {
-    return 1 + ((caster->baseStats.critCounter / CRIT_PROGRESS_MAX) * (((*caster).baseStats.critBonus + (*caster).itemStats.critBonus + (*caster).encounterStats.critBonus) * 0.01)) + (affectedByBerserk ? caster->statusEffects[SE_BERSERK] * 0.01 : 0) + ((appState.stateData.gameState.stateData.battleState.opportunitySkillCountdown == 0) ? appState.stateData.gameState.stateData.battleState.opportunityMult : 0);
+    return 1 + ((caster->baseStats.critCounter / CRIT_PROGRESS_MAX) * (((*caster).baseStats.critBonus + (*caster).itemStats.critBonus + (*caster).encounterStats.critBonus) * 0.01)) 
+        + (affectedByBerserk ? caster->statusEffects[SE_BERSERK] * 0.01 : 0)
+        + ((appState.stateData.gameState.stateData.battleState.opportunitySkillCountdown == 0) ? appState.stateData.gameState.stateData.battleState.opportunityMult : 0);
 }
 
 Ability *InitAbilities(ABILITY abilities[], short count)
@@ -714,12 +716,12 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (20 + 40% Mastery) Shield and 20 Speed.");
         return result;
     case AB_GORLAK_FLURRY:
-        sprintf(strnum, "%.0f", (((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%d", (short)appState.stateData.gameState.floor);
         result = CombineStrings("Deal ", strnum);
-        result = CombineStrings(result, " (10% Mastery) damage ");
-        sprintf(strnum, "%.0f", (2+((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
+        result = CombineStrings(result, " (current dungeon level) damage ");
+        sprintf(strnum, "%.0f", (2+((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (2 + 20% Mastery) times.");
+        result = CombineStrings(result, " (2 + 10% Mastery) times.");
         return result;
     case AB_GORLAK_CLAP:
         sprintf(strnum, "%.0f", ((5 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, true));
@@ -2258,8 +2260,8 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         }
         break;
     case AB_GORLAK_FLURRY:
-        primaryEffectValue = ((caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1) * CalculateEffectAmplification(caster, true);
-        multihit = (2 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
+        primaryEffectValue = appState.stateData.gameState.floor;
+        multihit = (2 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
         message = CombineStrings((*caster).baseStats.name, " performs a flurry of stabs against ");
         message = CombineStrings(message, targets[0]->baseStats.name);

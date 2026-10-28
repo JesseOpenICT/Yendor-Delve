@@ -200,8 +200,112 @@ void DrawGameplay()
         case GS_BATTLE:
             DrawBattle();
             break;
+        case GS_GAME_OVER:
+            DrawGameOver();
+            break;
     }
     DrawPopupMessage();
+}
+
+void DrawGameOver()
+{
+    BeginMode2D(camera);
+
+    DrawTextureNPatch(boneFrame, frameInfo, (Rectangle){16,16,SCREEN_WIDTH-32,SCREEN_HEIGHT-32}, (Vector2){0,0}, 0, *darkgray);
+    Vector2 textSize = MeasureTextEx(titleFont, "Perished", 96, 0);
+    Vector2 textPosition = {SCREEN_WIDTH / 2 - textSize.x / 2, 60};
+    DrawTextEx(titleFont, "Perished", textPosition, 96, 0, *maroon);
+
+    DrawTexturePro(
+            GetTileset(appState.stateData.gameState.playerTeam[0].stats.baseStats.tileset),
+            (Rectangle){
+                appState.stateData.gameState.playerTeam[0].stats.baseStats.tileLookupPosition.x * TILE_SIZE,
+                appState.stateData.gameState.playerTeam[0].stats.baseStats.tileLookupPosition.y * TILE_SIZE,
+                TILE_SIZE, TILE_SIZE,
+            },
+            (Rectangle){
+                320 - 96, 200, TILE_SIZE * 2, TILE_SIZE * 2,
+            },
+            (Vector2){0,0}, 0, *gray
+        );
+    DrawTexturePro(
+            GetTileset(appState.stateData.gameState.playerTeam[1].stats.baseStats.tileset),
+            (Rectangle){
+                appState.stateData.gameState.playerTeam[1].stats.baseStats.tileLookupPosition.x * TILE_SIZE,
+                appState.stateData.gameState.playerTeam[1].stats.baseStats.tileLookupPosition.y * TILE_SIZE,
+                TILE_SIZE, TILE_SIZE,
+            },
+            (Rectangle){
+                320 - 16, 200, TILE_SIZE * 2, TILE_SIZE * 2,
+            },
+            (Vector2){0,0}, 0, *gray
+        );
+    DrawTexturePro(
+            GetTileset(appState.stateData.gameState.playerTeam[2].stats.baseStats.tileset),
+            (Rectangle){
+                appState.stateData.gameState.playerTeam[2].stats.baseStats.tileLookupPosition.x * TILE_SIZE,
+                appState.stateData.gameState.playerTeam[2].stats.baseStats.tileLookupPosition.y * TILE_SIZE,
+                TILE_SIZE, TILE_SIZE,
+            },
+            (Rectangle){
+                320 + 64, 200, TILE_SIZE * 2, TILE_SIZE * 2,
+            },
+            (Vector2){0,0}, 0, *gray
+        );
+
+    char* text;
+    if(appState.stateData.gameState.floor == 24)
+    {
+        text = "The brave adventurers were slain by the Dungeon Master's hand!";
+    }
+    else
+    {
+        text = "The brave adventurers met their untimely end somewhere ";
+        if(appState.stateData.gameState.floor > 16)
+        {
+            text = CombineStrings(text, "in a long forgotten city of a mysterious civilization, ");
+        }
+        else if(appState.stateData.gameState.floor > 8)
+        {
+            text = CombineStrings(text, "within a hidden cavern system under the dungeon, ");
+        }
+        else 
+        {
+            text = CombineStrings(text, "in a decrepit, abandoned dungeon, ");
+        }
+        text = CombineStrings(text, "having made it ");
+        switch(appState.stateData.gameState.floor)
+        {
+            case 1: text = CombineStrings(text, "one"); break;
+            case 2: text = CombineStrings(text, "two"); break;
+            case 3: text = CombineStrings(text, "three"); break;
+            case 4: text = CombineStrings(text, "four"); break;
+            case 5: text = CombineStrings(text, "five"); break;
+            case 6: text = CombineStrings(text, "six"); break;
+            case 7: text = CombineStrings(text, "seven"); break;
+            case 8: text = CombineStrings(text, "eight"); break;
+            case 9: text = CombineStrings(text, "nine"); break;
+            case 10: text = CombineStrings(text, "ten"); break;
+            case 11: text = CombineStrings(text, "eleven"); break;
+            case 12: text = CombineStrings(text, "twelve"); break;
+            case 13: text = CombineStrings(text, "thirteen"); break;
+            case 14: text = CombineStrings(text, "fourteen"); break;
+            case 15: text = CombineStrings(text, "fifteen"); break;
+            case 16: text = CombineStrings(text, "sixteen"); break;
+            case 17: text = CombineStrings(text, "seventeen"); break;
+            case 18: text = CombineStrings(text, "eighteen"); break;
+            case 19: text = CombineStrings(text, "nineteen"); break;
+            case 20: text = CombineStrings(text, "twenty"); break;
+            case 21: text = CombineStrings(text, "twenty one"); break;
+            case 22: text = CombineStrings(text, "twenty two"); break;
+            case 23: text = CombineStrings(text, "twenty three"); break;
+        }
+        text = CombineStrings(text, (appState.stateData.gameState.floor == 1) ? " layer deep.\nMay their souls rest." :  " layers deep.\nMay their souls rest.");
+    }
+    DrawTextBoxed(basicFontLarger,text,(Rectangle){64, 280, SCREEN_WIDTH-128, 240},16,0,true, *lightgray);
+
+    EndMode2D();
+    return;
 }
 
 void DrawBattle()

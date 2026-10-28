@@ -17,6 +17,7 @@ void DrawMainMenu();
 void DrawSettings();
 void DrawGameplay();
 void DrawBattle();
+void DrawGameOver();
 void DrawDungeonScreen();
 void DrawEquipmentDialog();
 void DrawItemSelection();

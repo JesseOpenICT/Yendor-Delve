@@ -293,6 +293,12 @@ void HandleAbilityTargetInit()
 
 void PassTurn()
 {
+	if (appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[2].stats.baseStats.currentHealth <= 0)
+	{
+		InitGameState(GS_GAME_OVER);
+		return;
+	}
+
 	appState.stateData.gameState.stateData.battleState.verticalSelection = 0;
 	appState.stateData.gameState.stateData.battleState.opportunitySkillCountdown--;
 	short timeToProgress = DetermineCurrentActingEntity();
