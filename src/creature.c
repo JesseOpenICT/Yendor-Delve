@@ -449,18 +449,18 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_SHAPESHIFTER_TRANSFORM:
         return "Become an exact copy of target enemy, retaining your ability to change shapes.";
     case AB_MAGUS_DISINTEGRATE:
-        sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.2) + 
+        sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.5) + 
             (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina
-            +MAGUS_DISINTEGRATE_COST) * 0.4) * CalculateEffectAmplification(caster, true));
+            +MAGUS_DISINTEGRATE_COST) * 0.6) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Deal ", strnum);
-        result = CombineStrings(result, " (20 + 120% Mastery + 40% missing Stamina) unavoidable damage to an enemy.");
+        result = CombineStrings(result, " (20 + 120% Mastery + 50% missing Stamina) damage to an enemy.");
         return result;
     case AB_MAGUS_ARCANE_BLAST:
         sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) + 
             (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina
-            +MAGUS_ARCANE_BLAST_COST) * 0.4) * CalculateEffectAmplification(caster, true));
+            +MAGUS_ARCANE_BLAST_COST) * 0.2) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Deal ", strnum);
-        result = CombineStrings(result, " (50 + 80% Mastery + 40% missing Stamina) damage to all enemies.");
+        result = CombineStrings(result, " (50 + 80% Mastery + 20% missing Stamina) damage to all enemies.");
         return result;
     case AB_MAGUS_TUTOR:
         sprintf(strnum, "%.0f", (40+(caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4) * CalculateEffectAmplification(caster, false));
@@ -1161,9 +1161,9 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddCreatureToFlicker(caster);
         AddCreatureToFlicker(targets[0]);
         break;case AB_MAGUS_DISINTEGRATE:
-        primaryEffectValue = ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.2) + 
-            (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina) * 0.4) * CalculateEffectAmplification(caster, true);
-        sprintf(strnum, "%d", primaryEffectValue);
+        primaryEffectValue = ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.5) + 
+            (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina) * 0.6) * CalculateEffectAmplification(caster, true);
+        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
         message = CombineStrings((*caster).baseStats.name, " shoots a ray of concentrated arcane energy at ");
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ", dealing ");
@@ -1171,11 +1171,11 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings(message, " damage.");
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
-        DealDamage(primaryEffectValue, targets[0], true, caster);
+        DealDamage(primaryEffectValue, targets[0], false, caster);
         break;
     case AB_MAGUS_ARCANE_BLAST:
         primaryEffectValue = ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) + 
-            (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina) * 0.4) * CalculateEffectAmplification(caster, true);
+            (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina) * 0.2) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " projects an explosive wave of arcane energy, dealing ");
         message = CombineStrings(message, strnum);
