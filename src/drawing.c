@@ -224,7 +224,7 @@ void DrawGameOver()
                 TILE_SIZE, TILE_SIZE,
             },
             (Rectangle){
-                320 - 96, 200, TILE_SIZE * 2, TILE_SIZE * 2,
+                320 - 128, 200, TILE_SIZE * 2, TILE_SIZE * 2,
             },
             (Vector2){0,0}, 0, *gray
         );
@@ -248,7 +248,7 @@ void DrawGameOver()
                 TILE_SIZE, TILE_SIZE,
             },
             (Rectangle){
-                320 + 64, 200, TILE_SIZE * 2, TILE_SIZE * 2,
+                320 + 96, 200, TILE_SIZE * 2, TILE_SIZE * 2,
             },
             (Vector2){0,0}, 0, *gray
         );
@@ -260,14 +260,14 @@ void DrawGameOver()
     }
     else
     {
-        text = "The brave adventurers met their untimely end somewhere ";
+        text = "The brave adventurers have met their untimely end somewhere ";
         if(appState.stateData.gameState.floor > 16)
         {
             text = CombineStrings(text, "in a long forgotten city of a mysterious civilization, ");
         }
         else if(appState.stateData.gameState.floor > 8)
         {
-            text = CombineStrings(text, "within a hidden cavern system under the dungeon, ");
+            text = CombineStrings(text, "deep within a hidden cavern system under the dungeon, ");
         }
         else 
         {

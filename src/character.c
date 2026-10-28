@@ -19,7 +19,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .color = red,
 
                     .ticksUntilNextTurn = 0,
-                    .currentHealth = 1500,
+                    .currentHealth = 1,
                     .maxHealth = 1500,
                     .currentStamina = 600,
                     .maxStamina = 600,
@@ -61,7 +61,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .color = gold,
 
                     .ticksUntilNextTurn = 0,
-                    .currentHealth = 1000,
+                    .currentHealth = 1,
                     .maxHealth = 1000,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
@@ -103,7 +103,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .color = green,
 
                     .ticksUntilNextTurn = 0,
-                    .currentHealth = 1000,
+                    .currentHealth = 1,
                     .maxHealth = 1000,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
