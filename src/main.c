@@ -651,7 +651,8 @@ void HandleBattleInput()
 			}
 			else
 			{
-				appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 			}
 		}
 		if (IsPressed(K_UP))
@@ -724,7 +725,8 @@ void HandleBattleInput()
 			}
 			else
 			{
-				appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 			}
 		}
 		if (IsPressed(K_LEFT))
