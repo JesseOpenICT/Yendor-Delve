@@ -620,7 +620,9 @@ void HandleBattleInput()
 				InitGameState(GS_GAME_OVER);
 				return;
 			}
-			if (appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth <= 0)
+			if ((appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[0]))
+				&& (appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[1]))
+				&& (appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[2])))
 			{
 				char *message = malloc(1);
 				message[0] = '\0';

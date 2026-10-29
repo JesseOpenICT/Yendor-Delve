@@ -42,6 +42,7 @@ typedef struct Enemy
     ABILITY lastUsedAbility;
 } Enemy;
 
+bool IsEnemyIrrelevant(Enemy e);
 Enemy InitEnemyData(ENEMY_ID id);
 
 #endif

@@ -3,6 +3,15 @@
 #include <stdio.h>
 #include "colors.h"
 
+bool IsEnemyIrrelevant(Enemy e)
+{
+    switch(e.enemyId)
+    {
+        case EN_CULTIST_SUMMON: return true;
+        default: return false;
+    }
+}
+
 Enemy InitEnemyData(ENEMY_ID id)
 {
     switch(id)
