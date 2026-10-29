@@ -911,13 +911,15 @@ void DrawItemSelection()
 
     DrawRectangle(LAYOUT_SPACING + 434, 48 + LAYOUT_SPACING, 200, 304, *black);
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){434 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 200, 304}, (Vector2){0,0}, 0, *gray);
-    if(appState.stateData.gameState.stateData.dungeonState.highlightedItem != 0)
-    {
-        char* itemDesc = GetItemStatSpread(
-            appState.stateData.gameState.inventory[appState.stateData.gameState.stateData.dungeonState.slotItemIndexes[appState.stateData.gameState.stateData.dungeonState.highlightedItem-1]]
-        );
-        DrawTextBoxed(basicFont, itemDesc, (Rectangle){LAYOUT_SPACING + 450, 64+LAYOUT_SPACING, 184, 360}, 16, 0, true, *lightgray);
-    }
+
+    char* statDiff = GetItemStatDiff(
+        appState.stateData.gameState.playerTeam[
+        appState.stateData.gameState.stateData.dungeonState.selectionX
+    ].items[appState.stateData.gameState.stateData.dungeonState.highlightedEquipmentSlot],
+    (appState.stateData.gameState.stateData.dungeonState.highlightedItem == 0) ? none : appState.stateData.gameState.inventory[
+        appState.stateData.gameState.stateData.dungeonState.slotItemIndexes[appState.stateData.gameState.stateData.dungeonState.highlightedItem - 1]]
+    );
+    DrawTextBoxed(basicFont, statDiff, (Rectangle){LAYOUT_SPACING + 450, 64+LAYOUT_SPACING, 184, 360}, 16, 0, true, *lightgray);
 
     DrawRectangle(LAYOUT_SPACING + 230, 48 + LAYOUT_SPACING, 208, listH, *black);
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){230 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 208, listH}, (Vector2){0,0}, 0, *white);

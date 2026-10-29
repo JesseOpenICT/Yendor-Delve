@@ -4,135 +4,104 @@
 #include <string.h>
 #include "colors.h"
 
-char* GetItemStatSpread(Item it)    // what do you mean "item" is a keyword
+char* GetItemStatSpread(Item it)
 {
-     char* result = malloc(1);
-     result[0] =  '\0'; 
-     
-     // scan through stats
-     if(it.statBonuses.health != 0)
-     {
-        if (it.statBonuses.health > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.health);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Health\n");
-     }
-     if(it.statBonuses.stamina != 0)
-     {
-        if (it.statBonuses.stamina > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.stamina);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Stamina\n");
-     }
-     if(it.statBonuses.staminaRegen != 0)
-     {
-        if (it.statBonuses.staminaRegen > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.staminaRegen);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Stamina Regen\n");
-     }
-     if(it.statBonuses.speed != 0)
-     {
-        if (it.statBonuses.speed > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.speed);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Speed\n");
-     }
-     if(it.statBonuses.defense != 0)
-     {
-        if (it.statBonuses.defense > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.defense);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Defense\n");
-     }
-     if(it.statBonuses.armor != 0)
-     {
-        if (it.statBonuses.armor > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.armor);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Armour\n");
-     }
-     if(it.statBonuses.critBonus != 0)
-     {
-        if (it.statBonuses.critBonus > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%.0f", it.statBonuses.critBonus);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, "% Crit Bonus\n");
-     }
-     if(it.statBonuses.critRate != 0)
-     {
-        if (it.statBonuses.critRate > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.critRate);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Crit Rate\n");
-     }
-     if(it.statBonuses.mastery != 0)
-     {
-        if (it.statBonuses.mastery > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.mastery);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Mastery\n");
-     }
-     if(it.statBonuses.damageMultiplier != 0)
-     {
-        if (it.statBonuses.damageMultiplier > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%.0f", it.statBonuses.damageMultiplier*100);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, "% Damage Multiplier\n");
-     }
-     if(it.statBonuses.targetPriority != 0)
-     {
-        if (it.statBonuses.targetPriority > 0)
-        {
-            result = CombineStrings(result, "+");
-        }
-        char str_num[6];
-        sprintf(str_num, "%d", it.statBonuses.targetPriority);
-        result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Target Priority\n");
-     }
+    char* result = malloc(1);
+    result[0] = '\0';
+    char str_num[8];
 
-     return result;
+    #define GET_INT(field, label)\
+        do {\
+            if (it.statBonuses.field != 0) {\
+                if (it.statBonuses.field > 0) result = CombineStrings(result, "+");\
+                sprintf(str_num, "%d", it.statBonuses.field);\
+                result = CombineStrings(result, str_num);\
+                result = CombineStrings(result, " " label "\n"); \
+            }\
+        } while (0)
+
+    #define GET_FLOAT(field, label, scale)\
+        do {\
+            if (it.statBonuses.field != 0) {\
+                if (it.statBonuses.field > 0) result = CombineStrings(result, "+");\
+                sprintf(str_num, "%.0f", it.statBonuses.field * scale);\
+                result = CombineStrings(result, str_num);\
+                result = CombineStrings(result, " " label "\n");\
+            }\
+        } while (0)
+
+    GET_INT  (health,  "Health");
+    GET_INT  (stamina, "Stamina");
+    GET_INT  (staminaRegen, "Stamina Regen");
+    GET_INT  (speed, "Speed");
+    GET_INT  (defense, "Defense");
+    GET_INT  (armor, "Armour");
+    GET_FLOAT(critBonus, "% Crit Bonus", 1.0f);
+    GET_INT  (critRate, "Crit Rate");
+    GET_INT  (mastery, "Mastery");
+    GET_FLOAT(damageMultiplier, "% Damage Multiplier", 100.0f);
+    GET_INT  (targetPriority, "Target Priority");
+
+    #undef GET_INT
+    #undef GET_FLOAT
+
+    if (result[0] == '\0')
+    {
+        result = "This item provides no benefits.";
+    }
+
+    return result;
+}
+
+char* GetItemStatDiff(Item current, Item selected)
+{
+    char* result = malloc(1);
+    result[0] = '\0';
+    char str_num[8];
+
+    #define DIFF_INT(field, label)\
+        do {\
+            int d = selected.statBonuses.field - current.statBonuses.field;\
+            if (d != 0) {\
+                if (d > 0) result = CombineStrings(result, "+");\
+                sprintf(str_num, "%d", d);\
+                result = CombineStrings(result, str_num);\
+                result = CombineStrings(result, " " label "\n"); \
+            }\
+        } while (0)
+
+    #define DIFF_FLOAT(field, label, scale)\
+        do {\
+            float d = (selected.statBonuses.field - current.statBonuses.field) * (scale); \
+            if (d != 0) {\
+                if (d > 0) result = CombineStrings(result, "+");\
+                sprintf(str_num, "%.0f", d);\
+                result = CombineStrings(result, str_num);\
+                result = CombineStrings(result, " " label "\n");\
+            }\
+        } while (0)
+
+    DIFF_INT  (health,  "Health");
+    DIFF_INT  (stamina, "Stamina");
+    DIFF_INT  (staminaRegen, "Stamina Regen");
+    DIFF_INT  (speed, "Speed");
+    DIFF_INT  (defense, "Defense");
+    DIFF_INT  (armor, "Armour");
+    DIFF_FLOAT(critBonus, "% Crit Bonus", 1.0f);
+    DIFF_INT  (critRate, "Crit Rate");
+    DIFF_INT  (mastery, "Mastery");
+    DIFF_FLOAT(damageMultiplier, "% Damage Multiplier", 100.0f);
+    DIFF_INT  (targetPriority, "Target Priority");
+
+    #undef DIFF_INT
+    #undef DIFF_FLOAT
+
+    if (result[0] == '\0')
+    {
+        result = "No difference.";
+    }
+
+    return result;
 }
 
 Item InitItem(ITEM_ID id)

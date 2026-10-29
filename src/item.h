@@ -57,6 +57,7 @@ typedef struct Item
 } Item;
 
 char* GetItemStatSpread(Item it);
+char* GetItemStatDiff(Item current, Item selected);
 Item InitItem(ITEM_ID);
 
 #endif
