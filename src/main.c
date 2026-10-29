@@ -624,6 +624,15 @@ void HandleBattleInput()
 				&& (appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[1]))
 				&& (appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[2])))
 			{
+				if(appState.stateData.gameState.floor % 8 == 0)
+				{
+					appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth = (appState.stateData.gameState.playerTeam[0].stats.baseStats.maxHealth 
+						+ appState.stateData.gameState.playerTeam[0].stats.itemStats.health);
+					appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth = (appState.stateData.gameState.playerTeam[1].stats.baseStats.maxHealth 
+						+ appState.stateData.gameState.playerTeam[1].stats.itemStats.health);
+					appState.stateData.gameState.playerTeam[2].stats.baseStats.currentHealth = (appState.stateData.gameState.playerTeam[2].stats.baseStats.maxHealth 
+						+ appState.stateData.gameState.playerTeam[2].stats.itemStats.health);
+				}
 				char *message = malloc(1);
 				message[0] = '\0';
 				message = CombineStrings("Victory! You've defeated your foes and\nobtained ", appState.stateData.gameState.stateData.battleState.reward.name);
