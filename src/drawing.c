@@ -376,7 +376,7 @@ void DrawPrognoses()
     {
         if(appState.stateData.gameState.stateData.battleState.horizontalSelection == i && appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_OVERVIEW)
         {
-            char strnum[6];
+            char strnum[8];
             sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.turnIndicators[i].ticksUntil);
             char* text = CombineStrings("Happens in\n", strnum);
             text = CombineStrings(text, " moments.");
@@ -637,7 +637,7 @@ void DrawBattleScreenEnemy(char index)
         (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield / 
         (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
         4, *skyblue);
-    char strnum[6];
+    char strnum[8];
     sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth
         +appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield);
     Vector2 str_size = MeasureTextEx(basicFontLarger, strnum, 16,0);
@@ -650,7 +650,7 @@ void DrawBattleScreenEnemy(char index)
 
 void DrawDuelistOpportunitySelection()
 {
-    char strnum[6];
+    char strnum[8];
     short height = OPPORTUNITY_MAX_TURNS * 18 + 48;
     DrawRectangle(284, 240 - height/2, 72, height, *black);
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){284, 240 - height/2, 72, height}, (Vector2){0,0}, 0, *white);
@@ -667,7 +667,7 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
 {
     if(_creature->baseStats.currentHealth <= 0) return;
 
-    char strnum[6];
+    char strnum[8];
     int hOffset = 0;
     for(int i = 0; i < SE_LENGTH; i++)
     {

@@ -121,7 +121,7 @@ void ProgressLingeringEffects(CreatureStats *c, short t)
 
 void HandleOnHitEffects(CreatureStats *c, short damage, CreatureStats *caster)
 {
-    char strnum[6];
+    char strnum[8];
     char *message;
     short primaryValue;
     for (int i = 0; i < LINGERING_EFFECTS; i++)
@@ -273,7 +273,7 @@ void HandlePain(CreatureStats* c, short multihit)
     if(c->baseStats.currentHealth <= 0) return;
 
     char* message = CombineStrings(c->baseStats.name, " winces in pain, receiving ");
-    char strnum[6];
+    char strnum[8];
     sprintf(strnum, "%d", CalculateDamage(c->statusEffects[SE_PAIN] * multihit, c));
     message = CombineStrings(message, strnum);
     message = CombineStrings(message, " damage from their wounds.");
@@ -302,7 +302,7 @@ Ability *InitAbilities(ABILITY abilities[], short count)
 
 char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
 {
-    char strnum[6];
+    char strnum[8];
     char *result;
     switch (id)
     {
@@ -747,7 +747,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
 {
     appState.stateData.gameState.stateData.battleState.takeAnotherTurn = false;
     char *message;
-    char strnum[6];
+    char strnum[8];
     short primaryEffectValue;
     short multihit = 1;
     bool isCrit = (*caster).baseStats.critCounter >= CRIT_PROGRESS_MAX;

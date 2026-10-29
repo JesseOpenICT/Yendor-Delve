@@ -34,7 +34,7 @@ char* CombineStrings(char* str1, char* str2)
     char* new_str = malloc(strlen(str1) + strlen(str2) + 1);
     if (new_str == NULL) {
         fprintf(stderr, "malloc failed!\n");
-        return NULL;   // or exit(1), or a static empty string
+        return "";   // or exit(1), or a static empty string
     }
     new_str[0] = '\0';
     strcat(new_str, str1);

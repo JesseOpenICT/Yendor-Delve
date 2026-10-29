@@ -354,7 +354,7 @@ void HandleStartOfTurnProcs()
 {
 	CreatureStats *_creature;
 	char *message;
-	char strnum[6];
+	char strnum[8];
 
 	if (appState.stateData.gameState.stateData.battleState.currentActingEntity < 3)
 	{
