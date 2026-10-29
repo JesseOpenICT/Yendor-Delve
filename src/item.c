@@ -116,9 +116,9 @@ char* GetItemStatSpread(Item it)    // what do you mean "item" is a keyword
             result = CombineStrings(result, "+");
         }
         char str_num[6];
-        sprintf(str_num, "%.0f", it.statBonuses.damageMultiplier);
+        sprintf(str_num, "%.0f", it.statBonuses.damageMultiplier*100);
         result = CombineStrings(result, str_num);
-        result = CombineStrings(result, " Damage Multiplier\n");
+        result = CombineStrings(result, "% Damage Multiplier\n");
      }
      if(it.statBonuses.targetPriority != 0)
      {
@@ -288,7 +288,7 @@ Item InitItem(ITEM_ID id)
         };
         result.statBonuses.mastery = 20;
         result.statBonuses.stamina = 400;
-        result.statBonuses.damageMultiplier = 10;
+        result.statBonuses.damageMultiplier = 0.1;
         return result;
         case ITEM_MERCENARY_CUIRAS:
         result = (Item){

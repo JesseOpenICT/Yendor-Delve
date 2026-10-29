@@ -220,7 +220,7 @@ void DealDamage(short damage, CreatureStats *target, bool trueDamage, CreatureSt
 {
     bool wasAlreadyDead = (*target).baseStats.currentHealth <= 0;
     short finalValue = 0;
-    finalValue = (trueDamage ? damage : CalculateDamage((short)(damage * (1.0 + ((dealer == NULL) ? 0.0 : (((*dealer).itemStats.damageMultiplier + (*dealer).encounterStats.damageMultiplier) * 0.01)))), target));
+    finalValue = (trueDamage ? damage : CalculateDamage((short)(damage * (1.0 + ((dealer == NULL) ? 0.0 : ((*dealer).itemStats.damageMultiplier + (*dealer).encounterStats.damageMultiplier)))), target));
     if(finalValue < 0)
     {
         finalValue = 0;
