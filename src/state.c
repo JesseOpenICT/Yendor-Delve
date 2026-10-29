@@ -443,12 +443,17 @@ void AddCreatureToFlicker(CreatureStats *c)
 
 short DetermineCurrentActingEntity()
 {
-	char result = 0;
-	short minTicks = appState.stateData.gameState.playerTeam[0].stats.baseStats.ticksUntilNextTurn;
+	char result = -1;
+	short minTicks = 9999;
 	appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
 	appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 
 	// no point in turning something this trivial into a loop
+	if (appState.stateData.gameState.playerTeam[0].stats.baseStats.ticksUntilNextTurn < minTicks && appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth > 0)
+	{
+		minTicks = appState.stateData.gameState.playerTeam[0].stats.baseStats.ticksUntilNextTurn;
+		result = 0;
+	}
 	if (appState.stateData.gameState.playerTeam[1].stats.baseStats.ticksUntilNextTurn < minTicks && appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth > 0)
 	{
 		minTicks = appState.stateData.gameState.playerTeam[1].stats.baseStats.ticksUntilNextTurn;
@@ -474,6 +479,7 @@ short DetermineCurrentActingEntity()
 		minTicks = appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.ticksUntilNextTurn;
 		result = 5;
 	}
+	if(result == -1) result = 1;
 
 	appState.stateData.gameState.stateData.battleState.currentActingEntity = result;
 	return minTicks;
