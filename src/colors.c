@@ -179,6 +179,62 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){230,234,238,255},//RAYWHITE
     };break;*/
 
+    case CS_NEON:
+    return (Palette_Values){
+        CLITERAL(Color){116,255,252,255},// LIGHTGRAY,
+        CLITERAL(Color){37,82,171,255},// GRAY,
+        CLITERAL(Color){0,1,122,255},// DARKGRAY,
+        CLITERAL(Color){240,255,0,255},// YELLOW,
+        CLITERAL(Color){255,233,0,255},// GOLD
+        CLITERAL(Color){255,185,0,255},//ORANGE,
+        CLITERAL(Color){255,0,100,255},// RED,
+        CLITERAL(Color){237,33,0,255},// MAROON,
+        CLITERAL(Color){0,237,99,255},//GREEN,
+        CLITERAL(Color){127,225,0,255},//LIME,
+        CLITERAL(Color){0,240,10,255},//DARKGREEN,
+        CLITERAL(Color){0,225,232,255},//SKYBLUE,
+        CLITERAL(Color){0,224,255,255},//BLUE,
+        CLITERAL(Color){0,87,255,255},//DARKBLUE,
+        CLITERAL(Color){159,0,255,255},//PURPLE,
+        CLITERAL(Color){207,0,255,255},//VIOLET,
+        CLITERAL(Color){105,0,255,255},//DARKPURPLE,
+        CLITERAL(Color){255,223,177,255},//BEIGE,
+        CLITERAL(Color){221,89,40,255},//BROWN,
+        CLITERAL(Color){240,115,55,255},//DARKBROWN,
+        CLITERAL(Color){237,250,255,255},// WHITE,
+        CLITERAL(Color){1,0,18,255},// BLACK,
+        CLITERAL(Color){255,0,255,255},//MAGENTA,
+        CLITERAL(Color){255,250,222,255},//RAYWHITE
+    };break;
+
+    case CS_DELICIOUS_BLOOD:
+    return (Palette_Values){
+        CLITERAL(Color){204,41,122,255},// LIGHTGRAY,
+        CLITERAL(Color){102,41,71,255},// GRAY,
+        CLITERAL(Color){38,26,38,255},// DARKGRAY,
+        CLITERAL(Color){255,128,191,255},// YELLOW,
+        CLITERAL(Color){255,128,191,255},// GOLD
+        CLITERAL(Color){255,0,128,255},//ORANGE,
+        CLITERAL(Color){255,0,128,255},// RED,
+        CLITERAL(Color){179,45,112,255},// MAROON,
+        CLITERAL(Color){245,184,212,255},//GREEN,
+        CLITERAL(Color){255,217,235,255},//LIME,
+        CLITERAL(Color){204,41,122,255},//DARKGREEN,
+        CLITERAL(Color){204,41,122,255},//SKYBLUE,
+        CLITERAL(Color){179,45,112,255},//BLUE,
+        CLITERAL(Color){153,46,99,255},//DARKBLUE,
+        CLITERAL(Color){179,45,112,255},//PURPLE,
+        CLITERAL(Color){204,41,122,255},//VIOLET,
+        CLITERAL(Color){153,46,99,255},//DARKPURPLE,
+        CLITERAL(Color){230,161,193,255},//BEIGE,
+        CLITERAL(Color){102,41,71,255},//BROWN,
+        CLITERAL(Color){77,34,55,255},//DARKBROWN,
+        CLITERAL(Color){255,242,249,255},// WHITE,
+        CLITERAL(Color){26,14,20,255},// BLACK,
+        CLITERAL(Color){255,0,128,255},//MAGENTA,
+        CLITERAL(Color){255,242,249,255},//RAYWHITE
+    };break;
+
     case CS_NIGHT_SKY: //NIGHT SKY
     return (Palette_Values){
         CLITERAL(Color){160,186,204,255},// LIGHTGRAY,
@@ -207,7 +263,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){226,245,244,255},//RAYWHITE
     };break;
     
-    /*case CS_OVERGROWN_TEMPLE: //Overgrown
+    case CS_OVERGROWN_TEMPLE: //Overgrown
     return (Palette_Values){
         CLITERAL(Color){224,158,114,255},//LIGHTGRAY,
         CLITERAL(Color){130,88,51,255},//GRAY,
@@ -233,7 +289,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){7,28,1,255},//BLACK,
         MAGENTA,
         CLITERAL(Color){240,235,211,255},//RAYWHITE
-    };break;*/
+    };break;
 
     default: // DEFAULT
     return (Palette_Values){

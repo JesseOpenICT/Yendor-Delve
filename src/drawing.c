@@ -166,8 +166,10 @@ void DrawSettings()
         case CS_FADING:text = "Fading";break;
         case CS_GREENORANGE:text = "Green Orange";break;
         //case CS_EPHEMERA:text = "Ephemeral";break;
+        case CS_NEON:text = "NEON";break;
+        case CS_DELICIOUS_BLOOD:text = "Delicious Blood";break;
         case CS_NIGHT_SKY:text = "Night Sky";break;
-        //case CS_OVERGROWN_TEMPLE:text = "Overgrown Temple";break;
+        case CS_OVERGROWN_TEMPLE:text = "Overgrown Temple";break;
     }
     textSize = MeasureTextEx(basicFontLarger, text, 32, 0);
     textPosition.x = 608 - textSize.x;
