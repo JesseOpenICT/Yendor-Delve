@@ -1268,6 +1268,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         targets[0]->encounterStats.armor -= ripperRendShred - ripperRendPain;
         targets[0]->statusEffects[SE_PAIN] += ripperRendPain * 2;
         DealDamage(0, targets[0], true, caster);
+        if(targets[0]->baseStats.currentHealth <= 0) appState.stateData.gameState.stateData.battleState.takeAnotherTurn = true;
         break;
     case AB_RIPPER_EVISCERATE:
         primaryEffectValue = (2 * (targets[0]->statusEffects[SE_BLEED] + targets[0]->statusEffects[SE_BERSERK] + targets[0]->statusEffects[SE_EXHAUSTION] 
@@ -1281,6 +1282,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         DealDamage(primaryEffectValue, targets[0], true, caster);
+        if(targets[0]->baseStats.currentHealth <= 0) appState.stateData.gameState.stateData.battleState.takeAnotherTurn = true;
         break;
     case AB_RIPPER_STALK:
         primaryEffectValue = (20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.3) * CalculateEffectAmplification(caster, true);
@@ -1317,6 +1319,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         caster->encounterStats.mastery += ripperChaseMastery;
         AddCreatureToFlicker(targets[0]);
         AddMessageToFeed(message);
+        if(targets[0]->baseStats.currentHealth <= 0) appState.stateData.gameState.stateData.battleState.takeAnotherTurn = true;
     break;
     case AB_CULTIST_MADDENING_TOUCH:
         primaryEffectValue = (50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.0) * CalculateEffectAmplification(caster, true);
