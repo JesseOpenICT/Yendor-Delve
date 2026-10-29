@@ -130,6 +130,20 @@ void ReadInput()
 {
 	inputThisFrame = 0;
 
+	if (IsKeyPressed(KEY_INSERT) && appState.stateData.gameState.gameState == GS_DUNGEON)
+	{
+		InitGameState(GS_DUNGEON);
+	}
+	if (IsKeyPressed(KEY_PAGE_UP))
+	{
+		appState.stateData.gameState.floor -= 1;
+		InitGameState(GS_DUNGEON);
+	}
+	if (IsKeyPressed(KEY_PAGE_DOWN))
+	{
+		appState.stateData.gameState.floor += 1;
+		InitGameState(GS_DUNGEON);
+	}
 	if (IsKeyPressed(KEY_T))
 	{
 		markedToClose = true;
