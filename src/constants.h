@@ -72,14 +72,14 @@ enum FONT_SELECTION
 
 enum COLOR_SELECTION
 {
-	CS_CLASSIC,
-	CS_FADING,
-	CS_GREENORANGE,
-	//CS_EPHEMERA,
-	CS_NEON,
-	CS_NIGHT_SKY,
-	CS_DELICIOUS_BLOOD,
-	CS_OVERGROWN_TEMPLE,
+	CS_CLASSIC,		// by Raylib
+	CS_FADING,		// by LunaticDancer
+	CS_GREENORANGE,		// by LunaticDancer
+	CS_NIGHT_SKY,		// by Jtad
+	CS_NEON,		// by Jtad
+	//CS_EPHEMERA,			// by LunaticDancer
+	//CS_DELICIOUS_BLOOD,		// by Jtad
+	//CS_OVERGROWN_TEMPLE,		// by Jtad
 	CS_LENGTH,
 };
 

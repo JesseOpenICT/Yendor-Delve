@@ -207,7 +207,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){255,250,222,255},//RAYWHITE
     };break;
 
-    case CS_DELICIOUS_BLOOD:
+    /*case CS_DELICIOUS_BLOOD:
     return (Palette_Values){
         CLITERAL(Color){204,41,122,255},// LIGHTGRAY,
         CLITERAL(Color){102,41,71,255},// GRAY,
@@ -233,7 +233,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){26,14,20,255},// BLACK,
         CLITERAL(Color){255,0,128,255},//MAGENTA,
         CLITERAL(Color){255,242,249,255},//RAYWHITE
-    };break;
+    };break;*/
 
     case CS_NIGHT_SKY: //NIGHT SKY
     return (Palette_Values){
@@ -263,7 +263,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){226,245,244,255},//RAYWHITE
     };break;
     
-    case CS_OVERGROWN_TEMPLE: //Overgrown
+    /*case CS_OVERGROWN_TEMPLE: //Overgrown
     return (Palette_Values){
         CLITERAL(Color){224,158,114,255},//LIGHTGRAY,
         CLITERAL(Color){130,88,51,255},//GRAY,
@@ -289,7 +289,7 @@ Palette_Values get_palette(int palette_index)
         CLITERAL(Color){7,28,1,255},//BLACK,
         MAGENTA,
         CLITERAL(Color){240,235,211,255},//RAYWHITE
-    };break;
+    };break;*/
 
     default: // DEFAULT
     return (Palette_Values){
