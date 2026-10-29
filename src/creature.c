@@ -311,11 +311,11 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
     case AB_BERSERKER_SWING:
         sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, false));
         result = CombineStrings("Bring the battle axe down in a wild swing, gaining ", strnum);
-        sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%.0f", ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, " (10 + 10% Mastery) Berserk, removing ");
         result = CombineStrings(result, strnum);
         result = CombineStrings(result, " (10 + 40% Mastery) Defense from the target and dealing ");
-        sprintf(strnum, "%.0f", ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.2)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%.0f", ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, strnum);
         result = CombineStrings(result, " (40 + 120% Mastery) damage.");
         return result;
@@ -325,17 +325,17 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (Armour x Berserk) moments of time.");
         return result;
     case AB_BERSERKER_BATTLECRY:
-        sprintf(strnum, "%.0f", (((caster->baseStats.currentStamina) * 0.2)) * CalculateEffectAmplification(caster, false));
+        sprintf(strnum, "%.0f", (((caster->baseStats.currentStamina) * 0.5)) * CalculateEffectAmplification(caster, false));
         result = CombineStrings("Perform a mighty cry, expending half of your current Stamina, gaining ", strnum);
-        result = CombineStrings(result, " (40% of expended Stamina) Berserk and Target Priority. Take an additional turn immediately after.");
+        result = CombineStrings(result, " (100% of expended Stamina) Berserk and Target Priority. Take an additional turn immediately after.");
         return result;
     case AB_BERSERKER_BRACE:
         sprintf(strnum, "%.0f", ((1 + (caster->statusEffects[SE_BERSERK]) * 0.05)) * CalculateEffectAmplification(caster, false));
         result = CombineStrings("Raise the shield in a defensive stance, gaining ", strnum);
         result = CombineStrings(result, " (1 + 5% Berserk) Armour and ");
-        sprintf(strnum, "%.0f", ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, false));
+        sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, false));
         result = CombineStrings(result, strnum);
-        result = CombineStrings(result, " (20 + 40% Mastery) Defense until next turn. Take an additional turn immediately after.");
+        result = CombineStrings(result, " (50 + 80% Mastery) Defense until next turn. Take an additional turn immediately after.");
         return result;
     case AB_ASSASSIN_SLASH:
         sprintf(strnum, "%.0f", ((30 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.6)) * CalculateEffectAmplification(caster, true));
@@ -762,10 +762,10 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(CombineStrings(caster->baseStats.name, " does nothing."));
         break;
     case AB_BERSERKER_SWING:
-        short berserkerSwingDamage =  ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 1.2)) * CalculateEffectAmplification(caster, true);
+        short berserkerSwingDamage =  ((40 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true);
         short berserkerSwingRageGain = ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.1)) * CalculateEffectAmplification(caster, false);
         caster->statusEffects[SE_BERSERK] += berserkerSwingRageGain;
-        primaryEffectValue = ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, true);
+        primaryEffectValue = ((10 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " hacks at ");
         message = CombineStrings(message, targets[0]->baseStats.name);
@@ -797,7 +797,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         targets[0]->baseStats.ticksUntilNextTurn += primaryEffectValue;
         break;
     case AB_BERSERKER_BATTLECRY:
-        primaryEffectValue = (((caster->baseStats.currentStamina) * 0.2)) * CalculateEffectAmplification(caster, false);
+        primaryEffectValue = (((caster->baseStats.currentStamina) * 0.5)) * CalculateEffectAmplification(caster, false);
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " roars a mighty battlecry, gaining ");
         message = CombineStrings(message, strnum);
@@ -813,7 +813,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         break;
     case AB_BERSERKER_BRACE:
         short berserkerBraceArmorGain = ((1 + (caster->statusEffects[SE_BERSERK]) * 0.05)) * CalculateEffectAmplification(caster, false);
-        primaryEffectValue = ((20 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.4)) * CalculateEffectAmplification(caster, false);
+        primaryEffectValue = ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, false);
         sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " raises his shield, gaining ");
         message = CombineStrings(message, strnum);
