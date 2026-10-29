@@ -753,7 +753,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     bool isCrit = (*caster).baseStats.critCounter >= CRIT_PROGRESS_MAX;
     bool dontResetCritProgress = false;
 
-    caster->baseStats.currentStamina -= cost;
+    caster->baseStats.currentStamina -= cost + caster->statusEffects[SE_EXHAUSTION];
 
     switch (id)
     {
