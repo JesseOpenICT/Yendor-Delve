@@ -674,6 +674,8 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
         if (_creature->statusEffects[i] <= 0) continue;
 
         sprintf(strnum, "%d", _creature->statusEffects[i]);
+        DrawTextEx(basicFontLarger, strnum, (Vector2){position.x+21, position.y+hOffset+1}, 16,0, *black);
+        DrawTextEx(basicFontLarger, strnum, (Vector2){position.x+19, position.y+hOffset-1}, 16,0, *black);
         DrawTextEx(basicFontLarger, strnum, (Vector2){position.x+20, position.y+hOffset}, 16,0, *white);
         switch(i)
         {
