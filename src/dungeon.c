@@ -62,7 +62,7 @@ ITEM_ID MatchRewardToEncounter(ENCOUNTER_ID enc, char floor)
     ITEM_ID result = ITEM_NONE;
     switch(floor)
     {
-        case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+        case 1: case 2: case 3: case 4: case 5: case 6: case 7: default:
         {
             switch(enc)
             {
