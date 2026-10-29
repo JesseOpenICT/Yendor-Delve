@@ -565,8 +565,33 @@ void DrawBattleScreenPartyMember(char index)
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 449, creatureBoxSize-40, 2, *darkgray);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 448, 
         (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.currentStamina / 
-        ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxStamina + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.stamina))), 
+        ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxStamina + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.stamina + (float)appState.stateData.gameState.playerTeam[index].stats.encounterStats.stamina))), 
         4, *darkgreen);
+
+    if((appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_ABILITY_SELECT || appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_TARGET_SELECT) && appState.stateData.gameState.stateData.battleState.currentActingEntity == index)
+    {
+        short cost = appState.stateData.gameState.playerTeam[index].stats.abilities[appState.stateData.gameState.stateData.battleState.verticalSelection].staminaCost
+            + appState.stateData.gameState.playerTeam[index].stats.statusEffects[SE_EXHAUSTION];
+
+        if(appState.stateData.gameState.playerTeam[index].stats.baseStats.currentStamina < cost)
+        {
+            DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 448, 
+                (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.currentStamina / 
+                ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxStamina + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.stamina + (float)appState.stateData.gameState.playerTeam[index].stats.encounterStats.stamina))), 
+                4, *maroon);
+        }
+        else
+        {
+            float width = (float)cost / ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxStamina + (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.stamina + (float)appState.stateData.gameState.playerTeam[index].stats.encounterStats.stamina);
+            short offset = (short)(((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.currentStamina / 
+                ((float)appState.stateData.gameState.playerTeam[index].stats.baseStats.maxStamina + 
+                (float)appState.stateData.gameState.playerTeam[index].stats.itemStats.stamina + 
+                (float)appState.stateData.gameState.playerTeam[index].stats.encounterStats.stamina) - width) * (float)(creatureBoxSize-40));
+
+                DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize + offset, 448, (short)(width * (float)(creatureBoxSize-40))+1, 4, *lightgray);
+                DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize + offset, 448, 1, 4, *black);
+        }
+    }
 
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 457, creatureBoxSize-40, 2, *darkgray);
     DrawRectangle(LAYOUT_SPACING + 16 + index * creatureBoxSize, 456, 
