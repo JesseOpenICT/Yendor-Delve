@@ -134,15 +134,21 @@ void ReadInput()
 	{
 		InitGameState(GS_DUNGEON);
 	}
-	if (IsKeyPressed(KEY_PAGE_UP))
+	if (IsKeyPressed(KEY_PAGE_UP) && appState.stateData.gameState.gameState == GS_DUNGEON)
 	{
 		appState.stateData.gameState.floor -= 1;
 		InitGameState(GS_DUNGEON);
 	}
-	if (IsKeyPressed(KEY_PAGE_DOWN))
+	if (IsKeyPressed(KEY_PAGE_DOWN) && appState.stateData.gameState.gameState == GS_DUNGEON)
 	{
 		appState.stateData.gameState.floor += 1;
 		InitGameState(GS_DUNGEON);
+	}
+	if(IsKeyPressed(KEY_END) && appState.stateData.gameState.gameState == GS_BATTLE)
+	{
+		appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth = 0;
+		appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth = 0;
+		appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth = 0;
 	}
 	if (IsKeyPressed(KEY_T))
 	{
@@ -357,6 +363,9 @@ void HandleInput()
 				break;
 			case GS_BATTLE:
 				HandleBattleInput();
+				break;
+			case GS_GAME_OVER:
+				HandleGameOverInput();
 				break;
 			}
 		}

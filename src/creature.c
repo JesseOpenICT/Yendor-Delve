@@ -83,6 +83,7 @@ void ApplyLingeringEffect(CreatureStats *c, LingeringEffect l)
 
     for (int i = 0; i < LINGERING_EFFECTS; i++)
     {
+        if(c->lingeringEffects[i].isPermanent) continue;
         if (c->lingeringEffects[i].effectId == l.effectId)
         {
             matchingIndex = i;
@@ -112,10 +113,38 @@ void ProgressLingeringEffects(CreatureStats *c, short t)
             continue;
 
         c->lingeringEffects[i].tickDuration -= t;
-        if (c->lingeringEffects[i].tickDuration < 1 && c->lingeringEffects[i].triggerLimit < 1)
+        if (c->lingeringEffects[i].tickDuration < 1 && c->lingeringEffects[i].triggerLimit < 1 && c->lingeringEffects[i].isPermanent == false)
         {
+            ShowLingeringEffectPassedMessage(c, c->lingeringEffects[i].effectId);
             c->lingeringEffects[i].effectId = LE_NONE;
         }
+    }
+}
+
+void ShowLingeringEffectPassedMessage(CreatureStats* c, LINGERING_EFFECT e)
+{
+    if((*c).baseStats.currentHealth <= 0) return;
+
+    char *message;
+    switch(e)
+    {
+        case LE_ONHIT_WOLF_BITE:
+        message = CombineStrings((*c).baseStats.name, "'s bite mark stops itching.");
+        AddMessageToFeed(message);
+        break;
+    }
+}
+
+char* GetLingeringEffectDescription(LINGERING_EFFECT e)
+{
+    switch(e)
+    {
+        case LE_AMULET_OF_YENDOR: return "Whoever holds it is an equal to Gods.";
+        case LE_ONABIL_COMFORTABLE_SHOES: return "When using an ability, regain 50 stamina.";
+        case LE_ONABIL_WANDERER_HAT: return "When using an ability, gain half of the Stamina spent as Shield.";
+        case LE_ONATT_HAMMER_OF_GLORY: return "When attacking, apply 10 Pain and Exhaust.";
+        case LE_ONHIT_PENITENT_MAIL: return "When hit, take 10 unavoidable damage and gain 10 Speed.";
+        default: return NULL;
     }
 }
 
@@ -148,6 +177,35 @@ void HandleOnHitEffects(CreatureStats *c, short damage, CreatureStats *caster)
             AddMessageToFeed(message);
             c->statusEffects[SE_BERSERK] += primaryValue;
             break;
+        case LE_ONHIT_PENITENT_MAIL:
+            if(caster == NULL) break;
+            message = CombineStrings("The impact of the blow causes the thorns inside ", (*c).baseStats.name);
+            message = CombineStrings(message, "'s armor to puncture them, dealing 10 damage and sobering them with 10 additional Speed.");
+            AddMessageToFeed(message);
+            c->encounterStats.speed += 10;
+            DealDamage(10, c, true, NULL);
+            break;
+        }
+    }
+}
+
+void HandleOnAttackEffects(CreatureStats *c, short damage, CreatureStats *caster)
+{
+    if(caster == NULL) return;
+    char strnum[8];
+    char *message;
+    short primaryValue;
+    for (int i = 0; i < LINGERING_EFFECTS; i++)
+    {
+        if (caster->lingeringEffects[i].effectId == LE_NONE)
+            continue;
+        switch (caster->lingeringEffects[i].effectId)
+        {
+            case LE_ONATT_HAMMER_OF_GLORY:
+                AddMessageToFeed("The magical hammer applies 10 Pain through the power of flame and 10 Exhaust through the power of frost.");
+                c->statusEffects[SE_PAIN]+=10;
+                c->statusEffects[SE_EXHAUSTION]+=10;
+                break;
         }
     }
 }
@@ -167,6 +225,33 @@ void HandleOnDeathEffects(CreatureStats *c)
 
 void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
 {
+    char strnum[8];
+    char *message;
+    short primaryValue;
+    for (int i = 0; i < LINGERING_EFFECTS; i++)
+    {
+        if (c->lingeringEffects[i].effectId == LE_NONE)
+            continue;
+        switch (c->lingeringEffects[i].effectId)
+        {
+            case LE_ONABIL_COMFORTABLE_SHOES:
+            message = CombineStrings("The comfort of the shoes helps ", (*c).baseStats.name);
+            message = CombineStrings(message, " regain their strength, granting them 50 Stamina.");
+            AddMessageToFeed(message);
+            c->baseStats.currentStamina += 50;
+            break;
+            case LE_ONABIL_WANDERER_HAT:
+            primaryValue = InitAbility(a).staminaCost / 2;
+            c->encounterStats.shield += primaryValue;
+            message = CombineStrings("As ", (*c).baseStats.name);
+            message = CombineStrings(message, " uses the ability, their hat conjures ");
+            sprintf(strnum, "%d", primaryValue);
+            message = CombineStrings(message, strnum);
+            message = CombineStrings(message, " Shield.");
+            AddMessageToFeed(message);
+            break;
+        }
+    }
 }
 
 void EmptyStatusEffects(CreatureStats *_creature)
@@ -245,6 +330,7 @@ void DealDamage(short damage, CreatureStats *target, bool trueDamage, CreatureSt
         (*target).encounterStats.shield = 0;
     }
     HandleOnHitEffects(target, finalValue, dealer);
+    HandleOnAttackEffects(target, finalValue, dealer);
 
     if ((*target).baseStats.currentHealth <= 0)
     {
@@ -1161,7 +1247,8 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         caster->abilityCount = abCount;
         AddCreatureToFlicker(caster);
         AddCreatureToFlicker(targets[0]);
-        break;case AB_MAGUS_DISINTEGRATE:
+        break;
+    case AB_MAGUS_DISINTEGRATE:
         primaryEffectValue = ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.5) + 
             (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina) * 0.6) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
@@ -2348,6 +2435,8 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     {
         HandlePain(targets[i], multihit);
     }
+
+    HandleOnAbilityEffects(caster, id);
 
     if (!dontResetCritProgress)
     {

@@ -10,6 +10,12 @@ char* GetItemStatSpread(Item it)
     result[0] = '\0';
     char str_num[8];
 
+    char* abilityDesc = GetLingeringEffectDescription(it.triggerAbility);
+    if(abilityDesc != NULL)
+    {
+        result = CombineStrings(abilityDesc, "\n");
+    }
+
     #define GET_INT(field, label)\
         do {\
             if (it.statBonuses.field != 0) {\
@@ -58,6 +64,20 @@ char* GetItemStatDiff(Item current, Item selected)
     char* result = malloc(1);
     result[0] = '\0';
     char str_num[8];
+    
+    char* abilityDesc = GetLingeringEffectDescription(current.triggerAbility);
+    if(abilityDesc != NULL)
+    {
+        result = CombineStrings("LOSE: ",abilityDesc);
+        result = CombineStrings(result, "\n");
+    }
+    abilityDesc = GetLingeringEffectDescription(selected.triggerAbility);
+    if(abilityDesc != NULL)
+    {
+        result = CombineStrings(result, "GAIN: ");
+        result = CombineStrings(result,abilityDesc);
+        result = CombineStrings(result, "\n");
+    }
 
     #define DIFF_INT(field, label)\
         do {\
@@ -119,22 +139,20 @@ Item InitItem(ITEM_ID id)
             gray,
             ES_EVERY,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         //
-        case ITEM_TEST:
-        result = (Item){
+        case ITEM_AMULET_OF_YENDOR:
+        return (Item){
             id,
-            "Test Item",
+            "Amulet of Yendor",
             TL_ITEMS,
-            (Vector2){0,0},
-            gray,
+            (Vector2){11,1},
+            skyblue,
             ES_EVERY,
             CreateEmptyStatBonuses(),
+            LE_AMULET_OF_YENDOR,
         };
-        result.statBonuses.health = 25;
-        result.statBonuses.stamina = -25;
-        result.statBonuses.damageMultiplier = 0.35;
-        return result;
         //
         case ITEM_APPRENTICE_BOOTS:
         result = (Item){
@@ -145,6 +163,7 @@ Item InitItem(ITEM_ID id)
             brown,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.mastery = 60;
         result.statBonuses.speed = 40;
@@ -159,6 +178,7 @@ Item InitItem(ITEM_ID id)
             blue,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.mastery = 40;
         result.statBonuses.stamina = 200;
@@ -174,6 +194,7 @@ Item InitItem(ITEM_ID id)
             beige,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.mastery = 80;
         result.statBonuses.targetPriority = -50;
@@ -188,6 +209,7 @@ Item InitItem(ITEM_ID id)
             lightgray,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.mastery = 60;
         result.statBonuses.armor = 1;
@@ -202,6 +224,7 @@ Item InitItem(ITEM_ID id)
             darkgray,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.health = 500;
         result.statBonuses.armor = 8;
@@ -218,6 +241,7 @@ Item InitItem(ITEM_ID id)
             darkgray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.critRate =15;
         result.statBonuses.critBonus = 80;
@@ -234,6 +258,7 @@ Item InitItem(ITEM_ID id)
             darkgray,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.armor = 5;
         result.statBonuses.defense = 100;
@@ -249,6 +274,7 @@ Item InitItem(ITEM_ID id)
             darkgray,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.health = 300;
         result.statBonuses.armor = 4;
@@ -265,6 +291,7 @@ Item InitItem(ITEM_ID id)
             lightgray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.mastery = 20;
         result.statBonuses.stamina = 400;
@@ -280,6 +307,7 @@ Item InitItem(ITEM_ID id)
             orange,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.armor = 1;
         result.statBonuses.defense = 50;
@@ -295,6 +323,7 @@ Item InitItem(ITEM_ID id)
             beige,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.armor = 2;
         result.statBonuses.defense = 30;
@@ -310,6 +339,7 @@ Item InitItem(ITEM_ID id)
             orange,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.armor = 1;
         result.statBonuses.defense = 30;
@@ -325,6 +355,7 @@ Item InitItem(ITEM_ID id)
             gray,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority = -200;
         result.statBonuses.defense = 40;
@@ -340,6 +371,7 @@ Item InitItem(ITEM_ID id)
             darkgray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.critRate = 25;
         result.statBonuses.critBonus = 40;
@@ -355,6 +387,7 @@ Item InitItem(ITEM_ID id)
             gray,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority  = -50;
         result.statBonuses.defense = 30;
@@ -370,6 +403,7 @@ Item InitItem(ITEM_ID id)
             darkbrown,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.speed = 50;
         result.statBonuses.staminaRegen = 100;
@@ -384,6 +418,7 @@ Item InitItem(ITEM_ID id)
             white,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.mastery = 250;
         result.statBonuses.health = -150;
@@ -399,6 +434,7 @@ Item InitItem(ITEM_ID id)
             white,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.speed = 180;
         result.statBonuses.defense = -60;
@@ -414,6 +450,7 @@ Item InitItem(ITEM_ID id)
             white,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.stamina = 1000;
         result.statBonuses.armor = -10;
@@ -429,6 +466,7 @@ Item InitItem(ITEM_ID id)
             gray,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.defense = 100;
         result.statBonuses.armor = 10;
@@ -445,6 +483,7 @@ Item InitItem(ITEM_ID id)
             red,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority = 500;
         return result;
@@ -458,6 +497,7 @@ Item InitItem(ITEM_ID id)
             beige,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.health = 1500;
         return result;
@@ -471,6 +511,7 @@ Item InitItem(ITEM_ID id)
             darkblue,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.stamina = 500;
         result.statBonuses.staminaRegen = 150;
@@ -485,6 +526,7 @@ Item InitItem(ITEM_ID id)
             red,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority = 100;
         result.statBonuses.defense = 100;
@@ -500,6 +542,7 @@ Item InitItem(ITEM_ID id)
             red,
             ES_HEAD,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority = 100;
         result.statBonuses.critRate = 35;
@@ -516,6 +559,7 @@ Item InitItem(ITEM_ID id)
             red,
             ES_TORSO,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority = 100;
         result.statBonuses.critRate = 35;
@@ -532,6 +576,7 @@ Item InitItem(ITEM_ID id)
             red,
             ES_LEGS,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.targetPriority = 100;
         result.statBonuses.critRate = 35;
@@ -548,11 +593,73 @@ Item InitItem(ITEM_ID id)
             red,
             ES_WEAPON,
             CreateEmptyStatBonuses(),
+            LE_NONE,
         };
         result.statBonuses.critRate = -35;
         result.statBonuses.critBonus = 200;
         result.statBonuses.defense = 30;
         result.statBonuses.speed = 30;
+        return result;
+        //
+        case ITEM_WANDERER_HAT:
+        result = (Item){
+            id,
+            "Wanderer's Hat",
+            TL_ITEMS,
+            (Vector2){4,2},
+            darkgreen,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_WANDERER_HAT,
+        };
+        result.statBonuses.mastery = 60;
+        result.statBonuses.critRate = 10;
+        return result;
+        //
+        case ITEM_PENITENT_MAIL:
+        result = (Item){
+            id,
+            "Penitent's Mail",
+            TL_ITEMS,
+            (Vector2){2,2},
+            maroon,
+            ES_TORSO,
+            CreateEmptyStatBonuses(),
+            LE_ONHIT_PENITENT_MAIL,
+        };
+        result.statBonuses.targetPriority = 100;
+        result.statBonuses.defense = 100;
+        result.statBonuses.armor = 20;
+        return result;
+        //
+        case ITEM_COMFORTABLE_SHOES:
+        result = (Item){
+            id,
+            "Comfortable Shoes",
+            TL_ITEMS,
+            (Vector2){3,2},
+            darkgreen,
+            ES_LEGS,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_COMFORTABLE_SHOES,
+        };
+        result.statBonuses.speed = 80;
+        result.statBonuses.targetPriority -= 100;
+        return result;
+        //
+        case ITEM_HAMMER_OF_GLORY:
+        result = (Item){
+            id,
+            "Hammer of Glory",
+            TL_ITEMS,
+            (Vector2){5,0},
+            skyblue,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+            LE_ONATT_HAMMER_OF_GLORY,
+        };
+        result.statBonuses.mastery = 60;
+        result.statBonuses.speed = 60;
         return result;
     }
 }

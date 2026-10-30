@@ -19,8 +19,13 @@ typedef enum STATUS_EFFECT
 typedef enum LINGERING_EFFECT
 {
     LE_NONE,
+    LE_AMULET_OF_YENDOR,
+    LE_ONABIL_WANDERER_HAT,
+    LE_ONABIL_COMFORTABLE_SHOES,
+    LE_ONATT_HAMMER_OF_GLORY,
     LE_ONHIT_DUELIST_PARRY,
     LE_ONHIT_WOLF_BITE,
+    LE_ONHIT_PENITENT_MAIL,
 } LINGERING_EFFECT;
 
 // diminishing stat influence formula: 100 / (100 + stat)
@@ -76,6 +81,7 @@ typedef struct LingeringEffect
     short tickDuration;
     short triggerLimit;
     short storedValue;
+    bool isPermanent;
 } LingeringEffect;
 
 typedef struct CreatureStats
@@ -96,7 +102,10 @@ void ApplyStatDebuff(CreatureStats*, StatDebuff);
 void EmptyLingeringEffects(CreatureStats*);
 void ApplyLingeringEffect(CreatureStats*, LingeringEffect);
 void ProgressLingeringEffects(CreatureStats*, short);
+void ShowLingeringEffectPassedMessage(CreatureStats*, LINGERING_EFFECT);
+char* GetLingeringEffectDescription(LINGERING_EFFECT);
 void HandleOnHitEffects(CreatureStats*, short, CreatureStats*);
+void HandleOnAttackEffects(CreatureStats*, short, CreatureStats*);
 void HandleOnDeathEffects(CreatureStats*);
 void HandleOnAbilityEffects(CreatureStats*, ABILITY);
 void EmptyStatusEffects(CreatureStats*);
