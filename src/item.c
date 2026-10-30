@@ -109,6 +109,7 @@ Item InitItem(ITEM_ID id)
     Item result;
     switch (id)
     {
+        //
         case ITEM_NONE:
         return (Item){
             id,
@@ -119,6 +120,7 @@ Item InitItem(ITEM_ID id)
             ES_EVERY,
             CreateEmptyStatBonuses(),
         };
+        //
         case ITEM_TEST:
         result = (Item){
             id,
@@ -133,6 +135,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.stamina = -25;
         result.statBonuses.damageMultiplier = 0.35;
         return result;
+        //
         case ITEM_APPRENTICE_BOOTS:
         result = (Item){
             id,
@@ -146,6 +149,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.mastery = 60;
         result.statBonuses.speed = 40;
         return result;
+        //
         case ITEM_APPRENTICE_ROBE:
         result = (Item){
             id,
@@ -160,6 +164,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.stamina = 200;
         result.statBonuses.staminaRegen = 100;
         return result;
+        //
         case ITEM_APPRENTICE_STAFF:
         result = (Item){
             id,
@@ -173,6 +178,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.mastery = 80;
         result.statBonuses.targetPriority = -50;
         return result;
+        //
         case ITEM_APPRENTICE_TIARA:
         result = (Item){
             id,
@@ -186,6 +192,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.mastery = 60;
         result.statBonuses.armor = 1;
         return result;
+        //
         case ITEM_JUGGERNAUT_ARMOR:
         result = (Item){
             id,
@@ -201,6 +208,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 160;
         result.statBonuses.speed = -20;
         return result;
+        //
         case ITEM_JUGGERNAUT_GREATHAMMER:
         result = (Item){
             id,
@@ -216,6 +224,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.mastery = 60;
         result.statBonuses.speed = - 20;
         return result;
+        //
         case ITEM_JUGGERNAUT_HELM:
         result = (Item){
             id,
@@ -230,6 +239,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 100;
         result.statBonuses.speed = -15;
         return result;
+        //
         case ITEM_JUGGERNAUT_LEGGINS:
         result = (Item){
             id,
@@ -245,6 +255,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 80;
         result.statBonuses.speed = -15;
         return result;
+        //
         case ITEM_MERCENARY_AXE:
         result = (Item){
             id,
@@ -259,6 +270,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.stamina = 400;
         result.statBonuses.damageMultiplier = 0.1;
         return result;
+        //
         case ITEM_MERCENARY_CUIRAS:
         result = (Item){
             id,
@@ -273,6 +285,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 50;
         result.statBonuses.staminaRegen = 50;
         return result;
+        //
         case ITEM_MERCENARY_GREAVES:
         result = (Item){
             id,
@@ -287,6 +300,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 30;
         result.statBonuses.speed = 30;
         return result;
+        //
         case ITEM_MERCENARY_HELMET:
         result = (Item){
             id,
@@ -301,6 +315,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 30;
         result.statBonuses.staminaRegen = 50;
         return result;
+        //
         case ITEM_THIEF_CAPE:
         result = (Item){
             id,
@@ -315,6 +330,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 40;
         result.statBonuses.speed = 20;
         return result;
+        //
         case ITEM_THIEF_DAGGER:
         result = (Item){
             id,
@@ -329,6 +345,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.critBonus = 40;
         result.statBonuses.speed = 50;
         return result;
+        //
         case ITEM_THIEF_HOOD:
         result = (Item){
             id,
@@ -343,6 +360,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 30;
         result.statBonuses.mastery = 30;
         return result;
+        //
         case ITEM_THIEF_PANTS:
         result = (Item){
             id,
@@ -356,6 +374,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.speed = 50;
         result.statBonuses.staminaRegen = 100;
         return result;
+        //
         case ITEM_SOFUS_HAT:
         result = (Item){
             id,
@@ -370,6 +389,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.health = -150;
         result.statBonuses.targetPriority = 60;
         return result;
+        //
         case ITEM_SOFUS_LEGS:
         result = (Item){
             id,
@@ -384,6 +404,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = -60;
         result.statBonuses.targetPriority = 60;
         return result;
+        //
         case ITEM_SOFUS_TORSO:
         result = (Item){
             id,
@@ -398,6 +419,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.armor = -10;
         result.statBonuses.targetPriority = 60;
         return result;
+        //
         case ITEM_TOWER_SHIELD:
         result = (Item){
             id,
@@ -413,6 +435,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.targetPriority = 100;
         result.statBonuses.speed = -10;
         return result;
+        //
         case ITEM_JESTER_HAT:
         result = (Item){
             id,
@@ -425,6 +448,7 @@ Item InitItem(ITEM_ID id)
         };
         result.statBonuses.targetPriority = 500;
         return result;
+        //
         case ITEM_HALLOWED_FLESH:
         result = (Item){
             id,
@@ -437,6 +461,7 @@ Item InitItem(ITEM_ID id)
         };
         result.statBonuses.health = 1500;
         return result;
+        //
         case ITEM_TRAVELER_SHOES:
         result = (Item){
             id,
@@ -450,6 +475,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.stamina = 500;
         result.statBonuses.staminaRegen = 150;
         return result;
+        //
         case ITEM_BATTLE_SHIELD:
         result = (Item){
             id,
@@ -463,6 +489,70 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.targetPriority = 100;
         result.statBonuses.defense = 100;
         result.statBonuses.mastery = 50;
+        return result;
+        //
+        case ITEM_ELEMANCER_CROWN:
+        result = (Item){
+            id,
+            "Elemancer's Crown",
+            TL_COMMUNITY,
+            (Vector2){4,1},
+            red,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.targetPriority = 100;
+        result.statBonuses.critRate = 35;
+        result.statBonuses.staminaRegen = 50;
+        result.statBonuses.mastery = 70;
+        return result;
+        //
+        case ITEM_ELEMANCER_CAPE:
+        result = (Item){
+            id,
+            "Elemancer's Cape",
+            TL_COMMUNITY,
+            (Vector2){5,5},
+            red,
+            ES_TORSO,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.targetPriority = 100;
+        result.statBonuses.critRate = 35;
+        result.statBonuses.staminaRegen = 50;
+        result.statBonuses.defense = 70;
+        return result;
+        //
+        case ITEM_ELEMANCER_BELT:
+        result = (Item){
+            id,
+            "Elemancer Belt",
+            TL_COMMUNITY,
+            (Vector2){2,6},
+            red,
+            ES_LEGS,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.targetPriority = 100;
+        result.statBonuses.critRate = 35;
+        result.statBonuses.staminaRegen = 50;
+        result.statBonuses.armor = 15;
+        return result;
+        //
+        case ITEM_ELEMANCER_AXE:
+        result = (Item){
+            id,
+            "Elemancer's Rod",
+            TL_COMMUNITY,
+            (Vector2){3,1},
+            red,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+        };
+        result.statBonuses.critRate = -35;
+        result.statBonuses.critBonus = 200;
+        result.statBonuses.defense = 30;
+        result.statBonuses.speed = 30;
         return result;
     }
 }
