@@ -96,8 +96,11 @@ int main()
 	InitEncounterPools();
 	InitItemPools();
 
+	// Override raylib's exit key
+	SetExitKey(KEY_NULL);
+
 	// game loop
-	while (!markedToClose) // run the loop until the user presses ESCAPE or presses the Close button on the window
+	while (!markedToClose && !WindowShouldClose()) // run the loop until the user presses ESCAPE or presses the Close button on the window
 	{
 		HandleRealTimePopups();
 		PollSDLGamepadEvents();
