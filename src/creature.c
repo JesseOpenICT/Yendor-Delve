@@ -143,7 +143,7 @@ char* GetLingeringEffectDescription(LINGERING_EFFECT e)
         case LE_ONABIL_COMFORTABLE_SHOES: return "When using an ability, regain 50 stamina.";
         case LE_ONABIL_WANDERER_HAT: return "When using an ability, gain half of the Stamina spent as Shield.";
         case LE_ONATT_HAMMER_OF_GLORY: return "When attacking, apply 10 Pain and Exhaust.";
-        case LE_ONHIT_PENITENT_MAIL: return "When hit, take 10 unavoidable damage and gain 10 Speed.";
+        case LE_ONHIT_PENITENT_MAIL: return "When hit, gain 2 Bleed and 10 Speed.";
         default: return NULL;
     }
 }
@@ -180,10 +180,10 @@ void HandleOnHitEffects(CreatureStats *c, short damage, CreatureStats *caster)
         case LE_ONHIT_PENITENT_MAIL:
             if(caster == NULL) break;
             message = CombineStrings("The impact of the blow causes the thorns inside ", (*c).baseStats.name);
-            message = CombineStrings(message, "'s armor to puncture them, dealing 10 damage and sobering them with 10 additional Speed.");
+            message = CombineStrings(message, "'s armor to puncture them, applying 2 Bleed and sobering them with 10 additional Speed.");
             AddMessageToFeed(message);
             c->encounterStats.speed += 10;
-            DealDamage(10, c, true, NULL);
+            c->statusEffects[SE_BLEED] += 2;
             break;
         }
     }
