@@ -217,8 +217,21 @@ if (downloadRaylib) then
         flags { "ShadowedVariables"}
         platform_defines()
 
+        filter "system:linux"
         buildoptions { "`pkg-config --cflags sdl2`" }
         linkoptions  { "`pkg-config --libs sdl2`" }
+
+        filter "system:windows"
+        defines{"_WIN32"}
+        includedirs { "/usr/i686-w64-mingw32/include/SDL2" }
+        libdirs { "/usr/i686-w64-mingw32/lib" }
+        -- Standard Windows libs for Raylib + SDL2
+        links {"winmm", "gdi32", "opengl32", "user32", "shell32", "advapi32", "SDL2", "SDL2main", "mingw32"}
+        libdirs {"../bin/%{cfg.buildcfg}"}
+
+        -- old config
+        --buildoptions { "`pkg-config --cflags sdl2`" }
+        --linkoptions  { "`pkg-config --libs sdl2`" }
 
         filter "action:vs*"
             defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS"}
