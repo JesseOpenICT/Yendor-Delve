@@ -105,6 +105,7 @@ struct Settings
 {
 	enum ACTION_SPEED actionSpeed;
 	enum FONT_SELECTION font;
+	enum COLOR_SELECTION palette;
 	char character1;
 	char character2;
 	char character3;
@@ -126,6 +127,7 @@ void LoadConfig();
 struct Settings GetDefaultConfig();
 void InitGameState(enum GAME_STATE);
 void TransitionToBattle();
+void ApplyItemPassives(Character* c);
 void HandleAbilityTargetInit();
 void AddMessageToFeed(char*);
 void AddItemToInventory(Item);

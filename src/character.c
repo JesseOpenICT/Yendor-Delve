@@ -1,6 +1,7 @@
 #include "character.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "colors.h" 
 
 Character InitCharacterData(CHARACTER_ID id)
 {
@@ -15,7 +16,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Berserker",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){6, 0},
-                    .color = RED,
+                    .color = red,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 1500,
@@ -57,7 +58,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Duelist",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){7, 0},
-                    .color = GOLD,
+                    .color = gold,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 1000,
@@ -99,16 +100,16 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Monk",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){2, 7},
-                    .color = GREEN,
+                    .color = green,
 
                     .ticksUntilNextTurn = 0,
-                    .currentHealth = 1000,
-                    .maxHealth = 1000,
+                    .currentHealth = 700,
+                    .maxHealth = 700,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
                     .speed = 100,
-                    .defense = 60,
+                    .defense = 20,
                     .armor = 0,
                     .critBonus = 40,
                     .critRate = 10,
@@ -141,7 +142,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Shapeshifter",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){8, 0},
-                    .color = BEIGE,
+                    .color = beige,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 400,
@@ -183,7 +184,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Flesh Golem",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){5, 4},
-                    .color = MAROON,
+                    .color = maroon,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 200,
@@ -225,7 +226,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Magus",
                     .tileset = TL_GENERAL,
                     .tileLookupPosition = (Vector2){21, 1},
-                    .color = PURPLE,
+                    .color = purple,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 1,
@@ -267,7 +268,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Ripper",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){4,7},
-                    .color = DARKGREEN,
+                    .color = darkgreen,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 800,
@@ -309,7 +310,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Cultist",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){1,7},
-                    .color = ORANGE,
+                    .color = orange,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 900,
@@ -351,7 +352,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Wolf",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){2,9},
-                    .color = DARKBLUE,
+                    .color = darkblue,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 900,
@@ -393,7 +394,7 @@ Character InitCharacterData(CHARACTER_ID id)
                     .name = "Guide",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){0,7},
-                    .color = SKYBLUE,
+                    .color = skyblue,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 1000,

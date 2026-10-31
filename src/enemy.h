@@ -8,6 +8,9 @@
 typedef enum ENEMY_ID
 {
     EN_NONE,
+    ENB_DUNGEON_MASTER,
+    ENB_GREEN_DRAGON,
+    ENB_BLACK_DRAGON,
     EN_CULTIST_SUMMON,
     EN_MIMIC,
     EN_BLOOD_FAE_WARRIOR,
@@ -17,6 +20,10 @@ typedef enum ENEMY_ID
     EN_TOOTH_FAIRY,
     EN_TOOTH_GOLEM,
     EN_STARVING_REVENANT,
+    EN_BANDIT_STRONGMAN,
+    EN_BANDIT_CUTTHROAT,
+    EN_BANDIT_JESTER,
+    EN_GORLAK,
 } ENEMY_ID;
 
 typedef enum TARGETTING_TYPE
@@ -35,6 +42,7 @@ typedef struct Enemy
     ABILITY lastUsedAbility;
 } Enemy;
 
+bool IsEnemyIrrelevant(Enemy e);
 Enemy InitEnemyData(ENEMY_ID id);
 
 #endif

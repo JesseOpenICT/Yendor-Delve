@@ -483,7 +483,7 @@ Ability InitAbility(ABILITY id)
             id,
             "Calcinize",
             250,
-            AF_TARGETS_ENEMIES+AF_AOE,
+            AF_TARGETS_ENEMIES,
         };
         case AB_TOOFAIRY_BONEDUST:
         return (Ability)
@@ -491,7 +491,7 @@ Ability InitAbility(ABILITY id)
             id,
             "Bonedust",
             50,
-            AF_TARGETS_ALLIES,
+            AF_TARGETS_ALLIES+AF_AOE,
         };
         case AB_TOOTHOLEM_STRIKE:
         return (Ability)
@@ -539,6 +539,94 @@ Ability InitAbility(ABILITY id)
             id,
             "Ectoplasmic Manifestation",
             100,
+            AF_TARGETS_SELF,
+        };
+        case AB_BANDIT_STRONGMAN_SLAM:
+        return (Ability)
+        {
+            id,
+            "Crushing Slam",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_JESTER_MOCK:
+        return (Ability)
+        {
+            id,
+            "Mock",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_JESTER_BACKFLIP:
+        return (Ability)
+        {
+            id,
+            "Backflip",
+            100,
+            AF_TARGETS_SELF,
+        };
+        case AB_BANDIT_JESTER_PRANK:
+        return (Ability)
+        {
+            id,
+            "Prank",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_CUTPURSE_SHIV:
+        return (Ability)
+        {
+            id,
+            "Shiv",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_CUTPURSE_DISCOMBOBULATE:
+        return (Ability)
+        {
+            id,
+            "Discombobulate",
+            100,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE:
+        return (Ability)
+        {
+            id,
+            "Invigorating Smoke",
+            100,
+            AF_AOE + AF_TARGETS_ALLIES,
+        };
+        case AB_GORLAK_FLURRY:
+        return (Ability)
+        {
+            id,
+            "Majestic Flurry",
+            70,
+            AF_TARGETS_ENEMIES,
+        };
+        case AB_GORLAK_CLAP:
+        return (Ability)
+        {
+            id,
+            "Thunderous Clap",
+            80,
+            AF_TARGETS_ENEMIES + AF_AOE,
+        };
+        case AB_GORLAK_EQUIP:
+        return (Ability)
+        {
+            id,
+            "Equip",
+            200,
+            AF_TARGETS_SELF,
+        };
+        case AB_GORLAK_POSE:
+        return (Ability)
+        {
+            id,
+            "Heroic Pose",
+            150,
             AF_TARGETS_SELF,
         };
     }

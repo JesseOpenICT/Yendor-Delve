@@ -8,9 +8,9 @@
 
 #define CONFIG_FILE "yendor-delve.config"
 #define ITEM_SLOTS 4
-#define INVENTORY_SIZE 32
-#define ITEM_POOL_TIER_ONE_SIZE 20
-#define STAT_DEBUFFS 8
+#define INVENTORY_SIZE 64
+#define ITEM_POOL_TIER_ONE_SIZE 24
+#define STAT_DEBUFFS 16
 #define LINGERING_EFFECTS 8
 #define TURN_PROGNOSES 9
 #define OPPORTUNITY_MAX_TURNS 6
@@ -33,6 +33,7 @@ typedef struct RNG {
 enum TILESET
 {
 	TL_CREATURES,
+	TL_BIG_CREATURES,
 	TL_ITEMS,
 	TL_GENERAL,
 	TL_COMMUNITY,
@@ -69,6 +70,19 @@ enum FONT_SELECTION
 	FS_SIMPLE,
 };
 
+enum COLOR_SELECTION
+{
+	CS_CLASSIC,		// by Raylib
+	CS_FADING,		// by LunaticDancer
+	CS_GREENORANGE,		// by LunaticDancer
+	CS_NIGHT_SKY,		// by Jtad
+	CS_NEON,		// by Jtad
+	//CS_EPHEMERA,			// by LunaticDancer
+	//CS_DELICIOUS_BLOOD,		// by Jtad
+	//CS_OVERGROWN_TEMPLE,		// by Jtad
+	CS_LENGTH,
+};
+
 enum ACTION_SPEED
 {
 	ACT_SLOW,
@@ -89,6 +103,7 @@ enum SETTINGS_SELECTION
 {
 	SET_ACTION_SPEED,
 	SET_FONT,
+	SET_PALETTE,
 	SET_WINDOWED,
 	SET_SFX_VOLUME,
 	SET_MUSIC_VOLUME,

@@ -18,3 +18,7 @@ Bloep
 King of Quiek  
 Pholidia  
 Sofus  
+
+**Additional programming**  
+Jtad  
+Magneter102

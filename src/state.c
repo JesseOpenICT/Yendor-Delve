@@ -46,6 +46,7 @@ void SaveConfig()
     fprintf(f, "music_volume=%d\n",  appState.settings.musicVolume);
     fprintf(f, "windowed=%d\n", appState.settings.windowed);
     fprintf(f, "font=%d\n", appState.settings.font);
+	fprintf(f, "palette=%d\n", appState.settings.palette);
     fprintf(f, "action_speed=%d\n",  appState.settings.actionSpeed);
     fprintf(f, "character_1=%d\n", appState.settings.character1);
     fprintf(f, "character_2=%d\n", appState.settings.character2);
@@ -86,6 +87,7 @@ void LoadConfig()
         if      (strcmp(key, "sfx_volume") == 0) appState.settings.sfxVolume = atoi(val) % 10;
         else if (strcmp(key, "music_volume") == 0) appState.settings.musicVolume  = atoi(val) % 10;
         else if (strcmp(key, "windowed")  == 0) appState.settings.windowed   = atoi(val);
+		else if (strcmp(key, "palette")  == 0) appState.settings.palette = atoi(val);
         else if (strcmp(key, "font")  == 0) appState.settings.font  = atoi(val) % 2;
         else if (strcmp(key, "action_speed") == 0) appState.settings.actionSpeed = atoi(val) % 4;
         else if (strcmp(key, "character_1") == 0) appState.settings.character1 = atoi(val) % CHAR_LENGTH;
@@ -103,6 +105,7 @@ struct Settings GetDefaultConfig()
 	{
 		.actionSpeed = ACT_REGULAR,
 		.font = FS_FANCY,
+		.palette = CS_CLASSIC,
 		.musicVolume = 7,
 		.sfxVolume = 6,
 		.windowed = false,
@@ -172,6 +175,10 @@ void TransitionToBattle()
 	appState.stateData.gameState.stateData.battleState.enemies[0] = InitEnemyData(encounter.enemies[0]);
 	appState.stateData.gameState.stateData.battleState.enemies[1] = InitEnemyData(encounter.enemies[1]);
 	appState.stateData.gameState.stateData.battleState.enemies[2] = InitEnemyData(encounter.enemies[2]);
+	for(int i = 0; i < 3; i++)
+	{
+		appState.stateData.gameState.stateData.battleState.enemies[i].stats.encounterStats.mastery += (appState.stateData.gameState.floor - 1) * 10;
+	}
 
 	appState.stateData.gameState.playerTeam[0].stats.encounterStats = CreateEmptyStatBonuses();
 	appState.stateData.gameState.playerTeam[1].stats.encounterStats = CreateEmptyStatBonuses();
@@ -186,6 +193,13 @@ void TransitionToBattle()
 	appState.stateData.gameState.playerTeam[1].stats.baseStats.currentStamina = appState.stateData.gameState.playerTeam[1].stats.baseStats.maxStamina + appState.stateData.gameState.playerTeam[1].stats.itemStats.stamina;
 	appState.stateData.gameState.playerTeam[2].stats.baseStats.currentStamina = appState.stateData.gameState.playerTeam[2].stats.baseStats.maxStamina + appState.stateData.gameState.playerTeam[2].stats.itemStats.stamina;
 
+	EmptyLingeringEffects(&appState.stateData.gameState.playerTeam[0].stats);
+	EmptyLingeringEffects(&appState.stateData.gameState.playerTeam[1].stats);
+	EmptyLingeringEffects(&appState.stateData.gameState.playerTeam[2].stats);
+	ApplyItemPassives(&appState.stateData.gameState.playerTeam[0]);
+	ApplyItemPassives(&appState.stateData.gameState.playerTeam[1]);
+	ApplyItemPassives(&appState.stateData.gameState.playerTeam[2]);
+
 	ResetTurnClock(&appState.stateData.gameState.playerTeam[0].stats);
 	ResetTurnClock(&appState.stateData.gameState.playerTeam[1].stats);
 	ResetTurnClock(&appState.stateData.gameState.playerTeam[2].stats);
@@ -194,6 +208,19 @@ void TransitionToBattle()
 	ResetTurnClock(&appState.stateData.gameState.stateData.battleState.enemies[2].stats);
 
 	PassTurn();
+}
+
+void ApplyItemPassives(Character* c)
+{
+	for(int i = 0; i<ITEM_SLOTS; i++)
+	{
+		if(c->items[i].triggerAbility == LE_NONE) continue;
+
+		LingeringEffect le;
+		le.effectId = c->items[i].triggerAbility;
+		le.isPermanent = true;
+		ApplyLingeringEffect(&(*c).stats, le);
+	}
 }
 
 void HandleAbilityTargetInit()
@@ -232,7 +259,8 @@ void HandleAbilityTargetInit()
 		}
 		else
 		{
-			appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 		}
 	}
 	else if (DoesAbilityHaveFlag(ab, AF_AOE))
@@ -266,7 +294,8 @@ void HandleAbilityTargetInit()
 		}
 		else
 		{
-			appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 		}
 	}
 	else if (DoesAbilityHaveFlag(ab, AF_TARGETS_SELF))
@@ -279,7 +308,8 @@ void HandleAbilityTargetInit()
 		}
 		else
 		{
-			appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 		}
 	}
 }
@@ -289,19 +319,6 @@ void PassTurn()
 	if (appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[2].stats.baseStats.currentHealth <= 0)
 	{
 		InitGameState(GS_GAME_OVER);
-		return;
-	}
-	if (appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth <= 0)
-	{
-		char *message = malloc(1);
-		message[0] = '\0';
-		message = CombineStrings("Victory! You've slain your foes and\nobtained ", appState.stateData.gameState.stateData.battleState.reward.name);
-		message = CombineStrings(message, ".");
-		ShowPopupMessage(message);
-		AddItemToInventory(appState.stateData.gameState.stateData.battleState.reward);
-		appState.stateData.gameState.floor++;
-		HandleFleshGolemUpgrade();
-		InitGameState(GS_DUNGEON);
 		return;
 	}
 
@@ -360,7 +377,7 @@ void HandleStartOfTurnProcs()
 {
 	CreatureStats *_creature;
 	char *message;
-	char strnum[6];
+	char strnum[8];
 
 	if (appState.stateData.gameState.stateData.battleState.currentActingEntity < 3)
 	{
@@ -449,12 +466,17 @@ void AddCreatureToFlicker(CreatureStats *c)
 
 short DetermineCurrentActingEntity()
 {
-	char result = 0;
-	short minTicks = appState.stateData.gameState.playerTeam[0].stats.baseStats.ticksUntilNextTurn;
+	char result = -1;
+	short minTicks = 9999;
 	appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
 	appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 
 	// no point in turning something this trivial into a loop
+	if (appState.stateData.gameState.playerTeam[0].stats.baseStats.ticksUntilNextTurn < minTicks && appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth > 0)
+	{
+		minTicks = appState.stateData.gameState.playerTeam[0].stats.baseStats.ticksUntilNextTurn;
+		result = 0;
+	}
 	if (appState.stateData.gameState.playerTeam[1].stats.baseStats.ticksUntilNextTurn < minTicks && appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth > 0)
 	{
 		minTicks = appState.stateData.gameState.playerTeam[1].stats.baseStats.ticksUntilNextTurn;
@@ -480,6 +502,7 @@ short DetermineCurrentActingEntity()
 		minTicks = appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.ticksUntilNextTurn;
 		result = 5;
 	}
+	if(result == -1) result = 1;
 
 	appState.stateData.gameState.stateData.battleState.currentActingEntity = result;
 	return minTicks;
@@ -793,7 +816,8 @@ void HandleEnemyTurn()
 		if (appState.stateData.gameState.stateData.battleState.statePauseTimer <= 0)
 		{
 			appState.stateData.gameState.stateData.battleState.flickeringMask = 0;
-			appState.stateData.gameState.stateData.battleState.battleState = appState.stateData.gameState.stateData.battleState.currentActingEntity < 3 ? BS_PLAYER_ABILITY_SELECT : BS_ENEMY_TURN;
+			appState.stateData.gameState.stateData.battleState.battleState = appState.stateData.gameState.stateData.battleState.currentActingEntity < 3 ? BS_PLAYER_OVERVIEW : BS_ENEMY_TURN;
+			appState.stateData.gameState.stateData.battleState.horizontalSelection = 0;
 		}
 	}
 

@@ -7,6 +7,7 @@
 #include "drawing.h"
 #include "constants.h"
 #include "state.h"
+#include "colors.h"
 
 static SDL_GameController *activeController = NULL;
 static SDL_JoystickID activeControllerId = -1;
@@ -16,6 +17,7 @@ Font titleFont;
 Font basicFont;
 Font basicFontLarger;
 Texture creatureAtlas;
+Texture bigCreatureAtlas;
 Texture itemAtlas;
 Texture generalAtlas;
 Texture communityAtlas;
@@ -78,8 +80,10 @@ int main()
 	SetTextureFilter(basicFont.texture, TEXTURE_FILTER_TRILINEAR);
 	basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 	SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
+	set_palette(appState.settings.palette);
 
 	creatureAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/creatures_transparent.png");
+	bigCreatureAtlas = LoadTexture("assets/hexanys_monster_menagerie/Tilesheets/monochrome_32x32_transparent.png");
 	itemAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/items_transparent.png");
 	generalAtlas = LoadTexture("assets/hexanys_roguelike_tiles/Tilesheets/Transparent/general_transparent.png");
 	communityAtlas = LoadTexture("assets/community_sprites.png");
@@ -92,8 +96,11 @@ int main()
 	InitEncounterPools();
 	InitItemPools();
 
+	// Override raylib's exit key
+	SetExitKey(KEY_NULL);
+
 	// game loop
-	while (!markedToClose) // run the loop until the user presses ESCAPE or presses the Close button on the window
+	while (!markedToClose && !WindowShouldClose()) // run the loop until the user presses ESCAPE or presses the Close button on the window
 	{
 		HandleRealTimePopups();
 		PollSDLGamepadEvents();
@@ -107,6 +114,7 @@ int main()
 	// cleanup
 	UnloadTexture(itemAtlas);
 	UnloadTexture(creatureAtlas);
+	UnloadTexture(bigCreatureAtlas);
 	UnloadTexture(generalAtlas);
 	UnloadTexture(dungeonAtlas);
 	UnloadTexture(boneFrame);
@@ -125,7 +133,27 @@ void ReadInput()
 {
 	inputThisFrame = 0;
 
-	if (IsKeyPressed(KEY_K))
+	if (IsKeyPressed(KEY_INSERT) && appState.stateData.gameState.gameState == GS_DUNGEON)
+	{
+		InitGameState(GS_DUNGEON);
+	}
+	if (IsKeyPressed(KEY_PAGE_UP) && appState.stateData.gameState.gameState == GS_DUNGEON)
+	{
+		appState.stateData.gameState.floor -= 1;
+		InitGameState(GS_DUNGEON);
+	}
+	if (IsKeyPressed(KEY_PAGE_DOWN) && appState.stateData.gameState.gameState == GS_DUNGEON)
+	{
+		appState.stateData.gameState.floor += 1;
+		InitGameState(GS_DUNGEON);
+	}
+	if(IsKeyPressed(KEY_END) && appState.stateData.gameState.gameState == GS_BATTLE)
+	{
+		appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth = 0;
+		appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth = 0;
+		appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth = 0;
+	}
+	if (IsKeyPressed(KEY_T))
 	{
 		markedToClose = true;
 	}
@@ -136,83 +164,83 @@ void ReadInput()
 		if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 	}
 
-	if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
+	if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
 	{
 		inputThisFrame = inputThisFrame | K_UP;
 	}
-	if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
+	if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
 	{
 		inputThisFrame = inputThisFrame | K_DOWN;
 	}
-	if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
+	if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
 	{
 		inputThisFrame = inputThisFrame | K_LEFT;
 	}
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
+	if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 	{
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
-	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E))
+	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E) || IsKeyPressed(KEY_Z))
 	{
 		inputThisFrame = inputThisFrame | K_CONFIRM;
 	}
-	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q))
+	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_X))
 	{
 		inputThisFrame = inputThisFrame | K_BACK;
 	}
 
-	if (!IsHeld(K_UP) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_UP) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, false)))
+	if (!IsHeld(K_UP) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_UP) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, false) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTY, false)))
 	{
 		inputHeld = inputThisFrame | K_UP;
 		inputThisFrame = inputThisFrame | K_UP;
 	}
-	if (!IsHeld(K_DOWN) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, true)))
+	if (!IsHeld(K_DOWN) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_DOWN) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTY, true) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTY, true)))
 	{
 		inputHeld = inputThisFrame | K_DOWN;
 		inputThisFrame = inputThisFrame | K_DOWN;
 	}
-	if (!IsHeld(K_LEFT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, false)))
+	if (!IsHeld(K_LEFT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_LEFT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, false) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTX, false)))
 	{
 		inputHeld = inputThisFrame | K_LEFT;
 		inputThisFrame = inputThisFrame | K_LEFT;
 	}
-	if (!IsHeld(K_RIGHT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, true)))
+	if (!IsHeld(K_RIGHT) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_LEFTX, true) || SDLAxisFlicked(SDL_CONTROLLER_AXIS_RIGHTX, true)))
 	{
 		inputHeld = inputThisFrame | K_RIGHT;
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
-	if (!IsHeld(K_CONFIRM) && SDLButtonPressed(SDL_CONTROLLER_BUTTON_A))
+	if (!IsHeld(K_CONFIRM) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) || SDLButtonPressed(SDL_CONTROLLER_BUTTON_A)))
 	{
 		inputHeld = inputThisFrame | K_CONFIRM;
 		inputThisFrame = inputThisFrame | K_CONFIRM;
 	}
-	if (!IsHeld(K_BACK) && SDLButtonPressed(SDL_CONTROLLER_BUTTON_B))
+	if (!IsHeld(K_BACK) && (SDLButtonPressed(SDL_CONTROLLER_BUTTON_START) || SDLButtonPressed(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) || SDLButtonPressed(SDL_CONTROLLER_BUTTON_B)))
 	{
 		inputHeld = inputThisFrame | K_BACK;
 		inputThisFrame = inputThisFrame | K_BACK;
 	}
 
-	if (IsHeld(K_UP) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_UP) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, false)))
+	if (IsHeld(K_UP) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_UP) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, false) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTY, false)))
 	{
 		inputHeld = inputThisFrame & ~K_UP;
 	}
-	if (IsHeld(K_DOWN) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_DOWN) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, true)))
+	if (IsHeld(K_DOWN) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_DOWN) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTY, true) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTY, true)))
 	{
 		inputHeld = inputThisFrame & ~K_DOWN;
 	}
-	if (IsHeld(K_LEFT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_LEFT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, false)))
+	if (IsHeld(K_LEFT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_LEFT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, false) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTX, false)))
 	{
 		inputHeld = inputThisFrame & ~K_LEFT;
 	}
-	if (IsHeld(K_RIGHT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, true)))
+	if (IsHeld(K_RIGHT) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_LEFTX, true) && SDLAxisUnflicked(SDL_CONTROLLER_AXIS_RIGHTX, true)))
 	{
 		inputHeld = inputThisFrame & ~K_RIGHT;
 	}
-	if (IsHeld(K_CONFIRM) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_A))
+	if (IsHeld(K_CONFIRM) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_A) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)))
 	{
 		inputHeld = inputThisFrame & ~K_CONFIRM;
 	}
-	if (IsHeld(K_BACK) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_B))
+	if (IsHeld(K_BACK) && (SDLButtonReleased(SDL_CONTROLLER_BUTTON_B) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) && SDLButtonReleased(SDL_CONTROLLER_BUTTON_START)))
 	{
 		inputHeld = inputThisFrame & ~K_BACK;
 	}
@@ -283,7 +311,7 @@ void HandleDrawing()
     camera.zoom   = scale;
 
 	BeginDrawing();
-	ClearBackground(BLACK);
+	ClearBackground(*black);
 
 	switch (appState.appState)
 	{
@@ -338,6 +366,9 @@ void HandleInput()
 				break;
 			case GS_BATTLE:
 				HandleBattleInput();
+				break;
+			case GS_GAME_OVER:
+				HandleGameOverInput();
 				break;
 			}
 		}
@@ -422,6 +453,7 @@ void HandleSettingsInput()
 			case SET_ACTION_SPEED:
 			appState.settings.actionSpeed = (appState.settings.actionSpeed + 1) % 4;
 			break;
+
 			case SET_FONT:
 			appState.settings.font = (appState.settings.font + 1) % 2;
 			basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
@@ -429,14 +461,22 @@ void HandleSettingsInput()
 			basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 			SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 			break;
+			
+			case SET_PALETTE:
+			appState.settings.palette = (appState.settings.palette + 1) % CS_LENGTH;
+			set_palette(appState.settings.palette);
+			break;			
+			
 			case SET_WINDOWED:
 			appState.settings.windowed = !appState.settings.windowed;
 			SetWindowSize(appState.settings.windowed?SCREEN_WIDTH:GetScreenWidth(),appState.settings.windowed?SCREEN_HEIGHT:GetScreenHeight());
 			if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 			break;
+			
 			case SET_SFX_VOLUME:
 			appState.settings.sfxVolume = (appState.settings.sfxVolume + 1) % 10;
 			break;
+			
 			case SET_MUSIC_VOLUME:
 			appState.settings.musicVolume = (appState.settings.musicVolume + 1) % 10;
 			break;
@@ -449,6 +489,7 @@ void HandleSettingsInput()
 			case SET_ACTION_SPEED:
 			appState.settings.actionSpeed = (appState.settings.actionSpeed + 3) % 4;
 			break;
+
 			case SET_FONT:
 			appState.settings.font = (appState.settings.font + 1) % 2;
 			basicFont = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 64, 0, 0);
@@ -456,14 +497,22 @@ void HandleSettingsInput()
 			basicFontLarger = LoadFontEx((appState.settings.font == FS_FANCY) ? "assets/fonts/alagard.ttf" : "assets/fonts/OpenSans-Regular.ttf", 128, 0, 0);
 			SetTextureFilter(basicFontLarger.texture, TEXTURE_FILTER_TRILINEAR);
 			break;
+
+			case SET_PALETTE:
+			appState.settings.palette = (appState.settings.palette + CS_LENGTH - 1) % CS_LENGTH;
+			set_palette(appState.settings.palette);
+			break;		
+
 			case SET_WINDOWED:
 			appState.settings.windowed = !appState.settings.windowed;
 			SetWindowSize(appState.settings.windowed?SCREEN_WIDTH:GetScreenWidth(),appState.settings.windowed?SCREEN_HEIGHT:GetScreenHeight());
 			if(IsWindowFullscreen() == appState.settings.windowed) ToggleFullscreen();
 			break;
+
 			case SET_SFX_VOLUME:
 			appState.settings.sfxVolume = (appState.settings.sfxVolume + 9) % 10;
 			break;
+
 			case SET_MUSIC_VOLUME:
 			appState.settings.musicVolume = (appState.settings.musicVolume + 9) % 10;
 			break;
@@ -570,14 +619,50 @@ void HandleCharacterSelectInput()
 
 void HandleBattleInput()
 {
+	if (appState.stateData.gameState.isPaused)
+	{
+		HandlePauseMenuInput();
+		return;
+	}
+
 	if (appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_OVERVIEW)
 	{
 		if (IsPressed(K_BACK))
 		{
-			InitGameState(GS_DUNGEON);
+			appState.stateData.gameState.isPaused = !appState.stateData.gameState.isPaused;
+			appState.stateData.gameState.pauseMenuSelection = 0;
 		}
 		if (IsPressed(K_CONFIRM))
 		{
+			if (appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth <= 0 && appState.stateData.gameState.playerTeam[2].stats.baseStats.currentHealth <= 0)
+			{
+				InitGameState(GS_GAME_OVER);
+				return;
+			}
+			if ((appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[0]))
+				&& (appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[1]))
+				&& (appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth <= 0 || IsEnemyIrrelevant(appState.stateData.gameState.stateData.battleState.enemies[2])))
+			{
+				if(appState.stateData.gameState.floor % 8 == 0)
+				{
+					appState.stateData.gameState.playerTeam[0].stats.baseStats.currentHealth = (appState.stateData.gameState.playerTeam[0].stats.baseStats.maxHealth 
+						+ appState.stateData.gameState.playerTeam[0].stats.itemStats.health);
+					appState.stateData.gameState.playerTeam[1].stats.baseStats.currentHealth = (appState.stateData.gameState.playerTeam[1].stats.baseStats.maxHealth 
+						+ appState.stateData.gameState.playerTeam[1].stats.itemStats.health);
+					appState.stateData.gameState.playerTeam[2].stats.baseStats.currentHealth = (appState.stateData.gameState.playerTeam[2].stats.baseStats.maxHealth 
+						+ appState.stateData.gameState.playerTeam[2].stats.itemStats.health);
+				}
+				char *message = malloc(1);
+				message[0] = '\0';
+				message = CombineStrings("Victory! You've defeated your foes and\nobtained ", appState.stateData.gameState.stateData.battleState.reward.name);
+				message = CombineStrings(message, ".");
+				ShowPopupMessage(message);
+				AddItemToInventory(appState.stateData.gameState.stateData.battleState.reward);
+				appState.stateData.gameState.floor++;
+				HandleFleshGolemUpgrade();
+				InitGameState(GS_DUNGEON);
+				return;
+			}
 			appState.stateData.gameState.stateData.battleState.verticalSelection = 0;
 			appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
 		}
@@ -610,7 +695,8 @@ void HandleBattleInput()
 			}
 			else
 			{
-				appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 			}
 		}
 		if (IsPressed(K_UP))
@@ -683,7 +769,8 @@ void HandleBattleInput()
 			}
 			else
 			{
-				appState.stateData.gameState.stateData.battleState.battleState = BS_PLAYER_ABILITY_SELECT;
+				appState.stateData.gameState.stateData.battleState.battleState = BS_SHOW_ABILITY_VFX;
+    			appState.stateData.gameState.stateData.battleState.statePauseTimer = TURN_ACTION_DURATION[appState.settings.actionSpeed];
 			}
 		}
 		if (IsPressed(K_LEFT))

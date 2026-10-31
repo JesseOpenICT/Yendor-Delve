@@ -1,6 +1,16 @@
 #include "enemy.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "colors.h"
+
+bool IsEnemyIrrelevant(Enemy e)
+{
+    switch(e.enemyId)
+    {
+        case EN_CULTIST_SUMMON: return true;
+        default: return false;
+    }
+}
 
 Enemy InitEnemyData(ENEMY_ID id)
 {
@@ -14,7 +24,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Empty Space",
                     .tileset = TL_GENERAL,
                     .tileLookupPosition = (Vector2){1,0},
-                    .color = GRAY,
+                    .color = gray,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 0,
@@ -36,10 +46,124 @@ Enemy InitEnemyData(ENEMY_ID id)
                 .itemStats = CreateEmptyStatBonuses(),
                 .temporaryStats = {},
                 .lingeringEffects = {},
-                .abilities = (Ability*)malloc(0),
-                .abilityCount = 0,
+                .abilities = InitAbilities((ABILITY[]){AB_WAIT},1),
+                .abilityCount = 1,
             },
             TG_TRUE_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case ENB_DUNGEON_MASTER:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Dungeon Master",
+                    .tileset = TL_BIG_CREATURES,
+                    .tileLookupPosition = (Vector2){5,3},
+                    .color = gold,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 30000,
+                    .maxHealth = 30000,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 300,
+                    .speed = 400,
+                    .defense = 150,
+                    .armor = 5,
+                    .critBonus = 100,
+                    .critRate = 10,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_CULTIST_SPAWN_ENROOT, AB_CULTIST_SPAWN_SPORES,AB_CULTIST_SPAWN_GROW,AB_CULTIST_SPAWN_INVIGORATE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case ENB_BLACK_DRAGON:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Black Dragon",
+                    .tileset = TL_BIG_CREATURES,
+                    .tileLookupPosition = (Vector2){3,0},
+                    .color = darkgray,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 10000,
+                    .maxHealth = 10000,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 200,
+                    .speed = 250,
+                    .defense = 250,
+                    .armor = 10,
+                    .critBonus = 100,
+                    .critRate = 10,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_CULTIST_SPAWN_ENROOT, AB_CULTIST_SPAWN_SPORES,AB_CULTIST_SPAWN_GROW,AB_CULTIST_SPAWN_INVIGORATE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case ENB_GREEN_DRAGON:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Green Dragon",
+                    .tileset = TL_BIG_CREATURES,
+                    .tileLookupPosition = (Vector2){3,0},
+                    .color = green,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 2500,
+                    .maxHealth = 2500,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 200,
+                    .speed = 150,
+                    .defense = 150,
+                    .armor = 5,
+                    .critBonus = 100,
+                    .critRate = 10,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_CULTIST_SPAWN_ENROOT, AB_CULTIST_SPAWN_SPORES,AB_CULTIST_SPAWN_GROW,AB_CULTIST_SPAWN_INVIGORATE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
             AB_WAIT,
         };
         break;
@@ -52,7 +176,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Mindless Spawn",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){10,14},
-                    .color = DARKPURPLE,
+                    .color = darkpurple,
 
                     .ticksUntilNextTurn = 100,
                     .currentHealth = 150,
@@ -90,7 +214,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Mimic",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){5,14},
-                    .color = BROWN,
+                    .color = brown,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 1000,
@@ -98,7 +222,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 200,
-                    .speed = 150,
+                    .speed = 350,
                     .defense = 150,
                     .armor = 5,
                     .critBonus = 100,
@@ -128,7 +252,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Blood Fae Warrior",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){12,3},
-                    .color = RED,
+                    .color = red,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 200,
@@ -166,7 +290,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Blood Fae Mystic",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){13,3},
-                    .color = RED,
+                    .color = red,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 140,
@@ -204,7 +328,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Caustic Cube",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){6,14},
-                    .color = GREEN,
+                    .color = lime,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 600,
@@ -212,7 +336,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
-                    .speed = 300,
+                    .speed = 150,
                     .defense = 80,
                     .armor = 0,
                     .critBonus = 100,
@@ -242,15 +366,15 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Caustic Cubeling",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){6,14},
-                    .color = LIME,
+                    .color = green,
 
-                    .ticksUntilNextTurn = 0,
+                    .ticksUntilNextTurn = 300,
                     .currentHealth = 50,
                     .maxHealth = 50,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
-                    .speed = 100,
+                    .speed = 120,
                     .defense = 20,
                     .armor = 0,
                     .critBonus = 100,
@@ -280,7 +404,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Tooth Fairy",
                     .tileset = TL_COMMUNITY,
                     .tileLookupPosition = (Vector2){4,4},
-                    .color = RAYWHITE,
+                    .color = raywhite,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 300,
@@ -288,7 +412,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
-                    .speed = 120,
+                    .speed = 100,
                     .defense = 100,
                     .armor = 2,
                     .critBonus = 100,
@@ -318,15 +442,15 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Tooth Golem",
                     .tileset = TL_COMMUNITY,
                     .tileLookupPosition = (Vector2){5,4},
-                    .color = RAYWHITE,
+                    .color = raywhite,
 
-                    .ticksUntilNextTurn = 0,
-                    .currentHealth = 200,
-                    .maxHealth = 200,
+                    .ticksUntilNextTurn = 400,
+                    .currentHealth = 120,
+                    .maxHealth = 120,
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 150,
-                    .speed = 200,
+                    .speed = 150,
                     .defense = 50,
                     .armor = 2,
                     .critBonus = 100,
@@ -356,7 +480,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .name = "Starving Revenant",
                     .tileset = TL_CREATURES,
                     .tileLookupPosition = (Vector2){4,6},
-                    .color = SKYBLUE,
+                    .color = skyblue,
 
                     .ticksUntilNextTurn = 0,
                     .currentHealth = 200,
@@ -383,6 +507,158 @@ Enemy InitEnemyData(ENEMY_ID id)
             },
             TG_TRUE_RANDOM,
             AB_WAIT,
+        };
+        break;
+        
+        case EN_BANDIT_STRONGMAN:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Strongman",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){0,4},
+                    .color = orange,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 500,
+                    .maxHealth = 500,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 80,
+                    .defense = 100,
+                    .armor = 1,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_STRONGMAN_SLAM,AB_WAIT}, 2),
+                .abilityCount = 2,
+            },
+            TG_TRUE_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case EN_BANDIT_CUTTHROAT:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Cutpurse",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){0,1},
+                    .color = lightgray,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 200,
+                    .maxHealth = 200,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 150,
+                    .defense = 50,
+                    .armor = 0,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_CUTPURSE_SHIV, AB_BANDIT_CUTPURSE_DISCOMBOBULATE,AB_BANDIT_CUTPURSE_INVIGORATING_SMOKE,AB_WAIT}, 4),
+                .abilityCount = 4,
+            },
+            TG_BACK,
+            AB_WAIT,
+        };
+        break;
+        
+        case EN_BANDIT_JESTER:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Jester",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){5,0},
+                    .color = maroon,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 100,
+                    .maxHealth = 100,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 260,
+                    .defense = 500,
+                    .armor = 0,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_BANDIT_JESTER_MOCK, AB_BANDIT_JESTER_BACKFLIP,AB_BANDIT_JESTER_PRANK,AB_WAIT}, 4),
+                .abilityCount = 4,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_WAIT,
+        };
+        break;
+        
+        case EN_GORLAK:
+        return (Enemy){
+            id,
+            (CreatureStats){
+                .baseStats = (CreatureBaseStats){
+                    .name = "Gorlak",
+                    .tileset = TL_CREATURES,
+                    .tileLookupPosition = (Vector2){8,15},
+                    .color = magenta,
+
+                    .ticksUntilNextTurn = 0,
+                    .currentHealth = 500,
+                    .maxHealth = 500,
+                    .currentStamina = 1000,
+                    .maxStamina = 1000,
+                    .staminaRegen = 150,
+                    .speed = 140,
+                    .defense = 100,
+                    .armor = 2,
+                    .critBonus = 100,
+                    .critRate = 1,
+                    .critCounter = 0,
+                    .mastery = 0,
+                    .targetPriority = 500,
+                },
+                .statusEffects = {},
+                .encounterStats = CreateEmptyStatBonuses(),
+                .itemStats = CreateEmptyStatBonuses(),
+                .temporaryStats = {},
+                .lingeringEffects = {},
+                .abilities = InitAbilities((ABILITY[]){AB_GORLAK_FLURRY,AB_GORLAK_CLAP,AB_GORLAK_EQUIP,AB_GORLAK_POSE,AB_WAIT}, 5),
+                .abilityCount = 5,
+            },
+            TG_WEIGHTED_RANDOM,
+            AB_GORLAK_EQUIP,
         };
         break;
     }
