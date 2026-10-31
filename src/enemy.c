@@ -222,7 +222,7 @@ Enemy InitEnemyData(ENEMY_ID id)
                     .currentStamina = 1000,
                     .maxStamina = 1000,
                     .staminaRegen = 200,
-                    .speed = 150,
+                    .speed = 250,
                     .defense = 150,
                     .armor = 5,
                     .critBonus = 100,
