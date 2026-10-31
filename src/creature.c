@@ -1230,9 +1230,16 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         DealDamage(primaryEffectValue, targets[0], false, caster);
         break;
     case AB_SHAPESHIFTER_TRANSFORM:
+        if(strcmp(targets[0]->baseStats.name, "Empty Space") == 0)
+        {
+        message = CombineStrings((*caster).baseStats.name, " becomes an incidental little critter found on the dungeon floor.");
+        }
+        else
+        {
         message = CombineStrings((*caster).baseStats.name, " becomes ");
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ".");
+        }
         AddMessageToFeed(message);
         char abCount = targets[0]->abilityCount + 1;
         ABILITY *abilities = malloc(abCount * sizeof(int));
@@ -1246,6 +1253,19 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         caster->baseStats.color = beige;
         caster->abilities = InitAbilities(abilities, abCount);
         caster->abilityCount = abCount;
+        if(strcmp(targets[0]->baseStats.name, "Empty Space") == 0)
+        {
+            caster->baseStats.maxHealth = 1;
+            caster->baseStats.currentHealth = 1;
+            caster->baseStats.name = "Critter";
+            switch(rand()%4)
+            {
+                case 0: caster->baseStats.tileLookupPosition = (Vector2){8,9}; caster->baseStats.tileset = TL_CREATURES; break;
+                case 1: caster->baseStats.tileLookupPosition = (Vector2){10,9}; caster->baseStats.tileset = TL_CREATURES; break;
+                case 2: caster->baseStats.tileLookupPosition = (Vector2){0,10}; caster->baseStats.tileset = TL_CREATURES; break;
+                case 3: caster->baseStats.tileLookupPosition = (Vector2){1,1}; caster->baseStats.tileset = TL_COMMUNITY; break;
+            }
+        }
         AddCreatureToFlicker(caster);
         AddCreatureToFlicker(targets[0]);
         break;
