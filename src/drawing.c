@@ -315,6 +315,19 @@ void DrawBattle()
 {
     BeginMode2D(camera);
 
+    if(appState.stateData.gameState.isInSettings)
+    {
+        DrawSettings();
+        EndMode2D();
+        return;
+    }
+    if(appState.stateData.gameState.isPaused)
+    {
+        DrawPauseMenu();
+        EndMode2D();
+        return;
+    }
+
     DrawBattleScreenMessageFeed();
     DrawPrognoses();
 
@@ -821,13 +834,14 @@ void DrawBattleScreenMessageFeed()
 
 void DrawDungeonScreen()
 {
+    BeginMode2D(camera);
+
     if(appState.stateData.gameState.isInSettings)
     {
         DrawSettings();
+        EndMode2D();
         return;
     }
-    BeginMode2D(camera);
-
     if(appState.stateData.gameState.isPaused)
     {
         DrawPauseMenu();
@@ -946,7 +960,7 @@ void DrawItemSelection()
     (appState.stateData.gameState.stateData.dungeonState.highlightedItem == 0) ? none : appState.stateData.gameState.inventory[
         appState.stateData.gameState.stateData.dungeonState.slotItemIndexes[appState.stateData.gameState.stateData.dungeonState.highlightedItem - 1]]
     );
-    DrawTextBoxed(basicFont, statDiff, (Rectangle){LAYOUT_SPACING + 450, 64+LAYOUT_SPACING, 184, 360}, 16, 0, true, *lightgray);
+    DrawTextBoxed(basicFont, statDiff, (Rectangle){LAYOUT_SPACING + 450, 64+LAYOUT_SPACING, 182, 360}, 16, 0, true, *lightgray);
 
     DrawRectangle(LAYOUT_SPACING + 230, 48 + LAYOUT_SPACING, 208, listH, *black);
     DrawTextureNPatch(ornateFrame, frameInfo, (Rectangle){230 + LAYOUT_SPACING, 48 + LAYOUT_SPACING, 208, listH}, (Vector2){0,0}, 0, *white);

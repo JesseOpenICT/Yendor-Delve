@@ -21,3 +21,4 @@ Sofus
 
 **Additional programming**  
 Jtad  
+Magneter102

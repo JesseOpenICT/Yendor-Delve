@@ -83,6 +83,7 @@ void ApplyLingeringEffect(CreatureStats *c, LingeringEffect l)
 
     for (int i = 0; i < LINGERING_EFFECTS; i++)
     {
+        if(c->lingeringEffects[i].isPermanent) continue;
         if (c->lingeringEffects[i].effectId == l.effectId)
         {
             matchingIndex = i;
@@ -112,10 +113,41 @@ void ProgressLingeringEffects(CreatureStats *c, short t)
             continue;
 
         c->lingeringEffects[i].tickDuration -= t;
-        if (c->lingeringEffects[i].tickDuration < 1 && c->lingeringEffects[i].triggerLimit < 1)
+        if (c->lingeringEffects[i].tickDuration < 1 && c->lingeringEffects[i].triggerLimit < 1 && c->lingeringEffects[i].isPermanent == false)
         {
+            ShowLingeringEffectPassedMessage(c, c->lingeringEffects[i].effectId);
             c->lingeringEffects[i].effectId = LE_NONE;
         }
+    }
+}
+
+void ShowLingeringEffectPassedMessage(CreatureStats* c, LINGERING_EFFECT e)
+{
+    if((*c).baseStats.currentHealth <= 0) return;
+
+    char *message;
+    switch(e)
+    {
+        case LE_ONHIT_WOLF_BITE:
+        message = CombineStrings((*c).baseStats.name, "'s bite mark stops itching.");
+        AddMessageToFeed(message);
+        break;
+    }
+}
+
+char* GetLingeringEffectDescription(LINGERING_EFFECT e)
+{
+    switch(e)
+    {
+        case LE_AMULET_OF_YENDOR: return "Whoever holds it is an equal to Gods.";
+        case LE_ONABIL_COMFORTABLE_SHOES: return "When using an ability, regain 50 stamina.";
+        case LE_ONABIL_WANDERER_HAT: return "When using an ability, gain half of the Stamina spent as Shield.";
+        case LE_ONABIL_LIVING_CHAINMAIL: return "When using an ability, gain 50 Defense.";
+        case LE_ONATT_HAMMER_OF_GLORY: return "When attacking, apply 10 Pain and Exhaust.";
+        case LE_ONATT_BALL_ON_CHAIN: return "When attacking, delay the target's turn by 100 moments.";
+        case LE_ONATT_MORNINGSTAR: return "When attacking, apply 10 Bleed.";
+        case LE_ONHIT_PENITENT_MAIL: return "When hit, gain 2 Bleed and 10 Speed.";
+        default: return NULL;
     }
 }
 
@@ -148,6 +180,43 @@ void HandleOnHitEffects(CreatureStats *c, short damage, CreatureStats *caster)
             AddMessageToFeed(message);
             c->statusEffects[SE_BERSERK] += primaryValue;
             break;
+        case LE_ONHIT_PENITENT_MAIL:
+            if(caster == NULL) break;
+            message = CombineStrings("The impact of the blow causes the thorns inside ", (*c).baseStats.name);
+            message = CombineStrings(message, "'s armor to puncture them, applying 2 Bleed and sobering them with 10 additional Speed.");
+            AddMessageToFeed(message);
+            c->encounterStats.speed += 10;
+            c->statusEffects[SE_BLEED] += 2;
+            break;
+        }
+    }
+}
+
+void HandleOnAttackEffects(CreatureStats *c, short damage, CreatureStats *caster)
+{
+    if(caster == NULL) return;
+    char strnum[8];
+    char *message;
+    short primaryValue;
+    for (int i = 0; i < LINGERING_EFFECTS; i++)
+    {
+        if (caster->lingeringEffects[i].effectId == LE_NONE)
+            continue;
+        switch (caster->lingeringEffects[i].effectId)
+        {
+            case LE_ONATT_HAMMER_OF_GLORY:
+                AddMessageToFeed("The magical hammer applies 10 Pain through the power of flame and 10 Exhaust through the power of frost.");
+                c->statusEffects[SE_PAIN]+=10;
+                c->statusEffects[SE_EXHAUSTION]+=10;
+                break;
+            case LE_ONATT_BALL_ON_CHAIN:
+                AddMessageToFeed("The Ball on Chain swings with the attack, hitting the target, stunning them for 100 moments and delaying their turn.");
+                c->baseStats.ticksUntilNextTurn += 100;
+                break;
+            case LE_ONATT_MORNINGSTAR:
+                AddMessageToFeed("The spike-covered ball of the Morningstar mauls its target, applying 10 Bleed.");
+                c->statusEffects[SE_BLEED]+=10;
+                break;
         }
     }
 }
@@ -167,6 +236,40 @@ void HandleOnDeathEffects(CreatureStats *c)
 
 void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
 {
+    char strnum[8];
+    char *message;
+    short primaryValue;
+    for (int i = 0; i < LINGERING_EFFECTS; i++)
+    {
+        if (c->lingeringEffects[i].effectId == LE_NONE)
+            continue;
+        switch (c->lingeringEffects[i].effectId)
+        {
+            case LE_ONABIL_COMFORTABLE_SHOES:
+            message = CombineStrings("The comfort of the shoes helps ", (*c).baseStats.name);
+            message = CombineStrings(message, " regain their strength, granting them 50 Stamina.");
+            AddMessageToFeed(message);
+            c->baseStats.currentStamina += 50;
+            break;
+            case LE_ONABIL_WANDERER_HAT:
+            primaryValue = InitAbility(a).staminaCost / 2;
+            if(primaryValue == 0) break;
+            c->encounterStats.shield += primaryValue;
+            message = CombineStrings("As ", (*c).baseStats.name);
+            message = CombineStrings(message, " uses the ability, their hat conjures ");
+            sprintf(strnum, "%d", primaryValue);
+            message = CombineStrings(message, strnum);
+            message = CombineStrings(message, " Shield.");
+            AddMessageToFeed(message);
+            break;
+            case LE_ONABIL_LIVING_CHAINMAIL:
+            message = CombineStrings("The chainmail shifts and adapts, granting ", (*c).baseStats.name);
+            message = CombineStrings(message, " 50 additional Defense.");
+            AddMessageToFeed(message);
+            c->encounterStats.defense += 50;
+            break;
+        }
+    }
 }
 
 void EmptyStatusEffects(CreatureStats *_creature)
@@ -211,7 +314,7 @@ short CalculateDamage(short baseDamage, CreatureStats *target)
     {
         result = (short)((float)baseDamage * ((100 - effectiveDef) / 100.0));
     }
-    result -= effectiveArmor;
+    if(effectiveArmor>0) result -= effectiveArmor;
 
     return result;
 }
@@ -245,6 +348,7 @@ void DealDamage(short damage, CreatureStats *target, bool trueDamage, CreatureSt
         (*target).encounterStats.shield = 0;
     }
     HandleOnHitEffects(target, finalValue, dealer);
+    HandleOnAttackEffects(target, finalValue, dealer);
 
     if ((*target).baseStats.currentHealth <= 0)
     {
@@ -591,9 +695,9 @@ char *GetAbilityDescription(ABILITY id, CreatureStats *caster)
         result = CombineStrings(result, " (40 + 40% Mastery) Stamina to an enemy.");
         return result;
     case AB_MIMIC_CHOMP:
-        sprintf(strnum, "%.0f", ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
+        sprintf(strnum, "%.0f", ((50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings("Attack an enemy for ", strnum);
-        result = CombineStrings(result, " (100 + 20% Mastery) damage, and remove ");
+        result = CombineStrings(result, " (50 + 20% Mastery) unavoidable damage, and remove ");
         sprintf(strnum, "%.0f", ((150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8)) * CalculateEffectAmplification(caster, true));
         result = CombineStrings(result, strnum);
         result = CombineStrings(result, " (150 + 80% Mastery) of their Stamina.");
@@ -1143,9 +1247,16 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         DealDamage(primaryEffectValue, targets[0], false, caster);
         break;
     case AB_SHAPESHIFTER_TRANSFORM:
+        if(strcmp(targets[0]->baseStats.name, "Empty Space") == 0)
+        {
+        message = CombineStrings((*caster).baseStats.name, " becomes an incidental little critter found on the dungeon floor.");
+        }
+        else
+        {
         message = CombineStrings((*caster).baseStats.name, " becomes ");
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ".");
+        }
         AddMessageToFeed(message);
         char abCount = targets[0]->abilityCount + 1;
         ABILITY *abilities = malloc(abCount * sizeof(int));
@@ -1159,9 +1270,23 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         caster->baseStats.color = beige;
         caster->abilities = InitAbilities(abilities, abCount);
         caster->abilityCount = abCount;
+        if(strcmp(targets[0]->baseStats.name, "Empty Space") == 0)
+        {
+            caster->baseStats.maxHealth = 1;
+            caster->baseStats.currentHealth = 1;
+            caster->baseStats.name = "Critter";
+            switch(rand()%4)
+            {
+                case 0: caster->baseStats.tileLookupPosition = (Vector2){8,9}; caster->baseStats.tileset = TL_CREATURES; break;
+                case 1: caster->baseStats.tileLookupPosition = (Vector2){10,9}; caster->baseStats.tileset = TL_CREATURES; break;
+                case 2: caster->baseStats.tileLookupPosition = (Vector2){0,10}; caster->baseStats.tileset = TL_CREATURES; break;
+                case 3: caster->baseStats.tileLookupPosition = (Vector2){1,1}; caster->baseStats.tileset = TL_COMMUNITY; break;
+            }
+        }
         AddCreatureToFlicker(caster);
         AddCreatureToFlicker(targets[0]);
-        break;case AB_MAGUS_DISINTEGRATE:
+        break;
+    case AB_MAGUS_DISINTEGRATE:
         primaryEffectValue = ((100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 2.5) + 
             (caster->baseStats.maxStamina + caster->encounterStats.stamina + caster->itemStats.stamina-caster->baseStats.currentStamina) * 0.6) * CalculateEffectAmplification(caster, true);
         sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
@@ -1362,10 +1487,23 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     case AB_CULTIST_SUMMON:
         if(targets[0]->baseStats.currentHealth>0)
         {
-            caster->baseStats.currentStamina += InitAbility(id).staminaCost;
-            appState.stateData.gameState.stateData.battleState.takeAnotherTurn = true;
-            (*caster).baseStats.critCounter -= (*caster).baseStats.critRate + (*caster).itemStats.critRate + (*caster).encounterStats.critRate;
-            ShowPopupMessage("Can't summon on an occupied space.");
+            Enemy cultistAbortedSummon = InitEnemyData(EN_CULTIST_SUMMON);
+            char cultistSummonAbCount = targets[0]->abilityCount + 1;
+            ABILITY *cultistSummonAbilities = malloc(cultistSummonAbCount * sizeof(int));
+            for (int i = 0; i < targets[0]->abilityCount - 1; i++)
+            {
+                cultistSummonAbilities[i] = targets[0]->abilities[i].abilityId;
+            }
+            cultistSummonAbilities[cultistSummonAbCount - 2] = cultistAbortedSummon.stats.abilities[rand()%cultistAbortedSummon.stats.abilityCount-1].abilityId;
+            cultistSummonAbilities[cultistSummonAbCount - 1] = AB_WAIT;
+            targets[0]->abilities = InitAbilities(cultistSummonAbilities, cultistSummonAbCount);
+            targets[0]->abilityCount = cultistSummonAbCount;
+            targets[0]->baseStats.color = darkpurple;
+            message = CombineStrings("As ", caster->baseStats.name);
+            message = CombineStrings(message, "'s summoning ritual fails, ");
+            message = CombineStrings(message, targets[0]->baseStats.name);
+            message = CombineStrings(message, " is altered by divine influence, becoming more... fungal.");
+            AddMessageToFeed(message);
         }
         else
         {
@@ -1695,14 +1833,14 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         targets[0]->baseStats.currentStamina += primaryEffectValue;
         break;
     case AB_MIMIC_CHOMP:
-        primaryEffectValue = (100 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
+        primaryEffectValue = (50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
         short mimicChompStaminaLoss = (150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) * CalculateEffectAmplification(caster, true);
-        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " bites down on ");
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ", dealing ");
         message = CombineStrings(message, strnum);
-        message = CombineStrings(message, " damage. ");
+        message = CombineStrings(message, " unavoidable damage. ");
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, " expends ");
         sprintf(strnum, "%d", mimicChompStaminaLoss);
@@ -1711,7 +1849,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->baseStats.currentStamina -= mimicChompStaminaLoss;
-        DealDamage(primaryEffectValue, targets[0], false, caster);
+        DealDamage(primaryEffectValue, targets[0], true, caster);
         break;
     case AB_MIMIC_IMPALE:
         primaryEffectValue = (150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) * CalculateEffectAmplification(caster, true);
@@ -2160,7 +2298,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"New lambs to a slaughter...\"");
                 break;
-                case 3:
+                case 2:
                 message = CombineStrings(message, "\"Are you ready to face their judgement? You really didn't think this through.\"");
                 break;
             }
@@ -2348,6 +2486,8 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     {
         HandlePain(targets[i], multihit);
     }
+
+    HandleOnAbilityEffects(caster, id);
 
     if (!dontResetCritProgress)
     {

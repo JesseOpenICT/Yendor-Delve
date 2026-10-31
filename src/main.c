@@ -96,8 +96,11 @@ int main()
 	InitEncounterPools();
 	InitItemPools();
 
+	// Override raylib's exit key
+	SetExitKey(KEY_NULL);
+
 	// game loop
-	while (!markedToClose) // run the loop until the user presses ESCAPE or presses the Close button on the window
+	while (!markedToClose && !WindowShouldClose()) // run the loop until the user presses ESCAPE or presses the Close button on the window
 	{
 		HandleRealTimePopups();
 		PollSDLGamepadEvents();
@@ -134,15 +137,21 @@ void ReadInput()
 	{
 		InitGameState(GS_DUNGEON);
 	}
-	if (IsKeyPressed(KEY_PAGE_UP))
+	if (IsKeyPressed(KEY_PAGE_UP) && appState.stateData.gameState.gameState == GS_DUNGEON)
 	{
 		appState.stateData.gameState.floor -= 1;
 		InitGameState(GS_DUNGEON);
 	}
-	if (IsKeyPressed(KEY_PAGE_DOWN))
+	if (IsKeyPressed(KEY_PAGE_DOWN) && appState.stateData.gameState.gameState == GS_DUNGEON)
 	{
 		appState.stateData.gameState.floor += 1;
 		InitGameState(GS_DUNGEON);
+	}
+	if(IsKeyPressed(KEY_END) && appState.stateData.gameState.gameState == GS_BATTLE)
+	{
+		appState.stateData.gameState.stateData.battleState.enemies[0].stats.baseStats.currentHealth = 0;
+		appState.stateData.gameState.stateData.battleState.enemies[1].stats.baseStats.currentHealth = 0;
+		appState.stateData.gameState.stateData.battleState.enemies[2].stats.baseStats.currentHealth = 0;
 	}
 	if (IsKeyPressed(KEY_T))
 	{
@@ -171,11 +180,11 @@ void ReadInput()
 	{
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
-	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E))
+	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E) || IsKeyPressed(KEY_Z))
 	{
 		inputThisFrame = inputThisFrame | K_CONFIRM;
 	}
-	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q))
+	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_X))
 	{
 		inputThisFrame = inputThisFrame | K_BACK;
 	}
@@ -357,6 +366,9 @@ void HandleInput()
 				break;
 			case GS_BATTLE:
 				HandleBattleInput();
+				break;
+			case GS_GAME_OVER:
+				HandleGameOverInput();
 				break;
 			}
 		}
@@ -607,11 +619,18 @@ void HandleCharacterSelectInput()
 
 void HandleBattleInput()
 {
+	if (appState.stateData.gameState.isPaused)
+	{
+		HandlePauseMenuInput();
+		return;
+	}
+
 	if (appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_OVERVIEW)
 	{
 		if (IsPressed(K_BACK))
 		{
-			InitGameState(GS_DUNGEON);
+			appState.stateData.gameState.isPaused = !appState.stateData.gameState.isPaused;
+			appState.stateData.gameState.pauseMenuSelection = 0;
 		}
 		if (IsPressed(K_CONFIRM))
 		{

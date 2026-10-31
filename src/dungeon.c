@@ -14,7 +14,7 @@ ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
 ITEM_ID itemPoolTier1[ITEM_POOL_TIER_ONE_SIZE];
-ITEM_ID itemPoolTier2[8];
+ITEM_ID itemPoolTier2[12];
 ITEM_ID itemPoolTier3[8];
 
 
@@ -62,7 +62,28 @@ ITEM_ID MatchRewardToEncounter(ENCOUNTER_ID enc, char floor)
     ITEM_ID result = ITEM_NONE;
     switch(floor)
     {
-        case 1: case 2: case 3: case 4: case 5: case 6: case 7: default:
+        case 24:
+        result = ITEM_AMULET_OF_YENDOR;
+        break;
+        case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+        {
+            switch(enc)
+            {
+                case ENC_BONFIRE: case ENC_NONE:
+                result = ITEM_NONE;
+                break;
+
+                case ENC_CHEST: case ENC_MIMIC:
+                result  = itemPoolTier2[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(itemPoolTier2)];
+                break;
+
+                default:
+                result  = itemPoolTier1[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(itemPoolTier1)];
+                break;
+            }
+            break;
+        }
+        case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: default:
         {
             switch(enc)
             {
@@ -71,7 +92,7 @@ ITEM_ID MatchRewardToEncounter(ENCOUNTER_ID enc, char floor)
                 break;
 
                 default:
-                result  = itemPoolTier1[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(itemPoolTier1)];
+                result  = itemPoolTier2[rng_next_u32(&appState.stateData.gameState.runRng) % ARR_SIZE(itemPoolTier2)];
                 break;
             }
             break;
@@ -122,10 +143,19 @@ void InitItemPools()
     itemPoolTier1[21] = ITEM_HALLOWED_FLESH;
     itemPoolTier1[22] = ITEM_TRAVELER_SHOES;
     itemPoolTier1[23] = ITEM_BATTLE_SHIELD;
-    itemPoolTier1[24] = ITEM_ELEMANCER_CROWN;
-    itemPoolTier1[25] = ITEM_ELEMANCER_CAPE;
-    itemPoolTier1[26] = ITEM_ELEMANCER_BELT;
-    itemPoolTier1[27] = ITEM_ELEMANCER_AXE;
+
+    itemPoolTier2[0] = ITEM_ELEMANCER_CROWN;
+    itemPoolTier2[1] = ITEM_ELEMANCER_CAPE;
+    itemPoolTier2[2] = ITEM_ELEMANCER_BELT;
+    itemPoolTier2[3] = ITEM_ELEMANCER_AXE;
+    itemPoolTier2[4] = ITEM_WANDERER_HAT;
+    itemPoolTier2[5] = ITEM_PENITENT_MAIL;
+    itemPoolTier2[6] = ITEM_COMFORTABLE_SHOES;
+    itemPoolTier2[7] = ITEM_HAMMER_OF_GLORY;
+    itemPoolTier2[8] = ITEM_CROWN_OF_FLOWERS;
+    itemPoolTier2[9] = ITEM_LIVING_CHAINMAIL;
+    itemPoolTier2[10] = ITEM_BALL_ON_CHAIN;
+    itemPoolTier2[11] = ITEM_MORNINGSTAR;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)
@@ -260,7 +290,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 TL_CREATURES,
                 (Vector2){0,1},
                 gray,
-                "An adventuring party gone rogue.",
+                "An adventuring party gone rogue, more coordinated than your average group of monsters.",
                 {EN_BANDIT_JESTER, EN_BANDIT_STRONGMAN, EN_BANDIT_CUTTHROAT},
                 false,
             };

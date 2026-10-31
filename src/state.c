@@ -193,6 +193,13 @@ void TransitionToBattle()
 	appState.stateData.gameState.playerTeam[1].stats.baseStats.currentStamina = appState.stateData.gameState.playerTeam[1].stats.baseStats.maxStamina + appState.stateData.gameState.playerTeam[1].stats.itemStats.stamina;
 	appState.stateData.gameState.playerTeam[2].stats.baseStats.currentStamina = appState.stateData.gameState.playerTeam[2].stats.baseStats.maxStamina + appState.stateData.gameState.playerTeam[2].stats.itemStats.stamina;
 
+	EmptyLingeringEffects(&appState.stateData.gameState.playerTeam[0].stats);
+	EmptyLingeringEffects(&appState.stateData.gameState.playerTeam[1].stats);
+	EmptyLingeringEffects(&appState.stateData.gameState.playerTeam[2].stats);
+	ApplyItemPassives(&appState.stateData.gameState.playerTeam[0]);
+	ApplyItemPassives(&appState.stateData.gameState.playerTeam[1]);
+	ApplyItemPassives(&appState.stateData.gameState.playerTeam[2]);
+
 	ResetTurnClock(&appState.stateData.gameState.playerTeam[0].stats);
 	ResetTurnClock(&appState.stateData.gameState.playerTeam[1].stats);
 	ResetTurnClock(&appState.stateData.gameState.playerTeam[2].stats);
@@ -201,6 +208,19 @@ void TransitionToBattle()
 	ResetTurnClock(&appState.stateData.gameState.stateData.battleState.enemies[2].stats);
 
 	PassTurn();
+}
+
+void ApplyItemPassives(Character* c)
+{
+	for(int i = 0; i<ITEM_SLOTS; i++)
+	{
+		if(c->items[i].triggerAbility == LE_NONE) continue;
+
+		LingeringEffect le;
+		le.effectId = c->items[i].triggerAbility;
+		le.isPermanent = true;
+		ApplyLingeringEffect(&(*c).stats, le);
+	}
 }
 
 void HandleAbilityTargetInit()
