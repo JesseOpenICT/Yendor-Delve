@@ -142,7 +142,10 @@ char* GetLingeringEffectDescription(LINGERING_EFFECT e)
         case LE_AMULET_OF_YENDOR: return "Whoever holds it is an equal to Gods.";
         case LE_ONABIL_COMFORTABLE_SHOES: return "When using an ability, regain 50 stamina.";
         case LE_ONABIL_WANDERER_HAT: return "When using an ability, gain half of the Stamina spent as Shield.";
+        case LE_ONABIL_LIVING_CHAINMAIL: return "When using an ability, gain 50 Defense.";
         case LE_ONATT_HAMMER_OF_GLORY: return "When attacking, apply 10 Pain and Exhaust.";
+        case LE_ONATT_BALL_ON_CHAIN: return "When attacking, delay the target's turn by 100 moments.";
+        case LE_ONATT_MORNINGSTAR: return "When attacking, apply 10 Bleed.";
         case LE_ONHIT_PENITENT_MAIL: return "When hit, gain 2 Bleed and 10 Speed.";
         default: return NULL;
     }
@@ -206,6 +209,14 @@ void HandleOnAttackEffects(CreatureStats *c, short damage, CreatureStats *caster
                 c->statusEffects[SE_PAIN]+=10;
                 c->statusEffects[SE_EXHAUSTION]+=10;
                 break;
+            case LE_ONATT_BALL_ON_CHAIN:
+                AddMessageToFeed("The Ball on Chain swings with the attack, hitting the target, stunning them for 100 moments and delaying their turn.");
+                c->baseStats.ticksUntilNextTurn += 100;
+                break;
+            case LE_ONATT_MORNINGSTAR:
+                AddMessageToFeed("The spike-covered ball of the Morningstar mauls its target, applying 10 Bleed.");
+                c->statusEffects[SE_BLEED]+=10;
+                break;
         }
     }
 }
@@ -250,6 +261,12 @@ void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
             message = CombineStrings(message, strnum);
             message = CombineStrings(message, " Shield.");
             AddMessageToFeed(message);
+            break;
+            case LE_ONABIL_LIVING_CHAINMAIL:
+            message = CombineStrings("The chainmail shifts and adapts, granting ", (*c).baseStats.name);
+            message = CombineStrings(message, " 50 additional Defense.");
+            AddMessageToFeed(message);
+            c->encounterStats.defense += 50;
             break;
         }
     }

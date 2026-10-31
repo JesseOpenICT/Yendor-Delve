@@ -14,7 +14,7 @@ ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
 ITEM_ID itemPoolTier1[ITEM_POOL_TIER_ONE_SIZE];
-ITEM_ID itemPoolTier2[8];
+ITEM_ID itemPoolTier2[12];
 ITEM_ID itemPoolTier3[8];
 
 
@@ -152,6 +152,10 @@ void InitItemPools()
     itemPoolTier2[5] = ITEM_PENITENT_MAIL;
     itemPoolTier2[6] = ITEM_COMFORTABLE_SHOES;
     itemPoolTier2[7] = ITEM_HAMMER_OF_GLORY;
+    itemPoolTier2[8] = ITEM_CROWN_OF_FLOWERS;
+    itemPoolTier2[9] = ITEM_LIVING_CHAINMAIL;
+    itemPoolTier2[10] = ITEM_BALL_ON_CHAIN;
+    itemPoolTier2[11] = ITEM_MORNINGSTAR;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)
@@ -286,7 +290,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 TL_CREATURES,
                 (Vector2){0,1},
                 gray,
-                "An adventuring party gone rogue, more coordinated than you average group of monsters.",
+                "An adventuring party gone rogue, more coordinated than your average group of monsters.",
                 {EN_BANDIT_JESTER, EN_BANDIT_STRONGMAN, EN_BANDIT_CUTTHROAT},
                 false,
             };

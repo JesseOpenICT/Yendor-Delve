@@ -420,7 +420,7 @@ Item InitItem(ITEM_ID id)
             CreateEmptyStatBonuses(),
             LE_NONE,
         };
-        result.statBonuses.mastery = 250;
+        result.statBonuses.mastery = 150;
         result.statBonuses.health = -150;
         result.statBonuses.targetPriority = 60;
         return result;
@@ -513,7 +513,7 @@ Item InitItem(ITEM_ID id)
             CreateEmptyStatBonuses(),
             LE_NONE,
         };
-        result.statBonuses.stamina = 500;
+        result.statBonuses.stamina = 300;
         result.statBonuses.staminaRegen = 150;
         return result;
         //
@@ -587,7 +587,7 @@ Item InitItem(ITEM_ID id)
         case ITEM_ELEMANCER_AXE:
         result = (Item){
             id,
-            "Elemancer's Rod",
+            "Elemancer's Axe",
             TL_COMMUNITY,
             (Vector2){3,1},
             red,
@@ -660,6 +660,65 @@ Item InitItem(ITEM_ID id)
         };
         result.statBonuses.mastery = 60;
         result.statBonuses.speed = 60;
+        return result;
+        //
+        case ITEM_CROWN_OF_FLOWERS:
+        result = (Item){
+            id,
+            "Crown of Flowers",
+            TL_ITEMS,
+            (Vector2){4,3},
+            lime,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+            LE_NONE,
+        };
+        result.statBonuses.staminaRegen = 400;
+        return result;
+        //
+        case ITEM_LIVING_CHAINMAIL:
+        result = (Item){
+            id,
+            "Living Chainmail",
+            TL_ITEMS,
+            (Vector2){1,2},
+            skyblue,
+            ES_TORSO,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_LIVING_CHAINMAIL,
+        };
+        result.statBonuses.speed = 20;
+        result.statBonuses.armor = 10;
+        return result;
+        //
+        case ITEM_BALL_ON_CHAIN:
+        result = (Item){
+            id,
+            "Ball on Chain",
+            TL_ITEMS,
+            (Vector2){20,3},
+            blue,
+            ES_LEGS,
+            CreateEmptyStatBonuses(),
+            LE_ONATT_BALL_ON_CHAIN,
+        };
+        result.statBonuses.speed = -10;
+        result.statBonuses.critBonus = 100;
+        return result;
+        //
+        case ITEM_MORNINGSTAR:
+        result = (Item){
+            id,
+            "Morningstar",
+            TL_ITEMS,
+            (Vector2){8,1},
+            darkgray,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+            LE_ONATT_MORNINGSTAR,
+        };
+        result.statBonuses.stamina = 200;
+        result.statBonuses.damageMultiplier = 0.2;
         return result;
     }
 }
