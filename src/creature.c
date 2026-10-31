@@ -1835,7 +1835,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     case AB_MIMIC_CHOMP:
         primaryEffectValue = (50 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.2) * CalculateEffectAmplification(caster, true);
         short mimicChompStaminaLoss = (150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) * CalculateEffectAmplification(caster, true);
-        sprintf(strnum, "%d", CalculateDamage(primaryEffectValue, targets[0]));
+        sprintf(strnum, "%d", primaryEffectValue);
         message = CombineStrings((*caster).baseStats.name, " bites down on ");
         message = CombineStrings(message, targets[0]->baseStats.name);
         message = CombineStrings(message, ", dealing ");
@@ -1849,7 +1849,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(message);
         AddCreatureToFlicker(targets[0]);
         targets[0]->baseStats.currentStamina -= mimicChompStaminaLoss;
-        DealDamage(primaryEffectValue, targets[0], false, caster);
+        DealDamage(primaryEffectValue, targets[0], true, caster);
         break;
     case AB_MIMIC_IMPALE:
         primaryEffectValue = (150 + (caster->baseStats.mastery + caster->encounterStats.mastery + caster->itemStats.mastery) * 0.8) * CalculateEffectAmplification(caster, true);
@@ -2298,7 +2298,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
                 case 1:
                 message = CombineStrings(message, "\"New lambs to a slaughter...\"");
                 break;
-                case 3:
+                case 2:
                 message = CombineStrings(message, "\"Are you ready to face their judgement? You really didn't think this through.\"");
                 break;
             }
