@@ -180,11 +180,11 @@ void ReadInput()
 	{
 		inputThisFrame = inputThisFrame | K_RIGHT;
 	}
-	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E))
+	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_E) || IsKeyPressed(KEY_Z))
 	{
 		inputThisFrame = inputThisFrame | K_CONFIRM;
 	}
-	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q))
+	if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_TAB) || IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_X))
 	{
 		inputThisFrame = inputThisFrame | K_BACK;
 	}

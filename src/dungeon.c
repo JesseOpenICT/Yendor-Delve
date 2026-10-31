@@ -286,7 +286,7 @@ Encounter GetEncounterData(ENCOUNTER_ID id)
                 TL_CREATURES,
                 (Vector2){0,1},
                 gray,
-                "An adventuring party gone rogue.",
+                "An adventuring party gone rogue, more coordinated than you average group of monsters.",
                 {EN_BANDIT_JESTER, EN_BANDIT_STRONGMAN, EN_BANDIT_CUTTHROAT},
                 false,
             };

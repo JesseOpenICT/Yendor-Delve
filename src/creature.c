@@ -242,6 +242,7 @@ void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
             break;
             case LE_ONABIL_WANDERER_HAT:
             primaryValue = InitAbility(a).staminaCost / 2;
+            if(primaryValue == 0) break;
             c->encounterStats.shield += primaryValue;
             message = CombineStrings("As ", (*c).baseStats.name);
             message = CombineStrings(message, " uses the ability, their hat conjures ");
