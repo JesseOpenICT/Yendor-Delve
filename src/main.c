@@ -619,11 +619,18 @@ void HandleCharacterSelectInput()
 
 void HandleBattleInput()
 {
+	if (appState.stateData.gameState.isPaused)
+	{
+		HandlePauseMenuInput();
+		return;
+	}
+
 	if (appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_OVERVIEW)
 	{
 		if (IsPressed(K_BACK))
 		{
-			InitGameState(GS_DUNGEON);
+			appState.stateData.gameState.isPaused = !appState.stateData.gameState.isPaused;
+			appState.stateData.gameState.pauseMenuSelection = 0;
 		}
 		if (IsPressed(K_CONFIRM))
 		{

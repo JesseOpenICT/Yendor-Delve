@@ -315,6 +315,19 @@ void DrawBattle()
 {
     BeginMode2D(camera);
 
+    if(appState.stateData.gameState.isInSettings)
+    {
+        DrawSettings();
+        EndMode2D();
+        return;
+    }
+    if(appState.stateData.gameState.isPaused)
+    {
+        DrawPauseMenu();
+        EndMode2D();
+        return;
+    }
+
     DrawBattleScreenMessageFeed();
     DrawPrognoses();
 
@@ -821,13 +834,14 @@ void DrawBattleScreenMessageFeed()
 
 void DrawDungeonScreen()
 {
+    BeginMode2D(camera);
+
     if(appState.stateData.gameState.isInSettings)
     {
         DrawSettings();
+        EndMode2D();
         return;
     }
-    BeginMode2D(camera);
-
     if(appState.stateData.gameState.isPaused)
     {
         DrawPauseMenu();
