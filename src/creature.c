@@ -1450,10 +1450,23 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     case AB_CULTIST_SUMMON:
         if(targets[0]->baseStats.currentHealth>0)
         {
-            caster->baseStats.currentStamina += InitAbility(id).staminaCost;
-            appState.stateData.gameState.stateData.battleState.takeAnotherTurn = true;
-            (*caster).baseStats.critCounter -= (*caster).baseStats.critRate + (*caster).itemStats.critRate + (*caster).encounterStats.critRate;
-            ShowPopupMessage("Can't summon on an occupied space.");
+            Enemy cultistAbortedSummon = InitEnemyData(EN_CULTIST_SUMMON);
+            char cultistSummonAbCount = targets[0]->abilityCount + 1;
+            ABILITY *cultistSummonAbilities = malloc(cultistSummonAbCount * sizeof(int));
+            for (int i = 0; i < targets[0]->abilityCount - 1; i++)
+            {
+                cultistSummonAbilities[i] = targets[0]->abilities[i].abilityId;
+            }
+            cultistSummonAbilities[cultistSummonAbCount - 2] = cultistAbortedSummon.stats.abilities[rand()%cultistAbortedSummon.stats.abilityCount-1].abilityId;
+            cultistSummonAbilities[cultistSummonAbCount - 1] = AB_WAIT;
+            targets[0]->abilities = InitAbilities(cultistSummonAbilities, cultistSummonAbCount);
+            targets[0]->abilityCount = cultistSummonAbCount;
+            targets[0]->baseStats.color = darkpurple;
+            message = CombineStrings("As ", caster->baseStats.name);
+            message = CombineStrings(message, "'s summoning ritual fails, ");
+            message = CombineStrings(message, targets[0]->baseStats.name);
+            message = CombineStrings(message, " is altered by divine influence, becoming more... fungal.");
+            AddMessageToFeed(message);
         }
         else
         {
