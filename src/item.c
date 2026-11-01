@@ -739,19 +739,19 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = -20;
         return result;
         //
-        case ITEM_COLLAR:
+        case ITEM_HOLLOW_SKULL:
         result = (Item){
             id,
-            "Collar",
+            "Hollow Skull",
             TL_COMMUNITY,
             (Vector2){8,6},
-            magenta,
+            raywhite,
             ES_HEAD,
             CreateEmptyStatBonuses(),
             LE_NONE,
         };
-        result.statBonuses.mastery = -150;
-        result.statBonuses.targetPriority = -50;
+        result.statBonuses.mastery = -50;
+        result.statBonuses.targetPriority = +50;
         result.statBonuses.staminaRegen = 70;
         result.statBonuses.defense = 70;
         result.statBonuses.health = 750;
