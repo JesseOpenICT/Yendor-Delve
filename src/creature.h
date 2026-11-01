@@ -7,6 +7,7 @@
 
 typedef enum STATUS_EFFECT
 {
+    SE_PROTECTION,      // become entirely immune to single target abilities for X instances
     SE_BLEED,           // deal X damage at start of turn
     SE_BERSERK,         // remove X Def, add X% damage output
     SE_EXHAUSTION,      // remove X speed, abilities cost X more stamina

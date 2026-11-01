@@ -905,9 +905,27 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     short multihit = 1;
     bool isCrit = (*caster).baseStats.critCounter >= CRIT_PROGRESS_MAX;
     bool dontResetCritProgress = false;
+    bool skipAbility = false;
 
     caster->baseStats.currentStamina -= cost + caster->statusEffects[SE_EXHAUSTION];
 
+    if(numberOfTargets == 1)
+    {
+        if(targets[0]->statusEffects[SE_PROTECTION]>0)
+        {
+            skipAbility = true;
+            targets[0]->statusEffects[SE_PROTECTION] -= 1;
+            message = CombineStrings(caster->baseStats.name, "'s ");
+            message = CombineStrings(message, InitAbility(id).name);
+            message = CombineStrings(message, " was entirely negated by ");
+            message = CombineStrings(message, targets[0]->baseStats.name);
+            message = CombineStrings(message, "'s Protection.");
+            AddMessageToFeed(message);
+        }
+    }
+
+    if(skipAbility == false)
+    {
     switch (id)
     {
     case AB_WAIT:
@@ -2529,6 +2547,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         message = CombineStrings((*caster).baseStats.name, " uses an ability that wasn't implemented yet, how embarassing!");
         AddMessageToFeed(message);
         break;
+    }
     }
 
     for(int i = 0; i<numberOfTargets;i++)
