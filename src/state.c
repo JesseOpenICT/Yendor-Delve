@@ -388,6 +388,8 @@ void HandleStartOfTurnProcs()
 		_creature = &appState.stateData.gameState.stateData.battleState.enemies[appState.stateData.gameState.stateData.battleState.currentActingEntity - 3].stats;
 	}
 
+	HandleStartOfTurnEffects(_creature);
+
 	if (_creature->statusEffects[SE_BLEED] > 0)
 	{
 		sprintf(strnum, "%d", _creature->statusEffects[SE_BLEED]);

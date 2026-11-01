@@ -14,7 +14,7 @@ ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
 ITEM_ID itemPoolTier1[ITEM_POOL_TIER_ONE_SIZE];
-ITEM_ID itemPoolTier2[12];
+ITEM_ID itemPoolTier2[16];
 ITEM_ID itemPoolTier3[8];
 
 
@@ -156,6 +156,10 @@ void InitItemPools()
     itemPoolTier2[9] = ITEM_LIVING_CHAINMAIL;
     itemPoolTier2[10] = ITEM_BALL_ON_CHAIN;
     itemPoolTier2[11] = ITEM_MORNINGSTAR;
+    itemPoolTier2[12] = ITEM_MALEVOLENCE;
+    itemPoolTier2[13] = ITEM_CRYSTAL_MAIL;
+    itemPoolTier2[14] = ITEM_ASSASSIN_SHOES;
+    itemPoolTier2[15] = ITEM_AMBROSIA;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)

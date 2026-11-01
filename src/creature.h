@@ -7,6 +7,7 @@
 
 typedef enum STATUS_EFFECT
 {
+    SE_PROTECTION,      // become entirely immune to single target abilities for X instances
     SE_BLEED,           // deal X damage at start of turn
     SE_BERSERK,         // remove X Def, add X% damage output
     SE_EXHAUSTION,      // remove X speed, abilities cost X more stamina
@@ -24,14 +25,19 @@ typedef enum LINGERING_EFFECT
     LE_ONABIL_WANDERER_HAT,
     LE_ONABIL_COMFORTABLE_SHOES,
     LE_ONABIL_LIVING_CHAINMAIL,
+    LE_ONABIL_ASSASSIN_SHOES,
 
     LE_ONATT_HAMMER_OF_GLORY,
     LE_ONATT_BALL_ON_CHAIN,
     LE_ONATT_MORNINGSTAR,
+    LE_ONATT_MALEVOLENCE,
 
     LE_ONHIT_DUELIST_PARRY,
     LE_ONHIT_WOLF_BITE,
     LE_ONHIT_PENITENT_MAIL,
+    LE_ONHIT_CRYSTAL_MAIL,
+
+    LE_ONTURN_AMBROSIA,
 } LINGERING_EFFECT;
 
 // diminishing stat influence formula: 100 / (100 + stat)
@@ -112,8 +118,9 @@ void ShowLingeringEffectPassedMessage(CreatureStats*, LINGERING_EFFECT);
 char* GetLingeringEffectDescription(LINGERING_EFFECT);
 void HandleOnHitEffects(CreatureStats*, short, CreatureStats*);
 void HandleOnAttackEffects(CreatureStats*, short, CreatureStats*);
+void HandleStartOfTurnEffects(CreatureStats*);
 void HandleOnDeathEffects(CreatureStats*);
-void HandleOnAbilityEffects(CreatureStats*, ABILITY);
+void HandleOnAbilityEffects(CreatureStats*, ABILITY,CreatureStats **targets, short numberOfTargets);
 void EmptyStatusEffects(CreatureStats*);
 void ResetTurnClock(CreatureStats*);
 short CalculateNextTurnTicks(CreatureStats* _creature);
