@@ -755,6 +755,66 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.staminaRegen = 70;
         result.statBonuses.defense = 70;
         result.statBonuses.health = 750;
+        case ITEM_MALEVOLENCE:
+        result = (Item){
+            id,
+            "Malevolence",
+            TL_ITEMS,
+            (Vector2){1,3},
+            purple,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+            LE_ONATT_MALEVOLENCE,
+        };
+        result.statBonuses.mastery = 40;
+        return result;
+        //
+        case ITEM_CRYSTAL_MAIL:
+        result = (Item){
+            id,
+            "Crystal Mail",
+            TL_COMMUNITY,
+            (Vector2){5,2},
+            raywhite,
+            ES_TORSO,
+            CreateEmptyStatBonuses(),
+            LE_ONHIT_CRYSTAL_MAIL,
+        };
+        result.statBonuses.defense = 100;
+        result.statBonuses.armor = 50;
+        result.statBonuses.damageMultiplier = 0.1;
+        return result;
+        //
+        case ITEM_ASSASSIN_SHOES:
+        result = (Item){
+            id,
+            "Assassin's Shoes",
+            TL_ITEMS,
+            (Vector2){3,2},
+            darkgray,
+            ES_LEGS,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_ASSASSIN_SHOES,
+        };
+        result.statBonuses.targetPriority = -200;
+        return result;
+        //
+        case ITEM_AMBROSIA:
+        result = (Item){
+            id,
+            "Ambrosia",
+            TL_ITEMS,
+            (Vector2){1,4},
+            orange,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+            LE_ONTURN_AMBROSIA,
+        };
+        result.statBonuses.stamina = 500;
+        result.statBonuses.mastery = 50;
+        result.statBonuses.staminaRegen = 200;
+        result.statBonuses.defense = 100;
+        
         return result;
     }
 }
