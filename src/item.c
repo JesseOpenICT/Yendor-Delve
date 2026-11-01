@@ -720,5 +720,41 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.stamina = 200;
         result.statBonuses.damageMultiplier = 0.2;
         return result;
+        //
+        case ITEM_EIGHT_EYED_MASK:
+        result = (Item){
+            id,
+            "Eight Eyed Mask",
+            TL_COMMUNITY,
+            (Vector2){7,6},
+            purple,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+            LE_NONE,
+        };
+        result.statBonuses.speed = 300;
+        result.statBonuses.critBonus = 50;
+        result.statBonuses.critRate = -10;
+        result.statBonuses.mastery = -50;
+        result.statBonuses.defense = -20;
+        return result;
+        //
+        case ITEM_COLLAR:
+        result = (Item){
+            id,
+            "Collar",
+            TL_COMMUNITY,
+            (Vector2){8,6},
+            magenta,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+            LE_NONE,
+        };
+        result.statBonuses.mastery = -150;
+        result.statBonuses.targetPriority = -50;
+        result.statBonuses.staminaRegen = 70;
+        result.statBonuses.defense = 70;
+        result.statBonuses.health = 750;
+        return result;
     }
 }

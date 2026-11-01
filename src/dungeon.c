@@ -14,8 +14,8 @@ ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
 ITEM_ID itemPoolTier1[ITEM_POOL_TIER_ONE_SIZE];
-ITEM_ID itemPoolTier2[12];
-ITEM_ID itemPoolTier3[8];
+ITEM_ID itemPoolTier2[ITEM_POOL_TIER_TWO_SIZE];
+ITEM_ID itemPoolTier3[ITEM_POOL_TIER_THREE_SIZE];
 
 
 ENCOUNTER_ID* SelectRandomEncounters(char floor)
@@ -156,6 +156,8 @@ void InitItemPools()
     itemPoolTier2[9] = ITEM_LIVING_CHAINMAIL;
     itemPoolTier2[10] = ITEM_BALL_ON_CHAIN;
     itemPoolTier2[11] = ITEM_MORNINGSTAR;
+    itemPoolTier2[12] = ITEM_EIGHT_EYED_MASK;
+    itemPoolTier2[13] = ITEM_COLLAR;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)
