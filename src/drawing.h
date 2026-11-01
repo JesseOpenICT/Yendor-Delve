@@ -17,6 +17,8 @@ void DrawMainMenu();
 void DrawSettings();
 void DrawGameplay();
 void DrawBattle();
+void DrawEnemyDamageOverlay(char index, short value);
+void ShowEnemyDamageOverlays(short damage, bool trueDamage);
 void DrawGameOver();
 void DrawDungeonScreen();
 void DrawEquipmentDialog();

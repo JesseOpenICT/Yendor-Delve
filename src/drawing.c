@@ -686,6 +686,39 @@ void DrawBattleScreenEnemy(char index)
     DrawStatusEffects((Vector2){SCREEN_WIDTH + LAYOUT_SPACING - creatureBoxSize * (index+1) + 16, LAYOUT_SPACING + 16}, &appState.stateData.gameState.stateData.battleState.enemies[index].stats);
 }
 
+void DrawEnemyDamageOverlay(char index, short value)
+{
+    if(!(appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_ABILITY_SELECT || appState.stateData.gameState.stateData.battleState.battleState == BS_PLAYER_TARGET_SELECT)) return;
+    if(appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth < 0) return;
+    short creatureBoxSize = 128;
+    if(appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth < value)
+        {
+            DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 101, 
+                (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth / 
+                ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth + (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.itemStats.health + (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.health))), 
+                4, *darkgray);
+        }
+        else
+        {
+            float width = (float)(value - appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield) / ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth + 
+                (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.itemStats.health + (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.health);
+            short offset = (short)(((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth / 
+                ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth + 
+                (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.itemStats.health + 
+                (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.health) - width) * (float)(creatureBoxSize-40));
+
+                DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize + offset, 101, (short)(width * (float)(creatureBoxSize-40))+1, 4, *gray);
+                DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize + offset, 101, 1, 4, *black);
+        }
+}
+
+void ShowEnemyDamageOverlays(short damage, bool trueDamage)
+{
+    DrawEnemyDamageOverlay(0, trueDamage ? damage : CalculateDamage(damage, &appState.stateData.gameState.stateData.battleState.enemies[0].stats));
+    DrawEnemyDamageOverlay(1, trueDamage ? damage : CalculateDamage(damage, &appState.stateData.gameState.stateData.battleState.enemies[1].stats));
+    DrawEnemyDamageOverlay(2, trueDamage ? damage : CalculateDamage(damage, &appState.stateData.gameState.stateData.battleState.enemies[2].stats));
+}
+
 void DrawDuelistOpportunitySelection()
 {
     char strnum[8];
