@@ -782,5 +782,55 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 100;
         
         return result;
+        //
+        case ITEM_SCRYER_BALL:
+        result = (Item){
+            id,
+            "Scryer's Ball",
+            TL_ITEMS,
+            (Vector2){8,4},
+            violet,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_SCRYER_BALL,
+        };
+        result.statBonuses.mastery = 241;
+        result.statBonuses.damageMultiplier = -1.0;
+        result.statBonuses.speed = 77;
+        //
+        case ITEM_ANTLER_HELMET:
+        result = (Item){
+            id,
+            "Antler Helmet",
+            TL_COMMUNITY,
+            (Vector2){4,6},
+            lightgray,
+            ES_HEAD,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_ANTLER_HELMET,
+        };
+        result.statBonuses.defense = 30;
+        result.statBonuses.armor = 1;
+        result.statBonuses.mastery = 30;
+        
+        return result;
+        //
+        case ITEM_STONE_BOOTS:
+        result = (Item){
+            id,
+            "Stone Boots",
+            TL_COMMUNITY,
+            (Vector2){5,6},
+            gray,
+            ES_LEGS,
+            CreateEmptyStatBonuses(),
+            LE_NONE,
+        };
+        result.statBonuses.defense = 40;
+        result.statBonuses.armor = 3;
+        result.statBonuses.speed = -100;
+        result.statBonuses.damageMultiplier = 0.5;
+        
+        return result;
     }
 }

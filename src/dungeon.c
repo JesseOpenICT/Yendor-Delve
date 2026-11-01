@@ -14,7 +14,7 @@ ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
 ITEM_ID itemPoolTier1[ITEM_POOL_TIER_ONE_SIZE];
-ITEM_ID itemPoolTier2[16];
+ITEM_ID itemPoolTier2[18];
 ITEM_ID itemPoolTier3[8];
 
 
@@ -143,6 +143,7 @@ void InitItemPools()
     itemPoolTier1[21] = ITEM_HALLOWED_FLESH;
     itemPoolTier1[22] = ITEM_TRAVELER_SHOES;
     itemPoolTier1[23] = ITEM_BATTLE_SHIELD;
+    itemPoolTier1[24] = ITEM_STONE_BOOTS;
 
     itemPoolTier2[0] = ITEM_ELEMANCER_CROWN;
     itemPoolTier2[1] = ITEM_ELEMANCER_CAPE;
@@ -160,6 +161,8 @@ void InitItemPools()
     itemPoolTier2[13] = ITEM_CRYSTAL_MAIL;
     itemPoolTier2[14] = ITEM_ASSASSIN_SHOES;
     itemPoolTier2[15] = ITEM_AMBROSIA;
+    itemPoolTier2[16] = ITEM_SCRYER_BALL;
+    itemPoolTier2[17] = ITEM_ANTLER_HELMET;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)
