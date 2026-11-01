@@ -755,6 +755,9 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.staminaRegen = 70;
         result.statBonuses.defense = 70;
         result.statBonuses.health = 750;
+        
+        return result;
+        //
         case ITEM_MALEVOLENCE:
         result = (Item){
             id,
@@ -767,6 +770,7 @@ Item InitItem(ITEM_ID id)
             LE_ONATT_MALEVOLENCE,
         };
         result.statBonuses.mastery = 40;
+        
         return result;
         //
         case ITEM_CRYSTAL_MAIL:
@@ -783,6 +787,7 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 100;
         result.statBonuses.armor = 50;
         result.statBonuses.damageMultiplier = 0.1;
+
         return result;
         //
         case ITEM_ASSASSIN_SHOES:
@@ -797,6 +802,7 @@ Item InitItem(ITEM_ID id)
             LE_ONABIL_ASSASSIN_SHOES,
         };
         result.statBonuses.targetPriority = -200;
+
         return result;
         //
         case ITEM_AMBROSIA:
@@ -831,6 +837,8 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.mastery = 241;
         result.statBonuses.damageMultiplier = -1.0;
         result.statBonuses.speed = 77;
+        
+        return result;
         //
         case ITEM_ANTLER_HELMET:
         result = (Item){
