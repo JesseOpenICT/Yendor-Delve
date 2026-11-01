@@ -672,8 +672,8 @@ void DrawBattleScreenEnemy(char index)
         (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
         4, *red);
     DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 101, 
-        (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield / 
-        (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
+        (int)((creatureBoxSize-40) * ClampFloat((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield / 
+        (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth, 0, 1)), 
         4, *skyblue);
     char strnum[8];
     sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth
