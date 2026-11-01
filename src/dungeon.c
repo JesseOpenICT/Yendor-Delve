@@ -14,7 +14,7 @@ ENCOUNTER_ID encounterPoolTier2[4];
 ENCOUNTER_ID encounterPoolTier3[4];
 
 ITEM_ID itemPoolTier1[ITEM_POOL_TIER_ONE_SIZE];
-ITEM_ID itemPoolTier2[16];
+ITEM_ID itemPoolTier2[17];
 ITEM_ID itemPoolTier3[8];
 
 
@@ -160,6 +160,7 @@ void InitItemPools()
     itemPoolTier2[13] = ITEM_CRYSTAL_MAIL;
     itemPoolTier2[14] = ITEM_ASSASSIN_SHOES;
     itemPoolTier2[15] = ITEM_AMBROSIA;
+    itemPoolTier2[16] = ITEM_SCRYER_BALL;
 }
 
 Encounter GetEncounterData(ENCOUNTER_ID id)

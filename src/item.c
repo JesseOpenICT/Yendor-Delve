@@ -782,5 +782,22 @@ Item InitItem(ITEM_ID id)
         result.statBonuses.defense = 100;
         
         return result;
+        //
+        case ITEM_SCRYER_BALL:
+        result = (Item){
+            id,
+            "Scryer's Ball",
+            TL_COMMUNITY,
+            (Vector2){4,6},
+            violet,
+            ES_WEAPON,
+            CreateEmptyStatBonuses(),
+            LE_ONABIL_SCRYER_BALL,
+        };
+        result.statBonuses.mastery = 241;
+        result.statBonuses.damageMultiplier = -1.0;
+        result.statBonuses.critRate = 77;
+        
+        return result;
     }
 }

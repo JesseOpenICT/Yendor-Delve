@@ -59,6 +59,7 @@ typedef enum ITEM_ID
     ITEM_CRYSTAL_MAIL,
     ITEM_ASSASSIN_SHOES,
     ITEM_AMBROSIA,
+    ITEM_SCRYER_BALL
 } ITEM_ID;
 
 typedef struct Item
