@@ -120,7 +120,7 @@ void HandleOnHitEffects(CreatureStats*, short, CreatureStats*);
 void HandleOnAttackEffects(CreatureStats*, short, CreatureStats*);
 void HandleStartOfTurnEffects(CreatureStats*);
 void HandleOnDeathEffects(CreatureStats*);
-void HandleOnAbilityEffects(CreatureStats*, ABILITY);
+void HandleOnAbilityEffects(CreatureStats*, ABILITY,CreatureStats **targets, short numberOfTargets);
 void EmptyStatusEffects(CreatureStats*);
 void ResetTurnClock(CreatureStats*);
 short CalculateNextTurnTicks(CreatureStats* _creature);

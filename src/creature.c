@@ -275,7 +275,7 @@ void HandleOnDeathEffects(CreatureStats *c)
     }
 }
 
-void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
+void HandleOnAbilityEffects(CreatureStats *c, ABILITY a, CreatureStats **targets, short numberOfTargets)
 {
     char strnum[8];
     char *message;
@@ -2555,7 +2555,7 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         HandlePain(targets[i], multihit);
     }
 
-    HandleOnAbilityEffects(caster, id);
+    HandleOnAbilityEffects(caster, id,targets,numberOfTargets);
 
     if (!dontResetCritProgress)
     {
