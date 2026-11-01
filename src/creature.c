@@ -143,10 +143,14 @@ char* GetLingeringEffectDescription(LINGERING_EFFECT e)
         case LE_ONABIL_COMFORTABLE_SHOES: return "When using an ability, regain 50 stamina.";
         case LE_ONABIL_WANDERER_HAT: return "When using an ability, gain half of the Stamina spent as Shield.";
         case LE_ONABIL_LIVING_CHAINMAIL: return "When using an ability, gain 50 Defense.";
+        case LE_ONABIL_ASSASSIN_SHOES: return "When using Wait, gain 100 Crit Progress.";
         case LE_ONATT_HAMMER_OF_GLORY: return "When attacking, apply 10 Pain and Exhaust.";
         case LE_ONATT_BALL_ON_CHAIN: return "When attacking, delay the target's turn by 100 moments.";
         case LE_ONATT_MORNINGSTAR: return "When attacking, apply 10 Bleed.";
+        case LE_ONATT_MALEVOLENCE: return "When attacking, apply all the negative status you carry.";
         case LE_ONHIT_PENITENT_MAIL: return "When hit, gain 2 Bleed and 10 Speed.";
+        case LE_ONHIT_CRYSTAL_MAIL: return "When hit, this item loses 1 Armour permanently.";
+        case LE_ONTURN_AMBROSIA: return "You're always confused.";
         default: return NULL;
     }
 }
@@ -188,6 +192,15 @@ void HandleOnHitEffects(CreatureStats *c, short damage, CreatureStats *caster)
             c->encounterStats.speed += 10;
             c->statusEffects[SE_BLEED] += 2;
             break;
+        case LE_ONHIT_CRYSTAL_MAIL:
+            AddMessageToFeed("The Crystal Mail chips and shatters, losing 1 Armour.");
+            c->encounterStats.armor -= 1;
+            for(int j = 0; j < 3; j++)
+            {
+                if(&appState.stateData.gameState.playerTeam[j].stats == c)
+                appState.stateData.gameState.playerTeam[j].items[1].statBonuses.armor -= 1;
+            }
+            break;
         }
     }
 }
@@ -217,6 +230,34 @@ void HandleOnAttackEffects(CreatureStats *c, short damage, CreatureStats *caster
                 AddMessageToFeed("The spike-covered ball of the Morningstar mauls its target, applying 10 Bleed.");
                 c->statusEffects[SE_BLEED]+=10;
                 break;
+            case LE_ONATT_MALEVOLENCE:
+                message = CombineStrings("As ", (*caster).baseStats.name);
+                message = CombineStrings(message, " puts all their hatred into the swing, it carries with it all the afflictions they carry.");
+                AddMessageToFeed(message);
+                c->statusEffects[SE_BLEED]+=caster->statusEffects[SE_BLEED];
+                c->statusEffects[SE_BERSERK]+=caster->statusEffects[SE_BERSERK];
+                c->statusEffects[SE_EXHAUSTION]+=caster->statusEffects[SE_EXHAUSTION];
+                c->statusEffects[SE_PAIN]+=caster->statusEffects[SE_PAIN];
+                break;
+        }
+    }
+}
+
+void HandleStartOfTurnEffects(CreatureStats* c)
+{
+    char strnum[8];
+    char *message;
+    short primaryValue;
+    for (int i = 0; i < LINGERING_EFFECTS; i++)
+    {
+        if (c->lingeringEffects[i].effectId == LE_NONE)
+            continue;
+        switch (c->lingeringEffects[i].effectId)
+        {
+            case LE_ONTURN_AMBROSIA:
+            if(c->statusEffects[SE_CONFUSION] < 1)
+            c->statusEffects[SE_CONFUSION] = 1;
+            break;
         }
     }
 }
@@ -234,7 +275,7 @@ void HandleOnDeathEffects(CreatureStats *c)
     }
 }
 
-void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
+void HandleOnAbilityEffects(CreatureStats *c, ABILITY a, CreatureStats **targets, short numberOfTargets)
 {
     char strnum[8];
     char *message;
@@ -267,6 +308,13 @@ void HandleOnAbilityEffects(CreatureStats *c, ABILITY a)
             message = CombineStrings(message, " 50 additional Defense.");
             AddMessageToFeed(message);
             c->encounterStats.defense += 50;
+            break;
+            case LE_ONABIL_ASSASSIN_SHOES:
+            if(a != AB_WAIT) break;
+            message = CombineStrings("Through patience and focus ", (*c).baseStats.name);
+            message = CombineStrings(message, " empowers their next move to be critical.");
+            AddMessageToFeed(message);
+            c->baseStats.critCounter += 100;
             break;
         }
     }
@@ -323,7 +371,8 @@ void DealDamage(short damage, CreatureStats *target, bool trueDamage, CreatureSt
 {
     bool wasAlreadyDead = (*target).baseStats.currentHealth <= 0;
     short finalValue = 0;
-    finalValue = (trueDamage ? damage : CalculateDamage((short)(damage * (1.0 + ((dealer == NULL) ? 0.0 : ((*dealer).itemStats.damageMultiplier + (*dealer).encounterStats.damageMultiplier)))), target));
+    finalValue = (trueDamage ? (short)(damage * (1.0 + ((dealer == NULL) ? 0.0 : ((*dealer).itemStats.damageMultiplier + (*dealer).encounterStats.damageMultiplier))))
+        : CalculateDamage((short)(damage * (1.0 + ((dealer == NULL) ? 0.0 : ((*dealer).itemStats.damageMultiplier + (*dealer).encounterStats.damageMultiplier)))), target));
     if(finalValue < 0)
     {
         finalValue = 0;
@@ -856,9 +905,27 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
     short multihit = 1;
     bool isCrit = (*caster).baseStats.critCounter >= CRIT_PROGRESS_MAX;
     bool dontResetCritProgress = false;
+    bool skipAbility = false;
 
     caster->baseStats.currentStamina -= cost + caster->statusEffects[SE_EXHAUSTION];
 
+    if(numberOfTargets == 1)
+    {
+        if(targets[0]->statusEffects[SE_PROTECTION]>0)
+        {
+            skipAbility = true;
+            targets[0]->statusEffects[SE_PROTECTION] -= 1;
+            message = CombineStrings(caster->baseStats.name, "'s ");
+            message = CombineStrings(message, InitAbility(id).name);
+            message = CombineStrings(message, " was entirely negated by ");
+            message = CombineStrings(message, targets[0]->baseStats.name);
+            message = CombineStrings(message, "'s Protection.");
+            AddMessageToFeed(message);
+        }
+    }
+
+    if(skipAbility == false)
+    {
     switch (id)
     {
     case AB_WAIT:
@@ -2481,13 +2548,14 @@ void CastAbility(ABILITY id, short cost, CreatureStats *caster, CreatureStats **
         AddMessageToFeed(message);
         break;
     }
+    }
 
     for(int i = 0; i<numberOfTargets;i++)
     {
         HandlePain(targets[i], multihit);
     }
 
-    HandleOnAbilityEffects(caster, id);
+    HandleOnAbilityEffects(caster, id,targets,numberOfTargets);
 
     if (!dontResetCritProgress)
     {

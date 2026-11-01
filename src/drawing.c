@@ -672,8 +672,8 @@ void DrawBattleScreenEnemy(char index)
         (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
         4, *red);
     DrawRectangle(SCREEN_WIDTH + LAYOUT_SPACING + 16 - (index+1) * creatureBoxSize, 101, 
-        (int)((creatureBoxSize-40) * ((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield / 
-        (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth)), 
+        (int)((creatureBoxSize-40) * ClampFloat((float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.encounterStats.shield / 
+        (float)appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.maxHealth, 0, 1)), 
         4, *skyblue);
     char strnum[8];
     sprintf(strnum, "%d", appState.stateData.gameState.stateData.battleState.enemies[index].stats.baseStats.currentHealth
@@ -717,6 +717,18 @@ void DrawStatusEffects(Vector2 position, CreatureStats* _creature)
         DrawTextEx(basicFontLarger, strnum, (Vector2){position.x+20, position.y+hOffset}, 16,0, *white);
         switch(i)
         {
+            case SE_PROTECTION:
+            DrawTexturePro(
+                GetTileset(TL_ITEMS),
+                (Rectangle){
+                    8 * TILE_SIZE,
+                    2 * TILE_SIZE,
+                    TILE_SIZE, TILE_SIZE,
+                },
+                (Rectangle){position.x, position.y+hOffset, TILE_SIZE, TILE_SIZE, },
+                (Vector2){0,0}, 0, *skyblue
+            );
+            break;
             case SE_BERSERK:
             DrawTexturePro(
                 GetTileset(TL_CREATURES),
