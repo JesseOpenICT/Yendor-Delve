@@ -815,10 +815,10 @@ Item InitItem(ITEM_ID id)
         
         return result;
         //
-        case ITEM_STONE_SHOES:
+        case ITEM_STONE_BOOTS:
         result = (Item){
             id,
-            "Stone Shoes",
+            "Stone Boots",
             TL_COMMUNITY,
             (Vector2){5,6},
             gray,

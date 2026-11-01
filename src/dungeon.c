@@ -143,7 +143,7 @@ void InitItemPools()
     itemPoolTier1[21] = ITEM_HALLOWED_FLESH;
     itemPoolTier1[22] = ITEM_TRAVELER_SHOES;
     itemPoolTier1[23] = ITEM_BATTLE_SHIELD;
-    itemPoolTier1[24] = ITEM_STONE_SHOES;
+    itemPoolTier1[24] = ITEM_STONE_BOOTS;
 
     itemPoolTier2[0] = ITEM_ELEMANCER_CROWN;
     itemPoolTier2[1] = ITEM_ELEMANCER_CAPE;
