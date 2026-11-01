@@ -145,6 +145,7 @@ char* GetLingeringEffectDescription(LINGERING_EFFECT e)
         case LE_ONABIL_LIVING_CHAINMAIL: return "When using an ability, gain 50 Defense.";
         case LE_ONABIL_ASSASSIN_SHOES: return "When using Wait, gain 100 Crit Progress.";
         case LE_ONABIL_SCRYER_BALL: return "When using a single target ability, the target becomes untargetable for 241 moments.";
+        case LE_ONABIL_ANTLER_HELMET: return "When using an ability that targets only allies, gain 30 Mastery.";
         case LE_ONATT_HAMMER_OF_GLORY: return "When attacking, apply 10 Pain and Exhaust.";
         case LE_ONATT_BALL_ON_CHAIN: return "When attacking, delay the target's turn by 100 moments.";
         case LE_ONATT_MORNINGSTAR: return "When attacking, apply 10 Bleed.";
@@ -320,9 +321,34 @@ void HandleOnAbilityEffects(CreatureStats *c, ABILITY a, CreatureStats **targets
             case LE_ONABIL_SCRYER_BALL:
             if (numberOfTargets == 1) {
                 targets[0]->statusEffects[SE_UNTARGETTABLE] = 241;
-                message = CombineStrings((*c).baseStats.name, " uses the ball to protect ");
-                message = CombineStrings(targets[0]->baseStats.name, " from future attacks.");
+                message = CombineStrings((*c).baseStats.name, " uses the ball to predict the future, helping ");
+                message = CombineStrings(message, targets[0]->baseStats.name);
+                message = CombineStrings(message, " avoid attacks.");
                 AddMessageToFeed(message);
+            }
+            break;
+            case LE_ONABIL_ANTLER_HELMET:
+            if (numberOfTargets > 0) {
+                bool only_allies = true;
+                for (int j = 0; j < numberOfTargets; j++) {
+                    bool is_ally = false;
+                    for (int k = 0; k < 3; k++) {
+                        if (targets[j] == &appState.stateData.gameState.playerTeam[k].stats) {
+                            is_ally = true;
+                            break;
+                        }
+                    }
+                    if (!is_ally) {
+                        only_allies = false;
+                        break;
+                    }
+                }
+
+                if (only_allies) {
+                    c->encounterStats.mastery += 30;
+                    message = CombineStrings((*c).baseStats.name, "'s helmet responds positively to the ability, granting 30 additional Mastery.");
+                    AddMessageToFeed(message);
+                }
             }
             break;
         }
